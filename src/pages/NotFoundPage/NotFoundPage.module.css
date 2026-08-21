@@ -1,0 +1,14 @@
+.NotFoundPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  padding: 50px;
+}
+.warning {
+  color: var(--main);
+}
+.link {
+  color: var(--error);
+  text-decoration: underline;
+}

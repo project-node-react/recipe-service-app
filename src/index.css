@@ -1,0 +1,64 @@
+@import "./assets/styles/fonts.css";
+
+:root {
+  /* fonts */
+  --font-family: "Mulish", sans-serif;
+
+  /* colors */
+  --main: #050505;
+  --gray: #bfbebe;
+  --white: #fff;
+  --text: #1a1a1a;
+  --error: #ae0000;
+
+  /* transition */
+  --trans-norm: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text);
+  background-color: var(--white);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+ul,
+ol {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: currentColor;
+}
+
+button {
+  display: block;
+  color: currentColor;
+  cursor: pointer;
+  font-family: inherit;
+  border: none;
+}
+
+address {
+  font-style: normal;
+}
