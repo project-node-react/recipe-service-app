@@ -7,7 +7,7 @@ import style from "./App.module.css";
 
 const Layout = lazy(() => import("../../layouts/Layout/Layout"));
 const HomePage = lazy(() => import("../../pages/HomePage/HomePage"));
-
+const AddRecipePage = lazy(() => import("../../pages/AddRecipePage/AddRecipePage"));
 const NotFoundPage = lazy(
   () => import("../../pages/NotFoundPage/NotFoundPage"),
 );
@@ -36,7 +36,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />}></Route>
-
+            <Route path="recipe/add" element={<AddRecipePage />} />
             <Route path="*" element={<NotFoundPage />}></Route>
           </Route>
         </Routes>
