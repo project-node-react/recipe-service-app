@@ -1,0 +1,103 @@
+.mainInfo {
+  display: grid;
+  gap: 32px;
+}
+
+.imageWrap {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  min-height: 280px;
+  border-radius: 24px;
+  background: #f4f4f4;
+}
+
+.recipeImage {
+  width: 100%;
+  height: 100%;
+  max-height: 520px;
+  object-fit: cover;
+}
+
+.details {
+  align-self: center;
+}
+
+.category {
+  display: inline-flex;
+  margin-bottom: 16px;
+  padding: 8px 14px;
+  border: 1px solid var(--gray);
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.title {
+  margin-bottom: 20px;
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.description {
+  margin-bottom: 28px;
+  color: var(--text);
+}
+
+.authorButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0;
+  background: transparent;
+  text-align: left;
+}
+
+.authorButton:hover .authorName,
+.authorButton:focus-visible .authorName {
+  text-decoration: underline;
+}
+
+.authorAvatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #f4f4f4;
+  object-fit: cover;
+}
+
+.authorLabel,
+.authorName {
+  display: block;
+}
+
+.authorLabel {
+  color: var(--gray);
+  font-size: 12px;
+}
+
+.authorName {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+@media screen and (min-width: 768px) {
+  .title {
+    font-size: 40px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .mainInfo {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: 80px;
+  }
+
+  .title {
+    font-size: 48px;
+  }
+}
