@@ -10,8 +10,8 @@ const AddRecipePage = () => {
       <PathInfo />
       
       <div className={styles.headerSection}>
-        <MainTitle>ADD RECIPE</MainTitle>
-        <Subtitle>Reveal your culinary art, share your favorite recipe and create gastronomic masterpieces with us.</Subtitle>
+        <MainTitle></MainTitle>
+        <Subtitle></Subtitle>
       </div>
 
       <div className={styles.formSection}>
