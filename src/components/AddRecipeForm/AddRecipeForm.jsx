@@ -10,13 +10,17 @@ import { selectCategories, selectAreas, selectIngredients } from '../../redux/op
 import { addRecipe } from '../../redux/recipes/operations';
 import styles from './AddRecipeForm.module.css';
 
+const MAX_DESC_LENGTH = 200;
+const MAX_INST_LENGTH = 1000;
+
 const validationSchema = Yup.object({
   title: Yup.string().required('Required field'),
-  description: Yup.string().max(200, 'Max 200 characters').required('Required field'),
-  instructions: Yup.string().max(1000, 'Max 1000 characters').required('Required field'),
+  description: Yup.string().max(MAX_DESC_LENGTH, 'Max 200 chars').required('Required field'),
+  instructions: Yup.string().max(MAX_INST_LENGTH, 'Max 1000 chars').required('Required field'),
   ingredients: Yup.array().min(1, 'Add at least one ingredient').required('Required field'),
   category: Yup.string().required('Required field'),
   area: Yup.string().required('Required field'),
+  photo: Yup.mixed().required('Photo is required'),
 });
 
 const AddRecipeForm = () => {
@@ -102,6 +106,8 @@ const AddRecipeForm = () => {
         id: currentIngredient,
         name: selectedIng ? selectedIng.name : '',
         measure: currentMeasure,
+        // Assuming backend provides image URL for ingredients (e.g., selectedIng.img)
+        img: selectedIng?.img || 'https://via.placeholder.com/40', 
       };
       formik.setFieldValue('ingredients', [...formik.values.ingredients, newIngredient]);
       setCurrentIngredient('');
@@ -115,141 +121,175 @@ const AddRecipeForm = () => {
   };
 
   return (
-    <form className={styles.formContainer} onSubmit={formik.handleSubmit}>
-      <div className={styles.photoSection}>
-        <label className={styles.photoLabel}>
-          <input type="file" accept="image/*" hidden onChange={handlePhotoChange} />
-          {photoPreview ? (
-            <img src={photoPreview} alt="Preview" width="200" style={{ borderRadius: '8px' }} />
-          ) : (
-            <div className={styles.photoPlaceholder}><span>📷 Upload a photo</span></div>
+    <div className={styles.container}>
+      <h1 className={styles.title}>ADD RECIPE</h1>
+      <p className={styles.subtitle}>Reveal your culinary art, share your favorite recipe and create gastronomic masterpieces with us.</p>
+
+      <form className={styles.formGrid} onSubmit={formik.handleSubmit}>
+        
+        {/* LEFT COLUMN: Photo */}
+        <div className={styles.photoSection}>
+          <label className={styles.photoLabel}>
+            <input type="file" accept="image/*" hidden onChange={handlePhotoChange} />
+            {photoPreview ? (
+              <img src={photoPreview} alt="Preview" className={styles.photoPreview} />
+            ) : (
+              <div className={styles.photoPlaceholder}>
+                <span>📷 Upload a photo</span>
+              </div>
+            )}
+          </label>
+          {photoPreview && (
+            <button type="button" className={styles.uploadAnother} onClick={() => document.querySelector('input[type="file"]').click()}>
+              Upload another photo
+            </button>
           )}
-        </label>
-      </div>
-
-      <div className={styles.detailsSection}>
-        <div>
-          <input
-            type="text"
-            name="title"
-            placeholder="Recipe title"
-            className={styles.input}
-            value={formik.values.title}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
-          {formik.touched.title && formik.errors.title && <div style={{ color: 'red', fontSize: '12px' }}>{formik.errors.title}</div>}
+          {formik.touched.photo && formik.errors.photo && <div className={styles.errorText}>{formik.errors.photo}</div>}
         </div>
 
-        <div>
-          <input
-            type="text"
-            name="description"
-            placeholder="Description"
-            className={styles.input}
-            value={formik.values.description}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
-          {formik.touched.description && formik.errors.description && <div style={{ color: 'red', fontSize: '12px' }}>{formik.errors.description}</div>}
-        </div>
+        {/* RIGHT COLUMN: Details */}
+        <div className={styles.detailsSection}>
+          
+          <div className={styles.inputGroup}>
+            <input
+              type="text"
+              name="title"
+              placeholder="THE NAME OF THE RECIPE"
+              className={`${styles.input} ${formik.touched.title && formik.errors.title ? styles.inputError : ''}`}
+              value={formik.values.title}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {formik.touched.title && formik.errors.title && <div className={styles.errorText}>{formik.errors.title}</div>}
+          </div>
 
-        <div className={styles.row}>
-          <div className={styles.field}>
-            <label>Category</label>
+          <div className={styles.inputGroup}>
+            <input
+              type="text"
+              name="description"
+              placeholder="Enter a description of the dish"
+              className={`${styles.input} ${formik.touched.description && formik.errors.description ? styles.inputError : ''}`}
+              value={formik.values.description}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              maxLength={MAX_DESC_LENGTH}
+            />
+            <span className={styles.charCount}>{formik.values.description.length}/{MAX_DESC_LENGTH}</span>
+            {formik.touched.description && formik.errors.description && <div className={styles.errorText}>{formik.errors.description}</div>}
+          </div>
+
+          <div className={styles.twoCols}>
+            <div>
+              <label className={styles.label}>CATEGORY</label>
+              <select
+                name="category"
+                className={styles.select}
+                value={formik.values.category}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              >
+                <option value="" disabled>Select a category</option>
+                {categories.map((cat) => (
+                  <option key={cat.id} value={cat.id}>{cat.name}</option>
+                ))}
+              </select>
+              {formik.touched.category && formik.errors.category && <div className={styles.errorText}>{formik.errors.category}</div>}
+            </div>
+
+            <div>
+              <label className={styles.label}>COOKING TIME</label>
+              <div className={styles.timeControl}>
+                <button type="button" className={styles.timeBtn} onClick={() => formik.setFieldValue('time', Math.max(1, formik.values.time - 5))}>-</button>
+                <span> {formik.values.time} min </span>
+                <button type="button" className={styles.timeBtn} onClick={() => formik.setFieldValue('time', formik.values.time + 5)}>+</button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label className={styles.label}>AREA</label>
             <select
-              name="category"
+              name="area"
               className={styles.select}
-              value={formik.values.category}
+              value={formik.values.area}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             >
-              <option value="" disabled>Select a category</option>
-              {categories.map((cat) => (
-                <option key={cat.id} value={cat.id}>{cat.name}</option>
+              <option value="" disabled>Select an area</option>
+              {areas.map((area) => (
+                <option key={area.id} value={area.id}>{area.name}</option>
               ))}
             </select>
+            {formik.touched.area && formik.errors.area && <div className={styles.errorText}>{formik.errors.area}</div>}
           </div>
 
-          <div className={styles.field}>
-            <label>Cooking time</label>
-            <div className={styles.timeCounter}>
-              <button type="button" onClick={() => formik.setFieldValue('time', Math.max(1, formik.values.time - 1))}>-</button>
-              <span> {formik.values.time} min </span>
-              <button type="button" onClick={() => formik.setFieldValue('time', formik.values.time + 1)}>+</button>
+          <div>
+            <label className={styles.label}>INGREDIENTS</label>
+            <div className={styles.ingredientInputRow}>
+              <select
+                className={styles.select}
+                value={currentIngredient}
+                onChange={(e) => setCurrentIngredient(e.target.value)}
+              >
+                <option value="" disabled>Add the ingredient</option>
+                {ingredientsList.map((ing) => (
+                  <option key={ing.id} value={ing.id}>{ing.name}</option>
+                ))}
+              </select>
+              <input
+                type="text"
+                placeholder="Enter quantity"
+                className={styles.input}
+                style={{ width: '40%' }}
+                value={currentMeasure}
+                onChange={(e) => setCurrentMeasure(e.target.value)}
+              />
             </div>
+            <button type="button" className={styles.addIngredientBtn} onClick={handleAddIngredient}>
+              ADD INGREDIENT +
+            </button>
+            {formik.touched.ingredients && formik.errors.ingredients && <div className={styles.errorText}>{formik.errors.ingredients}</div>}
+
+            {/* Ingredients List */}
+            {formik.values.ingredients.length > 0 && (
+              <div className={styles.ingredientsList}>
+                {formik.values.ingredients.map((ing, index) => (
+                  <div key={index} className={styles.ingredientCard}>
+                    <img src={ing.img} alt={ing.name} className={styles.ingredientImg} />
+                    <div className={styles.ingredientInfo}>
+                      <span className={styles.ingredientName}>{ing.name}</span>
+                      <span>{ing.measure}</span>
+                    </div>
+                    <button type="button" className={styles.removeBtn} onClick={() => handleRemoveIngredient(index)}>×</button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
-        </div>
 
-        <div className={styles.field}>
-          <label>Area</label>
-          <select
-            name="area"
-            className={styles.select}
-            value={formik.values.area}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          >
-            <option value="" disabled>Area</option>
-            {areas.map((area) => (
-              <option key={area.id} value={area.id}>{area.name}</option>
-            ))}
-          </select>
-        </div>
-
-        <div className={styles.ingredientsBlock}>
-          <h4>Ingredients</h4>
-          <div className={styles.ingredientRow}>
-            <select
-              className={styles.select}
-              value={currentIngredient}
-              onChange={(e) => setCurrentIngredient(e.target.value)}
-            >
-              <option value="" disabled>Add the ingredient</option>
-              {ingredientsList.map((ing) => (
-                <option key={ing.id} value={ing.id}>{ing.name}</option>
-              ))}
-            </select>
-            <input
-              type="text"
-              placeholder="Quantity"
-              className={styles.input}
-              value={currentMeasure}
-              onChange={(e) => setCurrentMeasure(e.target.value)}
-            />
+          <div className={styles.inputGroup}>
+            <label className={styles.label}>RECIPE PREPARATION</label>
+            <textarea
+              name="instructions"
+              placeholder="Enter recipe"
+              className={`${styles.textarea} ${formik.touched.instructions && formik.errors.instructions ? styles.inputError : ''}`}
+              value={formik.values.instructions}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              maxLength={MAX_INST_LENGTH}
+            ></textarea>
+            <span className={styles.charCount}>{formik.values.instructions.length}/{MAX_INST_LENGTH}</span>
+            {formik.touched.instructions && formik.errors.instructions && <div className={styles.errorText}>{formik.errors.instructions}</div>}
           </div>
-          <button type="button" className={styles.addBtn} onClick={handleAddIngredient}>ADD INGREDIENT +</button>
-          {formik.touched.ingredients && formik.errors.ingredients && <div style={{ color: 'red', fontSize: '12px' }}>{formik.errors.ingredients}</div>}
-          
-          <ul style={{ listStyle: 'none', padding: 0, marginTop: '20px' }}>
-            {formik.values.ingredients.map((ing, index) => (
-              <li key={index} style={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '10px', border: '1px solid #ccc', padding: '10px', borderRadius: '8px' }}>
-                <div><strong>{ing.name}</strong> - {ing.measure}</div>
-                <button type="button" onClick={() => handleRemoveIngredient(index)} style={{ marginLeft: 'auto', background: 'transparent', border: 'none', cursor: 'pointer' }}>❌</button>
-              </li>
-            ))}
-          </ul>
-        </div>
 
-        <div className={styles.preparationBlock}>
-          <h4>Recipe Preparation</h4>
-          <textarea
-            name="instructions"
-            placeholder="Enter recipe"
-            className={styles.textarea}
-            value={formik.values.instructions}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          ></textarea>
-          {formik.touched.instructions && formik.errors.instructions && <div style={{ color: 'red', fontSize: '12px' }}>{formik.errors.instructions}</div>}
-        </div>
+          <div className={styles.formActions}>
+            <button type="button" className={styles.clearBtn} onClick={handleClear}>🗑</button>
+            <button type="submit" className={styles.publishBtn}>PUBLISH</button>
+          </div>
 
-        <div className={styles.formActions}>
-          <button type="button" className={styles.clearBtn} onClick={handleClear}>🗑</button>
-          <button type="submit" className={styles.publishBtn}>PUBLISH</button>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 };
 
