@@ -1,0 +1,139 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.passwordWrap {
+  position: relative;
+  display: block;
+}
+
+.input {
+  display: block;
+  width: 400px;
+  height: 56px;
+  padding: 16px 18px;
+  border: 1px solid var(--gray);
+  border-radius: 30px;
+  background: transparent;
+  outline: none;
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  box-sizing: border-box;
+  opacity: 1;
+}
+
+.passwordWrap .input {
+  padding-right: 48px;
+}
+
+.input::placeholder {
+  color: var(--gray);
+}
+
+.input:focus {
+  border-color: var(--main);
+}
+
+.togglePassword {
+  position: absolute;
+  top: 50%;
+  right: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  background: transparent;
+  color: var(--gray);
+  transform: translateY(-50%);
+}
+
+.toggleIcon {
+  width: 20px;
+  height: 20px;
+}
+
+.submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 400px;
+  height: 56px;
+  padding: 16px 171px;
+  border-radius: 30px;
+  background: var(--main);
+  color: var(--white);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 1;
+  transition: opacity var(--trans-norm);
+}
+
+.submit:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.error {
+  padding-left: 18px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--error);
+}
+
+.secondary {
+  margin: 0;
+  text-align: center;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  color: var(--gray);
+}
+
+.secondaryCta {
+  display: inline;
+  padding: 0;
+  background: transparent;
+  color: var(--main);
+  font: inherit;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media screen and (max-width: 767px) {
+  .input,
+  .submit {
+    width: 100%;
+  }
+
+  .submit {
+    padding: 16px 24px;
+  }
+}
