@@ -1,0 +1,334 @@
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 0 120px;
+}
+
+.title {
+  font-size: 24px;
+  line-height: 28px;
+  font-weight: 800;
+  letter-spacing: -0.48px;
+  text-transform: uppercase;
+  margin-bottom: 40px;
+  color: #bfbebe;
+}
+
+.subtitle {
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.32px;
+  color: #bfbebe;
+  margin-bottom: 60px;
+  max-width: 443px;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 551px) minmax(0, 649px);
+  gap: 80px;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Photo Section */
+.photoSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.photoLabel {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border: 1px dashed #bfbebe;
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+  background-color: #fff;
+}
+
+.photoPreview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photoPlaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #888;
+}
+
+.uploadAnother {
+  margin-top: 12px;
+  font-size: 14px;
+  color: #000;
+  text-decoration: underline;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Details Section */
+.detailsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.input, .textarea {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #bfbebe;
+  padding: 0 0 16px;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.32px;
+  color: #1a1a1a;
+  background: transparent;
+  outline: none;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: #bfbebe;
+  opacity: 1;
+}
+
+.detailsSection > .inputGroup:first-child {
+  margin-bottom: -20px;
+}
+
+.detailsSection > .inputGroup:first-child .input {
+  border-bottom: none;
+  padding: 0;
+  font-size: 24px;
+  line-height: 28px;
+  font-weight: 800;
+  letter-spacing: -0.48px;
+  text-transform: uppercase;
+  color: #bfbebe;
+}
+
+.input:focus, .textarea:focus {
+  border-bottom-color: #050505;
+}
+
+.inputError {
+  border-bottom-color: red;
+}
+
+.textarea {
+  resize: none;
+  min-height: 100px;
+}
+
+.charCount {
+  position: absolute;
+  right: 0;
+  bottom: 16px;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.32px;
+  color: #bfbebe;
+}
+
+.errorText {
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* Two Columns (Category & Time) */
+.twoCols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.label {
+  display: block; 
+  margin-bottom: 16px; 
+  
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: -0.4px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #050505;
+}
+
+.select {
+  width: 100%;
+  padding: 16px 18px;
+  border: 1px solid #bfbebe;
+  border-radius: 30px;
+  appearance: none;
+  background-color: transparent;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.32px;
+  color: #bfbebe;
+  outline: none;
+}
+
+.select option {
+  padding: 0 18px;
+  background-color: #fff;
+  color: #050505;
+  font-family: "Mulish", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.32px;
+  border-radius: 15px;
+}
+
+.select:focus {
+  border-color: #050505;
+  background-color: #fff;
+}
+
+.timeControl {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+  color: #bfbebe;
+}
+
+.timeBtn {
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  border: 1px solid #bfbebe;
+  border-radius: 30px;
+  background: transparent;
+  font-size: 24px;
+  line-height: 24px;
+  color: #1a1a1a;
+  cursor: pointer;
+}
+
+/* Ingredients */
+.ingredientInputRow {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+}
+.addIngredientBtn {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; 
+  padding: 16px 32px; 
+  border: 1px solid #050505; 
+  border-radius: 30px; 
+  background: transparent;
+  cursor: pointer;
+  font-family: "Mulish", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 700;
+  letter-spacing: -0.32px;
+  text-transform: uppercase;
+  color: #050505;
+  margin-top: 40px;
+  transition: all 0.2s ease;
+}
+
+.addIngredientBtn:hover {
+  background-color: #050505;
+  color: #fff;
+}
+
+.ingredientsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.ingredientCard {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.ingredientImg {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.ingredientInfo {
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+}
+
+.ingredientName {
+  font-weight: 600;
+}
+
+.removeBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #888;
+}
+
+/* Actions */
+.formActions {
+  display: flex;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.clearBtn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+}
+
+.publishBtn {
+  padding: 0 40px;
+  height: 48px;
+  border-radius: 24px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
