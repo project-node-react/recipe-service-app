@@ -164,12 +164,14 @@
 }
 
 .label {
+  display: block; 
+  margin-bottom: 16px; 
+  
   font-size: 20px;
   line-height: 24px;
   letter-spacing: -0.4px;
   font-weight: 800;
   text-transform: uppercase;
-  margin-bottom: 16px;
   color: #050505;
 }
 
@@ -231,18 +233,31 @@
   gap: 12px;
   align-items: flex-end;
 }
-
 .addIngredientBtn {
   align-self: flex-start;
-  padding: 16px 18px;
-  border: 1px solid #bfbebe;
-  border-radius: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; 
+  padding: 16px 32px; 
+  border: 1px solid #050505; 
+  border-radius: 30px; 
   background: transparent;
   cursor: pointer;
+  font-family: "Mulish", sans-serif;
   font-size: 16px;
   line-height: 24px;
-  font-weight: 500;
-  margin-top: 16px;
+  font-weight: 700;
+  letter-spacing: -0.32px;
+  text-transform: uppercase;
+  color: #050505;
+  margin-top: 40px;
+  transition: all 0.2s ease;
+}
+
+.addIngredientBtn:hover {
+  background-color: #050505;
+  color: #fff;
 }
 
 .ingredientsList {

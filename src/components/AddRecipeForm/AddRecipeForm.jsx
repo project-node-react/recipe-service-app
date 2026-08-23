@@ -24,6 +24,37 @@ const validationSchema = Yup.object({
   photo: Yup.mixed().required('Photo is required'),
 });
 
+const customStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    borderRadius: '30px',
+    padding: '6px 10px',
+    borderColor: state.isFocused ? '#050505' : '#bfbebe',
+    boxShadow: 'none',
+    '&:hover': {
+      borderColor: '#050505',
+    }
+  }),
+  indicatorSeparator: () => ({ 
+    display: 'none' // Прибирає вертикальну лінію біля стрілочки
+  }),
+  dropdownIndicator: (provided) => ({
+    ...provided,
+    color: '#1a1a1a',
+  }),
+  menu: (provided) => ({
+    ...provided,
+    borderRadius: '15px',
+    overflow: 'hidden',
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    backgroundColor: state.isFocused ? '#f0f0f0' : '#fff',
+    color: '#050505',
+    cursor: 'pointer',
+  })
+};
+
 const AddRecipeForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -183,6 +214,7 @@ const AddRecipeForm = () => {
             <div>
               <label className={styles.label}>CATEGORY</label>
               <Select
+                styles={customStyles}
                 options={categories.map(cat => ({ value: cat.id, label: cat.name }))}
                 onChange={(option) => formik.setFieldValue('category', option.value)}
                 placeholder="Select a category"
@@ -205,6 +237,7 @@ const AddRecipeForm = () => {
           <div>
             <label className={styles.label}>AREA</label>
            <Select
+            styles={customStyles}
             options={areas.map(area => ({ value: area.id, label: area.name }))}
             onChange={(option) => formik.setFieldValue('area', option.value)}
             placeholder="Select an area"
@@ -218,6 +251,7 @@ const AddRecipeForm = () => {
             <label className={styles.label}>INGREDIENTS</label>
             <div className={styles.ingredientInputRow}>
               <Select
+                styles={customStyles}
                 options={ingredientsList.map(ing => ({ value: ing.id, label: ing.name }))}
                 onChange={(option) => setCurrentIngredient(option.value)}
                 placeholder="Add the ingredient"
@@ -234,7 +268,7 @@ const AddRecipeForm = () => {
               />
             </div>
             <button type="button" className={styles.addIngredientBtn} onClick={handleAddIngredient}>
-              ADD INGREDIENT +
+                Add ingredient <span>+</span>
             </button>
             {formik.touched.ingredients && formik.errors.ingredients && <div className={styles.errorText}>{formik.errors.ingredients}</div>}
 
