@@ -4,6 +4,7 @@ import { ClipLoader } from "react-spinners";
 
 import Container from "../../components/Container/Container";
 import RecipeList from "../../components/RecipeList/RecipeList";
+import RecipePagination from "../../components/RecipePagination/RecipePagination";
 import SignInModal from "../../components/SignInModal/SignInModal";
 
 import {
@@ -12,8 +13,11 @@ import {
   addFavoriteRecipe,
   removeFavoriteRecipe,
 } from "../../redux/recipes/operations";
+import { setPage } from "../../redux/recipes/slice";
 import {
   selectRecipes,
+  selectRecipesPage,
+  selectRecipesTotalPages,
   selectRecipesFilters,
   selectFavoriteIds,
   selectRecipesIsLoading,
@@ -26,6 +30,8 @@ export default function HomePage() {
   const dispatch = useDispatch();
 
   const recipes = useSelector(selectRecipes);
+  const page = useSelector(selectRecipesPage);
+  const totalPages = useSelector(selectRecipesTotalPages);
   const filters = useSelector(selectRecipesFilters);
   const favoriteIds = useSelector(selectFavoriteIds);
   const isLoading = useSelector(selectRecipesIsLoading);
@@ -33,10 +39,11 @@ export default function HomePage() {
 
   const [isSignInOpen, setIsSignInOpen] = useState(false);
 
-  // Зміна фільтрів — це новий запит на бекенд.
+  // Кожна зміна сторінки або фільтрів — це новий запит на бекенд:
+  // пагінація серверна, а не нарізка вже завантаженого масиву.
   useEffect(() => {
     dispatch(fetchRecipes());
-  }, [dispatch, filters]);
+  }, [dispatch, page, filters]);
 
   // Список улюблених потрібен, щоб іконка-серце мала стилі акценту.
   useEffect(() => {
@@ -44,6 +51,14 @@ export default function HomePage() {
       dispatch(fetchFavoriteIds());
     }
   }, [dispatch, isLoggedIn]);
+
+  const handlePageChange = useCallback(
+    (nextPage) => {
+      dispatch(setPage(nextPage));
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
+    [dispatch],
+  );
 
   const handleToggleFavorite = useCallback(
     (recipeId, isFavorite) => {
@@ -72,13 +87,21 @@ export default function HomePage() {
             />
           </div>
         ) : (
-          <RecipeList
-            recipes={recipes}
-            favoriteIds={favoriteIds}
-            isLoggedIn={isLoggedIn}
-            onToggleFavorite={handleToggleFavorite}
-            onAuthRequired={handleAuthRequired}
-          />
+          <>
+            <RecipeList
+              recipes={recipes}
+              favoriteIds={favoriteIds}
+              isLoggedIn={isLoggedIn}
+              onToggleFavorite={handleToggleFavorite}
+              onAuthRequired={handleAuthRequired}
+            />
+
+            <RecipePagination
+              page={page}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          </>
         )}
       </section>
 
