@@ -1,6 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCategories, fetchAreas, fetchIngredients } from '../../redux/options/operations';
+import { selectCategories, selectAreas, selectIngredients } from '../../redux/options/selectors';
 import styles from './AddRecipeForm.module.css';
 
 const validationSchema = Yup.object({
@@ -11,21 +14,23 @@ const validationSchema = Yup.object({
 });
 
 const AddRecipeForm = () => {
+  const dispatch = useDispatch();
+  const categories = useSelector(selectCategories);
+  const areas = useSelector(selectAreas);
+  const ingredientsList = useSelector(selectIngredients);
+
   const [photoPreview, setPhotoPreview] = useState(null);
-  
-  // Тимчасові стани для полів вводу інгредієнта
   const [currentIngredient, setCurrentIngredient] = useState('');
   const [currentMeasure, setCurrentMeasure] = useState('');
 
+  useEffect(() => {
+    dispatch(fetchCategories());
+    dispatch(fetchAreas());
+    dispatch(fetchIngredients());
+  }, [dispatch]);
+
   const formik = useFormik({
-    initialValues: {
-      photo: null,
-      title: '',
-      description: '',
-      time: 10,
-      instructions: '',
-      ingredients: [], // Масив для збережених інгредієнтів
-    },
+    initialValues: { photo: null, title: '', description: '', category: '', area: '', time: 10, instructions: '', ingredients: [] },
     validationSchema,
     onSubmit: (values) => {
       console.log('Form data ready to send:', values);
@@ -47,20 +52,20 @@ const AddRecipeForm = () => {
     setCurrentMeasure('');
   };
 
-  // Додавання інгредієнта в масив Formik
   const handleAddIngredient = () => {
     if (currentIngredient && currentMeasure) {
+      const selectedIng = ingredientsList.find(i => i.id === currentIngredient);
       const newIngredient = {
-        name: currentIngredient, // Поки використовуємо ім'я. Потім тут буде ID з бекенду
+        id: currentIngredient,
+        name: selectedIng ? selectedIng.name : '',
         measure: currentMeasure,
       };
       formik.setFieldValue('ingredients', [...formik.values.ingredients, newIngredient]);
-      setCurrentIngredient(''); // Очищаємо поля
+      setCurrentIngredient('');
       setCurrentMeasure('');
     }
   };
 
-  // Видалення інгредієнта зі списку
   const handleRemoveIngredient = (indexToRemove) => {
     const updatedIngredients = formik.values.ingredients.filter((_, index) => index !== indexToRemove);
     formik.setFieldValue('ingredients', updatedIngredients);
@@ -68,56 +73,64 @@ const AddRecipeForm = () => {
 
   return (
     <form className={styles.formContainer} onSubmit={formik.handleSubmit}>
-      {/* ... ФОТО СЕКЦІЯ ЗАЛИШАЄТЬСЯ БЕЗ ЗМІН ... */}
       <div className={styles.photoSection}>
         <label className={styles.photoLabel}>
           <input type="file" accept="image/*" hidden onChange={handlePhotoChange} />
-          {photoPreview ? (
-            <img src={photoPreview} alt="Recipe preview" width="200" style={{ borderRadius: '8px' }} />
-          ) : (
-            <div className={styles.photoPlaceholder}><span>📷 Upload a photo</span></div>
-          )}
+          {photoPreview ? <img src={photoPreview} alt="Preview" width="200" style={{ borderRadius: '8px' }} /> : <div className={styles.photoPlaceholder}><span>📷 Upload a photo</span></div>}
         </label>
       </div>
 
       <div className={styles.detailsSection}>
-        {/* ... TITLE ТА DESCRIPTION ЗАЛИШАЮТЬСЯ БЕЗ ЗМІН ... */}
         <div>
-          <input type="text" name="title" placeholder="The name of the recipe" className={styles.input} value={formik.values.title} onChange={formik.handleChange} onBlur={formik.handleBlur} />
+          <input type="text" name="title" placeholder="Recipe title" className={styles.input} value={formik.values.title} onChange={formik.handleChange} onBlur={formik.handleBlur} />
           {formik.touched.title && formik.errors.title && <div style={{ color: 'red', fontSize: '12px' }}>{formik.errors.title}</div>}
         </div>
         <div>
-          <input type="text" name="description" placeholder="Enter a description" className={styles.input} value={formik.values.description} onChange={formik.handleChange} onBlur={formik.handleBlur} />
+          <input type="text" name="description" placeholder="Description" className={styles.input} value={formik.values.description} onChange={formik.handleChange} onBlur={formik.handleBlur} />
           {formik.touched.description && formik.errors.description && <div style={{ color: 'red', fontSize: '12px' }}>{formik.errors.description}</div>}
         </div>
 
-        {/* ... CATEGORY, TIME ТА AREA ЗАЛИШАЮТЬСЯ БЕЗ ЗМІН ... */}
         <div className={styles.row}>
-          <div className={styles.field}><label>Category</label><select className={styles.select}><option>Select a category</option></select></div>
-          <div className={styles.field}><label>Cooking time</label><div className={styles.timeCounter}><button type="button" onClick={() => formik.setFieldValue('time', Math.max(1, formik.values.time - 5))}>-</button><span> {formik.values.time} min </span><button type="button" onClick={() => formik.setFieldValue('time', formik.values.time + 5)}>+</button></div></div>
+          <div className={styles.field}>
+            <label>Category</label>
+            <select name="category" className={styles.select} value={formik.values.category} onChange={formik.handleChange} onBlur={formik.handleBlur}>
+              <option value="" disabled>Select a category</option>
+              {categories.map((cat) => (<option key={cat.id} value={cat.name}>{cat.name}</option>))}
+            </select>
+          </div>
+          <div className={styles.field}>
+            <label>Cooking time</label>
+            <div className={styles.timeCounter}>
+              <button type="button" onClick={() => formik.setFieldValue('time', Math.max(1, formik.values.time - 5))}>-</button>
+              <span> {formik.values.time} min </span>
+              <button type="button" onClick={() => formik.setFieldValue('time', formik.values.time + 5)}>+</button>
+            </div>
+          </div>
         </div>
-        <div className={styles.field}><label>Area</label><select className={styles.select}><option>Area</option></select></div>
+        <div className={styles.field}>
+          <label>Area</label>
+          <select name="area" className={styles.select} value={formik.values.area} onChange={formik.handleChange} onBlur={formik.handleBlur}>
+            <option value="" disabled>Area</option>
+            {areas.map((area) => (<option key={area.id} value={area.name}>{area.name}</option>))}
+          </select>
+        </div>
 
-        {/* --- НОВИЙ БЛОК ІНГРЕДІЄНТІВ --- */}
         <div className={styles.ingredientsBlock}>
           <h4>Ingredients</h4>
           <div className={styles.ingredientRow}>
-            {/* Поки що це звичайний input замість select, щоб ти могла протестувати логіку. Пізніше замінимо на селект з бекенду */}
-            <input type="text" placeholder="Ingredient name (e.g. Salmon)" className={styles.input} value={currentIngredient} onChange={(e) => setCurrentIngredient(e.target.value)} />
-            <input type="text" placeholder="Enter quantity (e.g. 400g)" className={styles.input} value={currentMeasure} onChange={(e) => setCurrentMeasure(e.target.value)} />
+            <select className={styles.select} value={currentIngredient} onChange={(e) => setCurrentIngredient(e.target.value)}>
+              <option value="" disabled>Add the ingredient</option>
+              {ingredientsList.map((ing) => (<option key={ing.id} value={ing.id}>{ing.name}</option>))}
+            </select>
+            <input type="text" placeholder="Quantity" className={styles.input} value={currentMeasure} onChange={(e) => setCurrentMeasure(e.target.value)} />
           </div>
           <button type="button" className={styles.addBtn} onClick={handleAddIngredient}>ADD INGREDIENT +</button>
-          
-          {/* Помилка якщо немає інгредієнтів */}
           {formik.touched.ingredients && formik.errors.ingredients && <div style={{ color: 'red', fontSize: '12px' }}>{formik.errors.ingredients}</div>}
-
-          {/* Список доданих інгредієнтів */}
+          
           <ul style={{ listStyle: 'none', padding: 0, marginTop: '20px' }}>
             {formik.values.ingredients.map((ing, index) => (
               <li key={index} style={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '10px', border: '1px solid #ccc', padding: '10px', borderRadius: '8px' }}>
-                <div>
-                  <strong>{ing.name}</strong> - {ing.measure}
-                </div>
+                <div><strong>{ing.name}</strong> - {ing.measure}</div>
                 <button type="button" onClick={() => handleRemoveIngredient(index)} style={{ marginLeft: 'auto', background: 'transparent', border: 'none', cursor: 'pointer' }}>❌</button>
               </li>
             ))}
