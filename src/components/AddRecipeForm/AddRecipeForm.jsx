@@ -227,9 +227,9 @@ const AddRecipeForm = () => {
             <div>
               <label className={styles.label}>COOKING TIME</label>
               <div className={styles.timeControl}>
-                <button type="button" className={styles.timeBtn} onClick={() => formik.setFieldValue('time', Math.max(1, formik.values.time - 5))}>-</button>
+                <button type="button" className={styles.timeBtn} onClick={() => formik.setFieldValue('time', Math.max(1, formik.values.time - 1))}>-</button>
                 <span> {formik.values.time} min </span>
-                <button type="button" className={styles.timeBtn} onClick={() => formik.setFieldValue('time', formik.values.time + 5)}>+</button>
+                <button type="button" className={styles.timeBtn} onClick={() => formik.setFieldValue('time', formik.values.time + 1)}>+</button>
               </div>
             </div>
           </div>

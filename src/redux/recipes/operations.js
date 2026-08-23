@@ -33,7 +33,7 @@ export const addRecipe = createAsyncThunk(
       const response = await axios.post("/api/recipes", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJpeDBqMm9zYnJkeXN2NWFqZ2U0eGlhcTUiLCJpYXQiOjE3ODc0OTI4OTEsImV4cCI6MTc4NzQ5Mzc5MX0.o_9ycAzr073sFhWRPd2zzHUQv8NR299HkouMDbA-7yg"}`, // Додаємо токен сюди!
+          Authorization: `Bearer ${"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJpeDBqMm9zYnJkeXN2NWFqZ2U0eGlhcTUiLCJpYXQiOjE3ODc1MDA0NzMsImV4cCI6MTc4NzUwMTM3M30.E4Bm9FNw-AsSk1lNxPucYOblJYE-gZYT98jzENugQkE"}`, // Додаємо токен сюди!
         },
       });
       return response.data;
