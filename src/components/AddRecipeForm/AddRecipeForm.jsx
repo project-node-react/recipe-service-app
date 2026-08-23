@@ -9,6 +9,7 @@ import { fetchCategories, fetchAreas, fetchIngredients } from '../../redux/optio
 import { selectCategories, selectAreas, selectIngredients } from '../../redux/options/selectors';
 import { addRecipe } from '../../redux/recipes/operations';
 import styles from './AddRecipeForm.module.css';
+import Select from 'react-select';
 
 const MAX_DESC_LENGTH = 200;
 const MAX_INST_LENGTH = 1000;
@@ -181,18 +182,13 @@ const AddRecipeForm = () => {
           <div className={styles.twoCols}>
             <div>
               <label className={styles.label}>CATEGORY</label>
-              <select
-                name="category"
-                className={styles.select}
-                value={formik.values.category}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              >
-                <option value="" disabled>Select a category</option>
-                {categories.map((cat) => (
-                  <option key={cat.id} value={cat.id}>{cat.name}</option>
-                ))}
-              </select>
+              <Select
+                options={categories.map(cat => ({ value: cat.id, label: cat.name }))}
+                onChange={(option) => formik.setFieldValue('category', option.value)}
+                placeholder="Select a category"
+                className={styles.reactSelectContainer}
+                classNamePrefix="react-select"
+            />
               {formik.touched.category && formik.errors.category && <div className={styles.errorText}>{formik.errors.category}</div>}
             </div>
 
@@ -208,34 +204,26 @@ const AddRecipeForm = () => {
 
           <div>
             <label className={styles.label}>AREA</label>
-            <select
-              name="area"
-              className={styles.select}
-              value={formik.values.area}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            >
-              <option value="" disabled>Select an area</option>
-              {areas.map((area) => (
-                <option key={area.id} value={area.id}>{area.name}</option>
-              ))}
-            </select>
+           <Select
+            options={areas.map(area => ({ value: area.id, label: area.name }))}
+            onChange={(option) => formik.setFieldValue('area', option.value)}
+            placeholder="Select an area"
+            className={styles.reactSelectContainer}
+            classNamePrefix="react-select"
+            />
             {formik.touched.area && formik.errors.area && <div className={styles.errorText}>{formik.errors.area}</div>}
           </div>
 
           <div>
             <label className={styles.label}>INGREDIENTS</label>
             <div className={styles.ingredientInputRow}>
-              <select
-                className={styles.select}
-                value={currentIngredient}
-                onChange={(e) => setCurrentIngredient(e.target.value)}
-              >
-                <option value="" disabled>Add the ingredient</option>
-                {ingredientsList.map((ing) => (
-                  <option key={ing.id} value={ing.id}>{ing.name}</option>
-                ))}
-              </select>
+              <Select
+                options={ingredientsList.map(ing => ({ value: ing.id, label: ing.name }))}
+                onChange={(option) => setCurrentIngredient(option.value)}
+                placeholder="Add the ingredient"
+                 className={styles.reactSelectContainer}
+                classNamePrefix="react-select"
+            />
               <input
                 type="text"
                 placeholder="Enter quantity"
