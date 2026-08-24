@@ -4,8 +4,9 @@ import { ClipLoader } from "react-spinners";
 
 import Container from "../../components/Container/Container";
 import RecipeList from "../../components/RecipeList/RecipeList";
-import RecipePagination from "../../components/RecipePagination/RecipePagination";
+import CategoryList from "../../components/CategoryList/CategoryList";
 import SignInModal from "../../components/SignInModal/SignInModal";
+import RecipePagination from "../../components/RecipePagination/RecipePagination";
 
 import {
   fetchRecipes,
@@ -77,6 +78,8 @@ export default function HomePage() {
 
   return (
     <Container>
+      <CategoryList />
+
       <section className={style.section}>
         <h2 className={style.title}>Recipes</h2>
 
