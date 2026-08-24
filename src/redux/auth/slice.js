@@ -9,33 +9,33 @@ const authSlice = createSlice({
       name: null,
       email: null,
     },
-    accessToken: null,
+    token: null,
     isRefreshing: false,
   },
   extraReducers: (builder) => {
     builder
       .addCase(register.fulfilled, (state, action) => {
-        state.accessToken = action.payload.accessToken;
+        state.token = action.payload.accessToken;
       })
       .addCase(logIn.fulfilled, (state, action) => {
         state.user = action.payload.user;
-        state.accessToken = action.payload.accessToken;
+        state.token = action.payload.accessToken;
       })
       .addCase(logOut.fulfilled, (state) => {
         state.user = { id: null, name: null, email: null };
-        state.accessToken = null;
+        state.token = null;
       })
       .addCase(refreshUser.pending, (state) => {
         state.isRefreshing = true;
       })
       .addCase(refreshUser.fulfilled, (state, action) => {
         state.user = action.payload.user;
-        state.accessToken = action.payload.accessToken;
+        state.token = action.payload.accessToken;
         state.isRefreshing = false;
       })
       .addCase(refreshUser.rejected, (state) => {
         state.user = { id: null, name: null, email: null };
-        state.accessToken = null;
+        state.token = null;
         state.isRefreshing = false;
       });
   },
