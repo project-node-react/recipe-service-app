@@ -1,25 +1,37 @@
 .title {
-  margin-bottom: 24px;
-  font-size: 24px;
+  margin-bottom: 20px;
+  color: var(--main);
+  font-size: 18px;
   font-weight: 800;
+  line-height: 24px;
   letter-spacing: -0.02em;
   text-transform: uppercase;
 }
 
 .instructions {
-  max-width: 900px;
-  margin-bottom: 32px;
+  max-width: 650px;
+  margin-bottom: 20px;
   white-space: pre-line;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -0.02em;
 }
 
 .favoriteButton {
-  padding: 14px 24px;
-  border: 1px solid var(--main);
+  box-sizing: border-box;
+  width: fit-content;
+  min-width: 172px;
+  height: 48px;
+  padding: 14px 20px;
+  border: 1px solid var(--gray);
   border-radius: 30px;
-  background: var(--main);
-  color: var(--white);
+  background: var(--white);
+  color: var(--text);
   font-size: 14px;
   font-weight: 700;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
   text-transform: uppercase;
   transition:
     opacity var(--trans-norm),
@@ -27,13 +39,39 @@
     background-color var(--trans-norm);
 }
 
+.favoriteButtonActive {
+  border-color: var(--main);
+  background: var(--main);
+  color: var(--white);
+}
+
 .favoriteButton:hover:not(:disabled),
 .favoriteButton:focus-visible:not(:disabled) {
-  background: var(--white);
-  color: var(--main);
+  background: var(--main);
+  color: var(--white);
 }
 
 .favoriteButton:disabled {
   cursor: not-allowed;
   opacity: 0.5;
+}
+
+@media screen and (min-width: 768px) {
+  .title {
+    margin-bottom: 20px;
+    font-size: 20px;
+  }
+
+  .instructions {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .favoriteButton {
+    min-width: 215px;
+    height: 56px;
+    padding: 16px 32px;
+    font-size: 16px;
+    line-height: 24px;
+  }
 }
