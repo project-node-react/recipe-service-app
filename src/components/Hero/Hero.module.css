@@ -1,0 +1,166 @@
+/*
+ * Точки перелома — как в Container.module.css и по ТЗ (frontend-лист):
+ * mobile от 320px (адаптив с 375px) → tablet от 768px → desktop от 1440px.
+ */
+.hero {
+  padding: 100px 0;
+  margin-bottom: 32px;
+  background-color: var(--main);
+  color: var(--white);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.box {
+  max-width: 327px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.title {
+  font-weight: 800;
+  font-size: 40px;
+  line-height: 1.15;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: -0.02em;
+  color: var(--gray);
+}
+
+.button {
+  padding: 12px 24px;
+  border-radius: 30px;
+  border: 1px solid var(--white);
+  background-color: transparent;
+  color: var(--white);
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  line-height: 1.43;
+  letter-spacing: -0.02em;
+  transition:
+    background-color var(--trans-norm),
+    color var(--trans-norm),
+    transform var(--trans-norm);
+}
+
+.button:hover,
+.button:focus-visible {
+  background-color: var(--white);
+  color: var(--main);
+}
+
+.button:active {
+  transform: scale(0.97);
+}
+
+/*
+ * Два фото под кнопкой, рядом, с зазором между ними.
+ */
+.gallery {
+  display: flex;
+  align-items: flex-end;
+  gap: 0px;
+  margin: 30px auto 0;
+  width: fit-content;
+}
+
+.photo {
+  display: block;
+  border-radius: 30px;
+  object-fit: cover;
+}
+
+.photoLarge {
+  width: 190px;
+  aspect-ratio: 353 / 330;
+}
+
+.photoSmall {
+  width: 77px; 
+  aspect-ratio: 148 / 139;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+  margin-bottom: 30px;
+}
+
+@media screen and (min-width: 768px) {
+  .hero {
+    padding: 150px 0;
+    margin-bottom: 40px;
+  }
+
+  .box {
+    max-width: 678px;
+    gap: 40px;
+  }
+
+  .title {
+    font-weight: 800;
+    font-size: 70px;
+  }
+
+  .subtitle {
+    max-width: 577px;
+    font-size: 16px;
+    line-height: 1.5 ;
+  }
+
+  .button {
+    padding: 16px 32px;
+    font-size: 16px;
+  }
+
+  .gallery {
+    gap: 0px;
+    margin-top: 30px;
+  }
+
+  .photoLarge {
+    width: 302px;
+  }
+
+  .photoSmall {
+    width: 128px;
+    margin-bottom: 40px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .hero {
+    padding: 64px 0;
+  }
+
+  .box {
+    max-width: 875px;
+  }
+
+  .title {
+    font-size: 90px;
+    line-height: 1;
+  }
+
+  .gallery {
+    gap: 0px;
+    margin-top: 40px;
+  }
+
+  .photoLarge {
+    width: 302px;
+  }
+
+  .photoSmall {
+    width: 128px;
+    margin-bottom: 40px;
+  }
+}
