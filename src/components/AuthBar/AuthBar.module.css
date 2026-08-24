@@ -1,0 +1,53 @@
+.auth_bar {
+  display: flex;
+  margin-left: auto;
+  background-color: var(--white);
+  border: 1px solid var(--gray);
+  border-radius: 30px;
+}
+
+.sign_in,
+.sign_up {
+  padding: 10px 16px;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  border-radius: 30px;
+  transition:
+    background-color var(--trans-norm),
+    color var(--trans-norm),
+    border-color var(--trans-norm);
+}
+
+.sign_in {
+  color: var(--main);
+  background-color: var(--white);
+  border: 1px solid var(--white);
+}
+
+.sign_up {
+  color: var(--white);
+  background-color: var(--main);
+  border: 1px solid var(--gray);
+}
+
+.sign_in:hover {
+  color: var(--white);
+  background-color: var(--main);
+  border-color: var(--gray);
+}
+
+.sign_up:hover {
+  color: var(--main);
+  background-color: var(--white);
+  border-color: var(--white);
+}
+
+@media screen and (min-width: 768px) {
+  .sign_in,
+  .sign_up {
+    padding: 14px 30px;
+  }
+}

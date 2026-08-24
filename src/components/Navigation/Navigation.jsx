@@ -2,27 +2,29 @@ import { NavLink } from "react-router-dom";
 import clsx from "clsx";
 import style from "./Navigation.module.css";
 
-const getActiveClassNames = ({ isActive }) => clsx(isActive && style.active);
+const buildLinkClass = ({ isActive }) =>
+  clsx(style.nav_link, isActive && style.active);
 
-export const Navigation = () => {
+export const Navigation = ({ className = "", onNavigate }) => {
   return (
     <nav>
-      <ul className={style.nav_list}>
+      <ul className={clsx(style.nav_list, className)}>
         <li>
           <NavLink
-            className={getActiveClassNames}
+            className={buildLinkClass}
             to="/"
             aria-label="to the main page"
+            onClick={onNavigate}
           >
             Home
           </NavLink>
         </li>
         <li>
           <NavLink
-            className={getActiveClassNames}
+            className={buildLinkClass}
             to="/recipe/add"
-            end
-            aria-label="to the catalog page"
+            aria-label="to the add recipe page"
+            onClick={onNavigate}
           >
             Add recipe
           </NavLink>
