@@ -1,0 +1,39 @@
+.title {
+  margin-bottom: 24px;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.instructions {
+  max-width: 900px;
+  margin-bottom: 32px;
+  white-space: pre-line;
+}
+
+.favoriteButton {
+  padding: 14px 24px;
+  border: 1px solid var(--main);
+  border-radius: 30px;
+  background: var(--main);
+  color: var(--white);
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  transition:
+    opacity var(--trans-norm),
+    color var(--trans-norm),
+    background-color var(--trans-norm);
+}
+
+.favoriteButton:hover:not(:disabled),
+.favoriteButton:focus-visible:not(:disabled) {
+  background: var(--white);
+  color: var(--main);
+}
+
+.favoriteButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}

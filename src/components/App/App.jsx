@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 
@@ -8,6 +8,7 @@ import style from "./App.module.css";
 const Layout = lazy(() => import("../../layouts/Layout/Layout"));
 const HomePage = lazy(() => import("../../pages/HomePage/HomePage"));
 const AddRecipePage = lazy(() => import("../../pages/AddRecipePage/AddRecipePage"));
+const RecipePage = lazy(() => import("../../pages/RecipePage/RecipePage"));
 const NotFoundPage = lazy(
   () => import("../../pages/NotFoundPage/NotFoundPage"),
 );
@@ -37,6 +38,7 @@ export default function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />}></Route>
             <Route path="recipe/add" element={<AddRecipePage />} />
+            <Route path="recipe/:id" element={<RecipePage />} />
             <Route path="*" element={<NotFoundPage />}></Route>
           </Route>
         </Routes>
