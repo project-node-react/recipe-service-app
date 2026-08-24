@@ -1,26 +1,36 @@
-import { lazy, Suspense } from "react";
+import { useEffect, lazy, Suspense } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
-
-// import toast from "react-hot-toast";
+import { refreshUser } from "../../redux/auth/operations";
+import { selectIsRefreshing } from "../../redux/auth/selectors";
 import style from "./App.module.css";
 
 const Layout = lazy(() => import("../../layouts/Layout/Layout"));
 const HomePage = lazy(() => import("../../pages/HomePage/HomePage"));
-const AddRecipePage = lazy(() => import("../../pages/AddRecipePage/AddRecipePage"));
+const AddRecipePage = lazy(
+  () => import("../../pages/AddRecipePage/AddRecipePage"),
+);
 const RecipePage = lazy(() => import("../../pages/RecipePage/RecipePage"));
 const NotFoundPage = lazy(
   () => import("../../pages/NotFoundPage/NotFoundPage"),
 );
 
 export default function App() {
-  //   const error = useSelector(selectError);
-  //   useEffect(() => {
-  //     if (error) {
-  //       toast.error(`Error: ${error}`);
-  //     }
-  //   }, [error]);
-  return (
+  const dispatch = useDispatch();
+  const isRefreshing = useSelector(selectIsRefreshing);
+
+  useEffect(() => {
+    dispatch(refreshUser());
+  }, [dispatch]);
+  return isRefreshing ? (
+    <ClipLoader
+      color="#1976d2"
+      size={50}
+      aria-label="Loading Spinner"
+      data-testid="loader"
+    />
+  ) : (
     <>
       <Suspense
         fallback={
