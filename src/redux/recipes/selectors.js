@@ -39,3 +39,9 @@ export const selectFavoriteMutationRecipeId = (state) =>
 
 export const selectIsRecipeFavorite = (state, recipeId) =>
   state.recipes.favoriteRecipeIds.includes(recipeId);
+
+export const selectRecipesPage = (state) => state.recipes.page;
+
+export const selectRecipesTotalPages = (state) => state.recipes.totalPages;
+
+export const selectRecipesTotalItems = (state) => state.recipes.totalItems;

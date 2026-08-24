@@ -45,6 +45,9 @@ const recipesSlice = createSlice({
   name: "recipes",
   initialState,
   reducers: {
+    setPage(state, action) {
+      state.page = action.payload;
+    },
     setFilters(state, action) {
       state.filters = { ...state.filters, ...action.payload };
       // будь-яка зміна фільтрів скидає пагінацію на першу сторінку
@@ -182,5 +185,5 @@ const recipesSlice = createSlice({
   },
 });
 
-export const { setFilters, resetRecipes } = recipesSlice.actions;
+export const { setPage, setFilters, resetRecipes } = recipesSlice.actions;
 export const recipesReducer = recipesSlice.reducer;
