@@ -15,15 +15,19 @@ const RecipeInfo = ({
   return (
     <article className={styles.recipeInfo}>
       <RecipeMainInfo recipe={recipe} onAuthorClick={onAuthorClick} />
-      <RecipeIngredients ingredients={recipe.ingredients} />
-      <RecipePreparation
-        instructions={recipe.instructions}
-        isAuthenticated={isAuthenticated}
-        isFavoriteAvailable={isFavoriteAvailable}
-        isFavorite={isFavorite}
-        isPending={isFavoritePending}
-        onToggleFavorite={onToggleFavorite}
-      />
+      <div className={styles.ingredients}>
+        <RecipeIngredients ingredients={recipe.ingredients} />
+      </div>
+      <div className={styles.preparation}>
+        <RecipePreparation
+          instructions={recipe.instructions}
+          isAuthenticated={isAuthenticated}
+          isFavoriteAvailable={isFavoriteAvailable}
+          isFavorite={isFavorite}
+          isPending={isFavoritePending}
+          onToggleFavorite={onToggleFavorite}
+        />
+      </div>
     </article>
   );
 };

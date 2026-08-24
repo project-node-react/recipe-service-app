@@ -13,7 +13,7 @@ const handleImageError = (event) => {
 };
 
 const RecipeMainInfo = ({ recipe, onAuthorClick }) => {
-  const { author, category, description, image, title } = recipe;
+  const { author, category, cookingTime, description, image, title } = recipe;
 
   return (
     <section className={styles.mainInfo} aria-labelledby="recipe-title">
@@ -27,12 +27,21 @@ const RecipeMainInfo = ({ recipe, onAuthorClick }) => {
       </div>
 
       <div className={styles.details}>
-        {category?.name && (
-          <p className={styles.category}>{category.name}</p>
-        )}
         <h1 id="recipe-title" className={styles.title}>
           {title}
         </h1>
+
+        {(category?.name || cookingTime) && (
+          <div className={styles.meta}>
+            {category?.name && (
+              <p className={styles.metaItem}>{category.name}</p>
+            )}
+            {cookingTime && (
+              <p className={styles.metaItem}>{cookingTime} min</p>
+            )}
+          </div>
+        )}
+
         {description && <p className={styles.description}>{description}</p>}
 
         <button
@@ -46,8 +55,8 @@ const RecipeMainInfo = ({ recipe, onAuthorClick }) => {
             alt=""
             onError={handleImageError}
           />
-          <span>
-            <span className={styles.authorLabel}>Created by</span>
+          <span className={styles.authorText}>
+            <span className={styles.authorLabel}>Created by:</span>
             <span className={styles.authorName}>{author.name}</span>
           </span>
         </button>

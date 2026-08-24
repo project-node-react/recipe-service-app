@@ -31,7 +31,7 @@ const RecipeIngredients = ({ ingredients }) => {
                   onError={handleImageError}
                 />
               </div>
-              <div>
+              <div className={styles.text}>
                 <p className={styles.name}>{ingredient.name}</p>
                 <p className={styles.measure}>{ingredient.measure}</p>
               </div>
