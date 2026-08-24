@@ -14,7 +14,7 @@ const clearAuthHeader = () => {
   delete api.defaults.headers.common.Authorization;
 };
 
-const getErrorMessage = (error) =>
+export const getErrorMessage = (error) =>
   error.response?.data?.message || error.response?.data?.error || error.message;
 
 /*

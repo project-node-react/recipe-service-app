@@ -1,68 +1,12 @@
-// import { createAsyncThunk } from "@reduxjs/toolkit";
-// import axios from "axios";
-
-// export const addRecipe = createAsyncThunk(
-//   "recipes/addRecipe",
-//   async (formData, thunkAPI) => {
-//     try {
-//       const response = await axios.post("/api/recipes", formData, {
-//         headers: { "Content-Type": "multipart/form-data" },
-//       });
-//       return response.data;
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(error.message);
-//     }
-//   }
-// );
-
-//Для тестування з токеном
+import { api, getErrorMessage } from "../auth/operations";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import { http, withAuth } from "../../api/http";
-
-const recipeApi = axios.create({
-  baseURL: "http://localhost:3000",
-});
-
-const getRequestError = (error) => ({
-  message:
-    error.response?.data?.error ||
-    error.response?.data?.message ||
-    error.message ||
-    "Request failed",
-  status: error.response?.status || null,
-});
-
-const getAuthConfig = (token) => ({
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
-});
-
-const getAuthToken = (thunkAPI) => thunkAPI.getState().auth.token;
-
-const rejectAuthenticationRequired = (thunkAPI) =>
-  thunkAPI.rejectWithValue({
-    message: "Authentication required",
-    status: 401,
-  });
 
 export const addRecipe = createAsyncThunk(
   "recipes/addRecipe",
   async (formData, thunkAPI) => {
     try {
-      // 1. Дістаємо поточний стейт
-      const state = thunkAPI.getState();
-
-      // 2. Дістаємо токен (переконайся, що шлях state.auth.token правильний для вашого проєкту)
-      const token = state.auth.token;
-
-      // 3. Відправляємо запит із токеном у заголовках
-      const response = await axios.post("/api/recipes", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJpeDBqMm9zYnJkeXN2NWFqZ2U0eGlhcTUiLCJpYXQiOjE3ODc1MDA0NzMsImV4cCI6MTc4NzUwMTM3M30.E4Bm9FNw-AsSk1lNxPucYOblJYE-gZYT98jzENugQkE"}`, // Додаємо токен сюди!
-        },
+      const response = await api.post("/recipes", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
       });
       return response.data;
     } catch (error) {
@@ -70,6 +14,62 @@ export const addRecipe = createAsyncThunk(
     }
   },
 );
+
+// //Для тестування з токеном
+// import { createAsyncThunk } from "@reduxjs/toolkit";
+// import axios from "axios";
+// import { http, withAuth } from "../../api/http";
+
+// const recipeApi = axios.create({
+//   baseURL: "http://localhost:3000",
+// });
+
+// const getRequestError = (error) => ({
+//   message:
+//     error.response?.data?.error ||
+//     error.response?.data?.message ||
+//     error.message ||
+//     "Request failed",
+//   status: error.response?.status || null,
+// });
+
+// const getAuthConfig = (token) => ({
+//   headers: {
+//     Authorization: `Bearer ${token}`,
+//   },
+// });
+
+// const getAuthToken = (thunkAPI) => thunkAPI.getState().auth.token;
+
+// const rejectAuthenticationRequired = (thunkAPI) =>
+//   thunkAPI.rejectWithValue({
+//     message: "Authentication required",
+//     status: 401,
+//   });
+
+// export const addRecipe = createAsyncThunk(
+//   "recipes/addRecipe",
+//   async (formData, thunkAPI) => {
+//     try {
+//       // 1. Дістаємо поточний стейт
+//       const state = thunkAPI.getState();
+
+//       // 2. Дістаємо токен (переконайся, що шлях state.auth.token правильний для вашого проєкту)
+//       const token = state.auth.token;
+
+//       // 3. Відправляємо запит із токеном у заголовках
+//       const response = await axios.post("/api/recipes", formData, {
+//         headers: {
+//           "Content-Type": "multipart/form-data",
+//           Authorization: `Bearer ${token}`,
+//         },
+//       });
+//       return response.data;
+//     } catch (error) {
+//       return thunkAPI.rejectWithValue(error.message);
+//     }
+//   },
+// );
 // ─────────────────────────────────────────────────────────────
 // HomePage: список рецептів + серверна пагінація + улюблені
 // ─────────────────────────────────────────────────────────────
@@ -85,7 +85,7 @@ export const fetchRecipes = createAsyncThunk(
         ...params,
       };
 
-      const response = await http.get("/api/recipes", {
+      const response = await api.get("/recipes", {
         params: {
           page,
           limit,
@@ -109,18 +109,14 @@ export const fetchRecipes = createAsyncThunk(
 export const fetchFavoriteIds = createAsyncThunk(
   "recipes/fetchFavoriteIds",
   async (_, thunkAPI) => {
-    const token = thunkAPI.getState().auth.token;
-    if (!token) return [];
-
     try {
       const ids = [];
       let page = 1;
       let totalPages = 1;
 
       do {
-        const { data } = await http.get("/api/recipes/favorites", {
+        const { data } = await api.get("/recipes/favorites", {
           params: { page, limit: 50 },
-          ...withAuth(token),
         });
         ids.push(...data.data.map((recipe) => recipe.id));
         totalPages = data.totalPages || 1;
@@ -139,13 +135,8 @@ export const fetchFavoriteIds = createAsyncThunk(
 export const addFavoriteRecipe = createAsyncThunk(
   "recipes/addFavorite",
   async (recipeId, thunkAPI) => {
-    const token = thunkAPI.getState().auth.token;
     try {
-      await http.post(
-        `/api/recipes/${recipeId}/favorite`,
-        null,
-        withAuth(token),
-      );
+      await api.post(`/recipes/${recipeId}/favorite`, null);
       return recipeId;
     } catch (error) {
       // 409 означає, що рецепт уже в улюблених — для UI це той самий результат
@@ -160,9 +151,8 @@ export const addFavoriteRecipe = createAsyncThunk(
 export const removeFavoriteRecipe = createAsyncThunk(
   "recipes/removeFavorite",
   async (recipeId, thunkAPI) => {
-    const token = thunkAPI.getState().auth.token;
     try {
-      await http.delete(`/api/recipes/${recipeId}/favorite`, withAuth(token));
+      await api.delete(`/recipes/${recipeId}/favorite`);
       return recipeId;
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -176,7 +166,7 @@ export const fetchRecipeById = createAsyncThunk(
   "recipes/fetchRecipeById",
   async (recipeId, thunkAPI) => {
     try {
-      const response = await recipeApi.get(`/api/recipes/${recipeId}`);
+      const response = await api.get(`/recipes/${recipeId}`);
       const recipe = response.data;
 
       return {
@@ -198,7 +188,7 @@ export const fetchRecipeById = createAsyncThunk(
           : [],
       };
     } catch (error) {
-      return thunkAPI.rejectWithValue(getRequestError(error));
+      return thunkAPI.rejectWithValue(getErrorMessage(error));
     }
   },
   {
@@ -216,13 +206,13 @@ export const fetchPopularRecipes = createAsyncThunk(
   "recipes/fetchPopularRecipes",
   async (_, thunkAPI) => {
     try {
-      const response = await recipeApi.get("/api/recipes/popular", {
+      const response = await api.get("/recipes/popular", {
         params: { limit: 4 },
       });
 
       return Array.isArray(response.data) ? response.data.slice(0, 4) : [];
     } catch (error) {
-      return thunkAPI.rejectWithValue(getRequestError(error));
+      return thunkAPI.rejectWithValue(getErrorMessage(error));
     }
   },
   {
@@ -233,15 +223,8 @@ export const fetchPopularRecipes = createAsyncThunk(
 export const fetchFavoriteRecipes = createAsyncThunk(
   "recipes/fetchFavoriteRecipes",
   async (_, thunkAPI) => {
-    const token = getAuthToken(thunkAPI);
-
-    if (!token) {
-      return rejectAuthenticationRequired(thunkAPI);
-    }
-
     try {
-      const firstResponse = await recipeApi.get("/api/recipes/favorites", {
-        ...getAuthConfig(token),
+      const firstResponse = await api.get("/recipes/favorites", {
         params: { page: 1, limit: 50 },
       });
       const firstPage = firstResponse.data;
@@ -249,8 +232,7 @@ export const fetchFavoriteRecipes = createAsyncThunk(
       const totalPages = Number(firstPage.totalPages) || 1;
 
       for (let page = 2; page <= totalPages; page += 1) {
-        const response = await recipeApi.get("/api/recipes/favorites", {
-          ...getAuthConfig(token),
+        const response = await api.get("/recipes/favorites", {
           params: { page, limit: 50 },
         });
 
@@ -261,7 +243,7 @@ export const fetchFavoriteRecipes = createAsyncThunk(
 
       return [...new Set(recipes.map((recipe) => recipe.id).filter(Boolean))];
     } catch (error) {
-      return thunkAPI.rejectWithValue(getRequestError(error));
+      return thunkAPI.rejectWithValue(getErrorMessage(error));
     }
   },
   {
@@ -272,21 +254,11 @@ export const fetchFavoriteRecipes = createAsyncThunk(
 export const addRecipeToFavorites = createAsyncThunk(
   "recipes/addRecipeToFavorites",
   async (recipeId, thunkAPI) => {
-    const token = getAuthToken(thunkAPI);
-
-    if (!token) {
-      return rejectAuthenticationRequired(thunkAPI);
-    }
-
     try {
-      await recipeApi.post(
-        `/api/recipes/${recipeId}/favorite`,
-        undefined,
-        getAuthConfig(token),
-      );
+      await api.post(`/recipes/${recipeId}/favorite`, undefined);
       return recipeId;
     } catch (error) {
-      return thunkAPI.rejectWithValue(getRequestError(error));
+      return thunkAPI.rejectWithValue(getErrorMessage(error));
     }
   },
   {
@@ -298,20 +270,11 @@ export const addRecipeToFavorites = createAsyncThunk(
 export const removeRecipeFromFavorites = createAsyncThunk(
   "recipes/removeRecipeFromFavorites",
   async (recipeId, thunkAPI) => {
-    const token = getAuthToken(thunkAPI);
-
-    if (!token) {
-      return rejectAuthenticationRequired(thunkAPI);
-    }
-
     try {
-      await recipeApi.delete(
-        `/api/recipes/${recipeId}/favorite`,
-        getAuthConfig(token),
-      );
+      await api.delete(`/recipes/${recipeId}/favorite`);
       return recipeId;
     } catch (error) {
-      return thunkAPI.rejectWithValue(getRequestError(error));
+      return thunkAPI.rejectWithValue(getErrorMessage(error));
     }
   },
   {
