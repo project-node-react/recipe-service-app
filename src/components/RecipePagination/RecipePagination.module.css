@@ -1,0 +1,51 @@
+/* Значення з макета: елемент 40x40, радіус 100px, проміжок 6px,
+   горизонтальні відступи контейнера 6px. */
+.wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.list {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 6px;
+}
+
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 100px;
+  background-color: transparent;
+  border: 1px solid transparent;
+  color: var(--main);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: 0.17px;
+  transition:
+    border-color var(--trans-norm),
+    color var(--trans-norm);
+}
+
+.page:hover:not(:disabled),
+.page:focus-visible:not(:disabled) {
+  border-color: var(--gray);
+}
+
+/* Поточна сторінка в макеті — обведене коло, без заливки. */
+.pageCurrent {
+  border-color: var(--gray);
+  color: var(--text);
+  cursor: default;
+}
+
+@media screen and (min-width: 1440px) {
+  .wrapper {
+    margin-top: 60px;
+  }
+}

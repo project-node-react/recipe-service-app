@@ -1,8 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { authReducer } from "./auth/slice";
-import { categoriesReducer } from "./categories/slice";
-import { ingredientsReducer } from "./ingredients/slice";
-import { areasReducer } from "./areas/slice";
+import { optionsReducer } from "./options/slice";
 import { recipesReducer } from "./recipes/slice";
 
 import {
@@ -27,13 +25,11 @@ const authPersistConfig = {
 };
 
 export const store = configureStore({
- reducer: {
-  auth: persistReducer(authPersistConfig, authReducer),
-  categories: categoriesReducer,
-  ingredients: ingredientsReducer,
-  areas: areasReducer,
-  recipes: recipesReducer,
-},
+  reducer: {
+    auth: persistReducer(authPersistConfig, authReducer),
+    options: optionsReducer,
+    recipes: recipesReducer,
+  },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {

@@ -1,3 +1,5 @@
-export default function Subtitle({ children }) {
+export const Subtitle = ({ children }) => {
   return <h2>{children}</h2>;
-}
+};
+
+export default Subtitle;

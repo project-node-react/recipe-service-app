@@ -1,0 +1,28 @@
+.section {
+  padding: 40px 0 60px;
+}
+
+.title {
+  margin-bottom: 24px;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.1;
+  color: var(--main);
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+  padding: 60px 0;
+}
+
+@media screen and (min-width: 1440px) {
+  .section {
+    padding: 60px 0 100px;
+  }
+
+  .title {
+    margin-bottom: 32px;
+    font-size: 40px;
+  }
+}

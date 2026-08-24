@@ -1,8 +1,28 @@
 .header {
   margin-bottom: 16px;
 }
-.container {
+
+.header__box {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 16px;
+}
+
+.authBtnsList {
+  display: flex;
+}
+
+.signIn,
+.signUp {
+  margin-left: auto;
+  padding: 10px 20px;
+  border-radius: 30px;
+  background: var(--main);
+  color: var(--white);
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
 }

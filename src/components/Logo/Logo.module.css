@@ -1,0 +1,23 @@
+.logo {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  text-transform: lowercase;
+  color: var(--main);
+  transition: opacity var(--trans-norm);
+}
+
+.logo:hover,
+.logo:focus-visible {
+  opacity: 0.85;
+}
+
+@media screen and (min-width: 768px) {
+  .logo {
+    font-size: 24px;
+    line-height: 28px;
+  }
+}

@@ -20,7 +20,7 @@ export const Navigation = () => {
         <li>
           <NavLink
             className={getActiveClassNames}
-            to="/add-recipe"
+            to="/recipe/add"
             end
             aria-label="to the catalog page"
           >

@@ -1,0 +1,34 @@
+/* Сітка з макета: 1 колонка на 375, 2 на 768, 3 на 1440.
+   Ширина колонки не фіксована — 290px у макеті виникає з ширини
+   контейнера списку (910px), яка залежить від блоку фільтрів. */
+.list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px 20px;
+}
+
+.item {
+  display: flex;
+}
+
+.item > * {
+  width: 100%;
+}
+
+.empty {
+  padding: 40px 0;
+  text-align: center;
+  color: var(--text);
+}
+
+@media screen and (min-width: 768px) {
+  .list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
