@@ -32,11 +32,14 @@ import {
   selectRequestedRecipeId,
 } from "../../redux/recipes/selectors";
 import styles from "./RecipePage.module.css";
+import SignUpModal from "../../components/SignUpModal/SignUpModal";
 
 const RecipePage = () => {
   const { id: recipeId } = useParams();
   const dispatch = useDispatch();
   const [isSignInOpen, setIsSignInOpen] = useState(false);
+  const [isSignUpOpen, setIsSignUpOpen] = useState(false);
+
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const recipe = useSelector(selectCurrentRecipe);
   const requestedRecipeId = useSelector(selectRequestedRecipeId);
@@ -48,9 +51,7 @@ const RecipePage = () => {
   const favoritesLoading = useSelector(selectFavoritesLoading);
   const favoritesInitialized = useSelector(selectFavoritesInitialized);
   const favoritesError = useSelector(selectFavoritesError);
-  const favoriteMutationRecipeId = useSelector(
-    selectFavoriteMutationRecipeId,
-  );
+  const favoriteMutationRecipeId = useSelector(selectFavoriteMutationRecipeId);
   const isFavorite = useSelector((state) =>
     selectIsRecipeFavorite(state, recipeId),
   );
@@ -124,18 +125,16 @@ const RecipePage = () => {
       <Container>
         {showInitialLoader && (
           <div className={styles.loader} role="status">
-            <ClipLoader
-              color="#050505"
-              size={64}
-              aria-label="Loading recipe"
-            />
+            <ClipLoader color="#050505" size={64} aria-label="Loading recipe" />
           </div>
         )}
 
         {!showInitialLoader && isNotFound && (
           <section className={styles.message}>
             <h1>Recipe not found</h1>
-            <p>The requested recipe does not exist or is no longer available.</p>
+            <p>
+              The requested recipe does not exist or is no longer available.
+            </p>
             <Link className={styles.homeLink} to="/">
               Back to home
             </Link>
@@ -193,6 +192,18 @@ const RecipePage = () => {
       <SignInModal
         isOpen={isSignInOpen}
         onClose={() => setIsSignInOpen(false)}
+        onCreateAccount={() => {
+          setIsSignInOpen(false);
+          setIsSignUpOpen(true);
+        }}
+      />
+      <SignUpModal
+        isOpen={isSignUpOpen}
+        onClose={() => setIsSignUpOpen(false)}
+        onSignInAccount={() => {
+          setIsSignInOpen(true);
+          setIsSignUpOpen(false);
+        }}
       />
     </div>
   );

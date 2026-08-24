@@ -25,6 +25,7 @@ import {
 import { selectIsLoggedIn } from "../../redux/auth/selectors";
 
 import style from "./HomePage.module.css";
+import SignUpModal from "../../components/SignUpModal/SignUpModal";
 
 export default function HomePage() {
   const dispatch = useDispatch();
@@ -38,6 +39,7 @@ export default function HomePage() {
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const [isSignInOpen, setIsSignInOpen] = useState(false);
+  const [isSignUpOpen, setIsSignUpOpen] = useState(false);
 
   // Кожна зміна сторінки або фільтрів — це новий запит на бекенд:
   // пагінація серверна, а не нарізка вже завантаженого масиву.
@@ -108,7 +110,18 @@ export default function HomePage() {
       <SignInModal
         isOpen={isSignInOpen}
         onClose={() => setIsSignInOpen(false)}
-        onCreateAccount={() => setIsSignInOpen(false)}
+        onCreateAccount={() => {
+          setIsSignInOpen(false);
+          setIsSignUpOpen(true);
+        }}
+      />
+      <SignUpModal
+        isOpen={isSignUpOpen}
+        onClose={() => setIsSignUpOpen(false)}
+        onSignInAccount={() => {
+          setIsSignInOpen(true);
+          setIsSignUpOpen(false);
+        }}
       />
     </Container>
   );

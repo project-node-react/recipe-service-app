@@ -15,7 +15,6 @@
   flex-direction: column;
   gap: 40px;
   width: 560px;
-  height: 500px;
   padding: 80px;
   border-radius: 30px;
   background: var(--white);

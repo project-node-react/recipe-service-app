@@ -9,7 +9,12 @@
   gap: 16px;
 }
 
-.signIn {
+.authBtnsList {
+  display: flex;
+}
+
+.signIn,
+.signUp {
   margin-left: auto;
   padding: 10px 20px;
   border-radius: 30px;
