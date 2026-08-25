@@ -3,11 +3,13 @@
  * mobile от 320px (адаптив с 375px) → tablet от 768px → desktop от 1440px.
  */
 .hero {
-  padding: 100px 0;
-  margin-bottom: 32px;
+  margin-left: -8px;
+  margin-right: -8px;
+  padding: 100px 8px;
+  margin-bottom: 14px;
   background-color: var(--main);
   color: var(--white);
-  border-radius: 16px;
+  border-radius: 20px;
   overflow: hidden;
 }
 
@@ -96,12 +98,19 @@
 
 @media screen and (min-width: 768px) {
   .hero {
-    padding: 150px 0;
-    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    margin-left: -16px;
+    margin-right: -16px;
+    padding: 100px 29px 90px;
+    margin-bottom: 60px;
+    align-items: center;
   }
 
   .box {
-    max-width: 678px;
+    max-width: 736px;
+    margin: 0 auto;
     gap: 40px;
   }
 
@@ -138,7 +147,10 @@
 
 @media screen and (min-width: 1440px) {
   .hero {
-    padding: 64px 0;
+    margin-left: -60px;
+    margin-right: -60px;
+    padding: 64px 40px;
+    margin-bottom: 60px;
   }
 
   .box {
