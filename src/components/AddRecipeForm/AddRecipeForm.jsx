@@ -291,8 +291,7 @@ const AddRecipeForm = () => {
               <input
                 type="text"
                 placeholder="Enter quantity"
-                className={styles.input}
-                style={{ width: '40%' }}
+                className={`${styles.input} ${styles.measureInput}`}
                 value={currentMeasure}
                 onChange={(e) => setCurrentMeasure(e.target.value)}
               />

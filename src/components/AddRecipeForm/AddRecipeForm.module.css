@@ -1,7 +1,9 @@
 .container {
+  box-sizing: border-box;
+  width: 100%;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 0 120px;
+  padding: 0 0 80px;
 }
 
 .title {
@@ -25,15 +27,9 @@
 
 .formGrid {
   display: grid;
-  grid-template-columns: minmax(0, 551px) minmax(0, 649px);
-  gap: 80px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 40px;
   align-items: start;
-}
-
-@media (max-width: 768px) {
-  .formGrid {
-    grid-template-columns: 1fr;
-  }
 }
 
 /* Photo Section */
@@ -44,8 +40,9 @@
 }
 
 .photoLabel {
+  box-sizing: border-box;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  height: 318px;
   border: 1px dashed #bfbebe;
   border-radius: 30px;
   display: flex;
@@ -114,7 +111,7 @@
 .detailsSection {
   display: flex;
   flex-direction: column;
-  gap: 60px;
+  gap: 40px;
 }
 
 .inputGroup {
@@ -124,6 +121,7 @@
 }
 
 .input, .textarea {
+  box-sizing: border-box;
   width: 100%;
   border: none;
   border-bottom: 1px solid #bfbebe;
@@ -189,8 +187,8 @@
 /* Two Columns (Category & Time) */
 .twoCols {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  grid-template-columns: 1fr;
+  gap: 40px;
 }
 
 .label {
@@ -240,16 +238,17 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 16px;
+  gap: 8px;
   color: #bfbebe;
+  white-space: nowrap;
 }
 
 .timeBtn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 56px;
-  height: 56px;
+  width: 40px;
+  height: 40px;
   padding: 0;
   border: 1px solid #bfbebe;
   border-radius: 30px;
@@ -281,6 +280,34 @@
   gap: 12px;
   align-items: flex-end;
 }
+
+.ingredientInputRow .reactSelectContainer,
+.measureInput {
+  min-width: 0;
+}
+
+.ingredientInputRow .reactSelectContainer {
+  flex: 1 1 60%;
+}
+
+.measureInput {
+  flex: 1 1 40%;
+}
+
+@media (max-width: 767px) {
+  .ingredientInputRow {
+    flex-direction: column;
+    gap: 8px;
+    align-items: stretch;
+  }
+
+  .ingredientInputRow .reactSelectContainer,
+  .measureInput {
+    width: 100%;
+    flex: 0 0 auto;
+  }
+}
+
 .addIngredientBtn {
   align-self: flex-start;
   display: inline-flex;
@@ -440,4 +467,58 @@
   border: none;
   font-weight: 600;
   cursor: pointer;
+}
+
+@media (min-width: 375px) {
+  .container {
+    padding-bottom: 100px;
+  }
+
+  .formGrid {
+    gap: 48px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding-bottom: 120px;
+  }
+
+  .formGrid {
+    gap: 60px;
+  }
+
+  .photoLabel {
+    height: auto;
+    aspect-ratio: 4 / 3;
+  }
+
+  .twoCols {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .timeControl {
+    gap: 16px;
+  }
+
+  .timeBtn {
+    width: 56px;
+    height: 56px;
+  }
+
+  .ingredientInputRow .reactSelectContainer {
+    flex-basis: 58%;
+  }
+
+  .measureInput {
+    flex-basis: 42%;
+  }
+}
+
+@media (min-width: 1440px) {
+  .formGrid {
+    grid-template-columns: minmax(0, 551px) minmax(0, 649px);
+    gap: 80px;
+  }
 }
