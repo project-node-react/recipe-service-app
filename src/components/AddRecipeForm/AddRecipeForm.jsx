@@ -13,6 +13,12 @@ import Select from 'react-select';
 
 const MAX_DESC_LENGTH = 200;
 const MAX_INST_LENGTH = 1000;
+const FALLBACK_IMAGE = "/foodicon.svg";
+
+const handleIngredientImageError = (event) => {
+  event.currentTarget.onerror = null;
+  event.currentTarget.src = FALLBACK_IMAGE;
+};
 
 const validationSchema = Yup.object({
   title: Yup.string().required('Required field'),
@@ -138,8 +144,7 @@ const AddRecipeForm = () => {
         id: currentIngredient,
         name: selectedIng ? selectedIng.name : '',
         measure: currentMeasure,
-        // Assuming backend provides image URL for ingredients (e.g., selectedIng.img)
-        img: selectedIng?.img || 'https://via.placeholder.com/40', 
+        img: selectedIng?.img || null,
       };
       formik.setFieldValue('ingredients', [...formik.values.ingredients, newIngredient]);
       setCurrentIngredient('');
@@ -166,7 +171,15 @@ const AddRecipeForm = () => {
               <img src={photoPreview} alt="Preview" className={styles.photoPreview} />
             ) : (
               <div className={styles.photoPlaceholder}>
-                <span>📷 Upload a photo</span>
+                <span className={styles.photoIcon} aria-hidden="true">
+                  <svg className={styles.captureFrame}>
+                    <use href={`${import.meta.env.BASE_URL}icons.svg#capture-frame`} />
+                  </svg>
+                  <svg className={styles.cameraIcon}>
+                    <use href={`${import.meta.env.BASE_URL}icons.svg#camera`} />
+                  </svg>
+                </span>
+                <span>Upload a photo</span>
               </div>
             )}
           </label>
@@ -276,12 +289,26 @@ const AddRecipeForm = () => {
               <div className={styles.ingredientsList}>
                 {formik.values.ingredients.map((ing, index) => (
                   <div key={index} className={styles.ingredientCard}>
-                    <img src={ing.img} alt={ing.name} className={styles.ingredientImg} />
+                    <div className={styles.ingredientImageWrap}>
+                      <img
+                        src={ing.img || FALLBACK_IMAGE}
+                        alt={ing.img ? ing.name : ""}
+                        className={styles.ingredientImg}
+                        onError={handleIngredientImageError}
+                      />
+                    </div>
                     <div className={styles.ingredientInfo}>
                       <span className={styles.ingredientName}>{ing.name}</span>
-                      <span>{ing.measure}</span>
+                      <span className={styles.ingredientMeasure}>{ing.measure}</span>
                     </div>
-                    <button type="button" className={styles.removeBtn} onClick={() => handleRemoveIngredient(index)}>×</button>
+                    <button
+                      type="button"
+                      className={styles.removeBtn}
+                      onClick={() => handleRemoveIngredient(index)}
+                      aria-label={`Remove ${ing.name}`}
+                    >
+                      ×
+                    </button>
                   </div>
                 ))}
               </div>
@@ -304,7 +331,16 @@ const AddRecipeForm = () => {
           </div>
 
           <div className={styles.formActions}>
-            <button type="button" className={styles.clearBtn} onClick={handleClear}>🗑</button>
+            <button
+              type="button"
+              className={styles.clearBtn}
+              onClick={handleClear}
+              aria-label="Clear recipe form"
+            >
+              <svg aria-hidden="true">
+                <use href={`${import.meta.env.BASE_URL}icons.svg#trash`} />
+              </svg>
+            </button>
             <button type="submit" className={styles.publishBtn}>PUBLISH</button>
           </div>
 
