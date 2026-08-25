@@ -2,12 +2,10 @@
   display: flex;
   margin-left: auto;
   background-color: var(--white);
-  border: 1px solid var(--gray);
   border-radius: 30px;
 }
 
-.sign_in,
-.sign_up {
+.auth_bar button {
   padding: 10px 16px;
   font-weight: 700;
   font-size: 12px;
@@ -15,39 +13,60 @@
   letter-spacing: -0.02em;
   text-transform: uppercase;
   border-radius: 30px;
-  transition:
-    background-color var(--trans-norm),
-    color var(--trans-norm),
-    border-color var(--trans-norm);
+  cursor: pointer;
+  transition: ease 0.1s;
 }
 
-.sign_in {
+.auth_bar button:first-child {
   color: var(--main);
-  background-color: var(--white);
   border: 1px solid var(--white);
-}
-
-.sign_up {
-  color: var(--white);
-  background-color: var(--main);
-  border: 1px solid var(--gray);
-}
-
-.sign_in:hover {
-  color: var(--white);
-  background-color: var(--main);
-  border-color: var(--gray);
-}
-
-.sign_up:hover {
-  color: var(--main);
   background-color: var(--white);
-  border-color: var(--white);
+}
+
+.auth_bar button:last-child {
+  color: var(--white);
+  border: 1px solid var(--gray);
+  background-color: var(--text);
+}
+
+.auth_bar button:first-child:hover {
+  color: var(--white);
+  border: 1px solid var(--gray);
+  background-color: var(--text);
+}
+
+.auth_bar button:first-child:hover ~ button:last-child {
+  color: var(--main);
+  border: 1px solid var(--white);
+  background-color: var(--white);
+}
+
+.auth_bar__signin button:first-child {
+  color: var(--white);
+  border: 1px solid var(--gray);
+  background-color: var(--text);
+}
+
+.auth_bar__signin button:last-child {
+  color: var(--main);
+  border: 1px solid var(--white);
+  background-color: var(--white);
+}
+
+.auth_bar__signup button:first-child:hover {
+  color: var(--main);
+  border: 1px solid var(--white);
+  background-color: var(--white);
+}
+
+.auth_bar__signup button:first-child:hover ~ button:last-child {
+  color: var(--white);
+  border: 1px solid var(--gray);
+  background-color: var(--text);
 }
 
 @media screen and (min-width: 768px) {
-  .sign_in,
-  .sign_up {
+  .auth_bar button {
     padding: 14px 30px;
   }
 }

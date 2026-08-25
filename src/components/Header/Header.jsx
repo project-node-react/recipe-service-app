@@ -54,6 +54,7 @@ export default function Header() {
               </>
             ) : (
               <AuthBar
+                activeModal={isSignInOpen ? "signin" : isSignUpOpen ? "signup" : ""}
                 onSignIn={() => setIsSignInOpen(true)}
                 onSignUp={() => setIsSignUpOpen(true)}
               />
