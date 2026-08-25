@@ -13,7 +13,7 @@ createRoot(document.getElementById("root")).render(
 	<StrictMode>
 		<Provider store={store}>
 			<PersistGate loading={null} persistor={persistor}>
-				<BrowserRouter basename="/">
+				<BrowserRouter basename="/recipe-service-app">
 					<App />
 					<Toaster
 						position="top-right"
