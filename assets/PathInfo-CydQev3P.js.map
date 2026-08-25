@@ -1,1 +1,0 @@
-{"version":3,"file":"PathInfo-CydQev3P.js","names":[],"sources":["../../src/components/PathInfo/PathInfo.jsx"],"sourcesContent":["export const PathInfo = ({ children }) => {\n  return <div>{children}</div>;\n};"],"mappings":"wDAAa,GAAY,CAAE,eAClB,EAAA,EAAA,IAAA,CAAC,MAAD,CAAM,UAAc,CAAA"}
