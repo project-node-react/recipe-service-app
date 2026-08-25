@@ -1,23 +1,28 @@
 import { MainTitle } from "../../components/MainTitle/MainTitle"; 
 import { PathInfo } from "../../components/PathInfo/PathInfo"; 
 import { Subtitle } from "../../components/Subtitle/Subtitle";
+import Container from "../../components/Container/Container";
 import AddRecipeForm from "../../components/AddRecipeForm/AddRecipeForm";
 import styles from "./AddRecipePage.module.css";
 
 const AddRecipePage = () => {
   return (
-    <div className={styles.pageContainer}>
-      <PathInfo />
-      
-      <div className={styles.headerSection}>
-        <MainTitle></MainTitle>
-        <Subtitle></Subtitle>
-      </div>
+    <Container>
+      <div className={styles.pageContainer}>
+        <PathInfo currentPage="ADD RECIPE" />
+        
+        <div className={styles.headerSection}>
+          <MainTitle>ADD RECIPE</MainTitle>
+          <Subtitle>
+            Reveal your culinary art, share your favorite recipe and create gastronomic masterpieces with us.
+          </Subtitle>
+        </div>
 
-      <div className={styles.formSection}>
-         <AddRecipeForm />
+        <div className={styles.formSection}>
+           <AddRecipeForm />
+        </div>
       </div>
-    </div>
+    </Container>
   );
 };
 

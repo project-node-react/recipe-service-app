@@ -154,8 +154,7 @@ const AddRecipeForm = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>ADD RECIPE</h1>
-      <p className={styles.subtitle}>Reveal your culinary art, share your favorite recipe and create gastronomic masterpieces with us.</p>
+      
 
       <form className={styles.formGrid} onSubmit={formik.handleSubmit}>
         

@@ -168,13 +168,7 @@ const RecipePage = () => {
         {!showInitialLoader && !activeRecipeError && isCurrentRecipe && (
           <>
             <div className={styles.pathInfo}>
-              <PathInfo>
-                <Link className={styles.pathLink} to="/">
-                  Home
-                </Link>
-                <span aria-hidden="true"> / </span>
-                <span className={styles.currentPath}>{recipe.title}</span>
-              </PathInfo>
+              <PathInfo currentPage={recipe.title} />
             </div>
 
             <RecipeInfo

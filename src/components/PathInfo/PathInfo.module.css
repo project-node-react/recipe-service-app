@@ -1,0 +1,24 @@
+.pathInfo {
+  font-family: "Mulish", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 18px;
+  letter-spacing: -0.24px;
+  text-transform: uppercase;
+  margin-bottom: 40px; 
+  margin-top: 80px;
+}
+
+.pathLink {
+  color: #BFBEBE; 
+  text-decoration: none;
+}
+
+.currentPath {
+  color: #050505; 
+}
+
+.pathLink:hover,
+.pathLink:focus-visible {
+  text-decoration: underline;
+}
