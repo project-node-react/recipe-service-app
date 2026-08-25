@@ -5,7 +5,11 @@ import style from "./Navigation.module.css";
 const buildLinkClass = ({ isActive }) =>
   clsx(style.nav_link, isActive && style.active);
 
-export const Navigation = ({ className = "", onNavigate }) => {
+export const Navigation = ({
+  className = "",
+  onNavigate,
+  onProtectedClick,
+}) => {
   return (
     <nav>
       <ul className={clsx(style.nav_list, className)}>
@@ -24,7 +28,14 @@ export const Navigation = ({ className = "", onNavigate }) => {
             className={buildLinkClass}
             to="/recipe/add"
             aria-label="to the add recipe page"
-            onClick={onNavigate}
+            onClick={(e) => {
+              if (onProtectedClick) {
+                onProtectedClick(e);
+              }
+              if (onNavigate) {
+                onNavigate(e);
+              }
+            }}
           >
             Add recipe
           </NavLink>

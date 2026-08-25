@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import clsx from "clsx";
-import Container from "../Container/Container";
 import Logo from "../Logo/Logo";
 import { Navigation } from "../Navigation/Navigation";
 import AuthBar from "../AuthBar/AuthBar";
@@ -23,44 +22,45 @@ export default function Header() {
   const onShowMobileMenu = () => setIsMobileMenuOpen(true);
   const onHideMobileMenu = () => setIsMobileMenuOpen(false);
 
+  const handleProtectedClick = (e) => {
+    if (!isLoggedIn) {
+      e.preventDefault();
+      setIsSignInOpen(true);
+    }
+  };
+
   return (
     <>
       <header className={style.header}>
-        <Container>
-          <div className={style.header__box}>
-            <Logo />
+        <Logo className={style.header__logo} />
 
-            {isLoggedIn && (
-              <div className={style.header__nav}>
-                <Navigation />
-              </div>
-            )}
+        <div className={style.header__nav}>
+          <Navigation onProtectedClick={handleProtectedClick} />
+        </div>
 
-            {isLoggedIn ? (
-              <>
-                <UserBar onLogOut={() => setIsLogOutOpen(true)} />
+        {isLoggedIn ? (
+          <>
+            <UserBar onLogOut={() => setIsLogOutOpen(true)} />
 
-                <button
-                  type="button"
-                  className={style.burger}
-                  onClick={onShowMobileMenu}
-                  aria-label="Open menu"
-                >
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </button>
-              </>
-            ) : (
-              <AuthBar
-                activeModal={isSignInOpen ? "signin" : isSignUpOpen ? "signup" : ""}
-                onSignIn={() => setIsSignInOpen(true)}
-                onSignUp={() => setIsSignUpOpen(true)}
-              />
-            )}
-          </div>
-        </Container>
+            <button
+              type="button"
+              className={style.burger}
+              onClick={onShowMobileMenu}
+              aria-label="Open menu"
+            >
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+          </>
+        ) : (
+          <AuthBar
+            activeModal={isSignInOpen ? "signin" : isSignUpOpen ? "signup" : ""}
+            onSignIn={() => setIsSignInOpen(true)}
+            onSignUp={() => setIsSignUpOpen(true)}
+          />
+        )}
       </header>
 
       <SignInModal
@@ -91,7 +91,7 @@ export default function Header() {
         )}
       >
         <div className={style.mobile_menu__header} onClick={onHideMobileMenu}>
-          <Logo />
+          <Logo className={style.header__logo} />
 
           <button
             type="button"
@@ -108,6 +108,7 @@ export default function Header() {
           <Navigation
             className={style.mobile_menu__nav_list}
             onNavigate={onHideMobileMenu}
+            onProtectedClick={handleProtectedClick}
           />
         </div>
       </div>

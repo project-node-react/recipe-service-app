@@ -1,16 +1,15 @@
 .auth_bar {
   display: flex;
-  margin-left: auto;
   background-color: var(--white);
   border-radius: 30px;
+  margin-left: auto;
 }
 
 .auth_bar button {
   padding: 10px 16px;
   font-weight: 700;
   font-size: 12px;
-  line-height: 1.5;
-  letter-spacing: -0.02em;
+  line-height: 18px;
   text-transform: uppercase;
   border-radius: 30px;
   cursor: pointer;
@@ -66,6 +65,10 @@
 }
 
 @media screen and (min-width: 768px) {
+  .auth_bar {
+    margin-left: inherit;
+  }
+
   .auth_bar button {
     padding: 14px 30px;
   }
