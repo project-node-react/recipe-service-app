@@ -245,16 +245,34 @@
 }
 
 .timeBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 56px;
   height: 56px;
   padding: 0;
   border: 1px solid #bfbebe;
   border-radius: 30px;
   background: transparent;
-  font-size: 24px;
-  line-height: 24px;
   color: #1a1a1a;
   cursor: pointer;
+}
+
+.minusIcon {
+  width: 16px;
+  height: 2px;
+}
+
+.plusIcon,
+.addIcon {
+  width: 24px;
+  height: 24px;
+}
+
+.timeBtn svg,
+.addIngredientBtn svg {
+  display: block;
+  flex: 0 0 auto;
 }
 
 /* Ingredients */

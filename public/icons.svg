@@ -60,4 +60,11 @@
   <symbol id="capture-frame" viewBox="0 0 64 64">
     <path d="M56.381 22.8571V13.6959C56.3811 12.0825 55.7414 10.5349 54.6023 9.39238C53.4631 8.24982 51.9175 7.60551 50.3041 7.60067L41.143 7.57324M56.381 41.1428V50.2856C56.381 51.9022 55.7389 53.4525 54.5958 54.5956C53.4527 55.7387 51.9024 56.3809 50.2858 56.3809H41.143M22.8572 7.57324L13.6961 7.60372C12.0827 7.60856 10.5371 8.25287 9.39792 9.39543C8.2588 10.538 7.61913 12.0856 7.61914 13.699V22.8571M22.8572 56.3809H13.7144C12.0978 56.3809 10.5475 55.7387 9.40439 54.5956C8.26132 53.4525 7.61914 51.9022 7.61914 50.2856V41.1428" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
   </symbol>
+  <symbol id="minus" viewBox="0 0 16 2">
+    <path d="M0.75 0.75H14.75" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="plus" viewBox="0 0 24 24">
+    <path d="M12 5V19" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M5 12H19" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
 </svg>

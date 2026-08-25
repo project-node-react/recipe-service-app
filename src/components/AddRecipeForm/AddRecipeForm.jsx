@@ -239,9 +239,27 @@ const AddRecipeForm = () => {
             <div>
               <label className={styles.label}>COOKING TIME</label>
               <div className={styles.timeControl}>
-                <button type="button" className={styles.timeBtn} onClick={() => formik.setFieldValue('time', Math.max(1, formik.values.time - 1))}>-</button>
+                <button
+                  type="button"
+                  className={styles.timeBtn}
+                  onClick={() => formik.setFieldValue('time', Math.max(1, formik.values.time - 1))}
+                  aria-label="Decrease cooking time"
+                >
+                  <svg className={styles.minusIcon} aria-hidden="true">
+                    <use href={`${import.meta.env.BASE_URL}icons.svg#minus`} />
+                  </svg>
+                </button>
                 <span> {formik.values.time} min </span>
-                <button type="button" className={styles.timeBtn} onClick={() => formik.setFieldValue('time', formik.values.time + 1)}>+</button>
+                <button
+                  type="button"
+                  className={styles.timeBtn}
+                  onClick={() => formik.setFieldValue('time', formik.values.time + 1)}
+                  aria-label="Increase cooking time"
+                >
+                  <svg className={styles.plusIcon} aria-hidden="true">
+                    <use href={`${import.meta.env.BASE_URL}icons.svg#plus`} />
+                  </svg>
+                </button>
               </div>
             </div>
           </div>
@@ -280,7 +298,10 @@ const AddRecipeForm = () => {
               />
             </div>
             <button type="button" className={styles.addIngredientBtn} onClick={handleAddIngredient}>
-                Add ingredient <span>+</span>
+                Add ingredient
+                <svg className={styles.addIcon} aria-hidden="true">
+                  <use href={`${import.meta.env.BASE_URL}icons.svg#plus`} />
+                </svg>
             </button>
             {formik.touched.ingredients && formik.errors.ingredients && <div className={styles.errorText}>{formik.errors.ingredients}</div>}
 
