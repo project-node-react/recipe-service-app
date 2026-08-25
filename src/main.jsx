@@ -10,20 +10,20 @@ import { store, persistor } from "./redux/store.js";
 import { Toaster } from "react-hot-toast";
 
 createRoot(document.getElementById("root")).render(
-	<StrictMode>
-		<Provider store={store}>
-			<PersistGate loading={null} persistor={persistor}>
-				<BrowserRouter basename={import.meta.env.BASE_URL}>
-					<App />
-					<Toaster
-						position="top-right"
-						reverseOrder={false}
-						toastOptions={{
-							duration: 3000,
-						}}
-					/>
-				</BrowserRouter>
-			</PersistGate>
-		</Provider>
-	</StrictMode>,
+  <StrictMode>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <BrowserRouter basename="/recipe-service-app">
+          <App />
+          <Toaster
+            position="top-right"
+            reverseOrder={false}
+            toastOptions={{
+              duration: 3000,
+            }}
+          />
+        </BrowserRouter>
+      </PersistGate>
+    </Provider>
+  </StrictMode>,
 );
