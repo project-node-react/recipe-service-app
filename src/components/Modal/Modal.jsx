@@ -27,11 +27,7 @@ export default function Modal({ isOpen, onClose, title, children }) {
   }
 
   return createPortal(
-    <div
-      className={style.backdrop}
-      onClick={onClose}
-      role="presentation"
-    >
+    <div className={style.backdrop} onClick={onClose} role="presentation">
       <div
         className={style.modal}
         role="dialog"
@@ -46,7 +42,7 @@ export default function Modal({ isOpen, onClose, title, children }) {
           aria-label="Close"
         >
           <svg className={style.closeIcon} aria-hidden="true">
-            <use href="/icons.svg#close" />
+            <use href={`${import.meta.env.BASE_URL}icons.svg#close`} />
           </svg>
         </button>
 

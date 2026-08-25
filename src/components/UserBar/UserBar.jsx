@@ -38,7 +38,7 @@ export default function UserBar({ onLogOut }) {
           )}
           aria-hidden="true"
         >
-          <use href="/icons.svg#chevron-down" />
+          <use href={`${import.meta.env.BASE_URL}icons.svg#chevron-down`} />
         </svg>
       </div>
 
@@ -57,7 +57,9 @@ export default function UserBar({ onLogOut }) {
             >
               Log out
               <svg className={style.dropdown__icon} aria-hidden="true">
-                <use href="/icons.svg#arrow-up-right" />
+                <use
+                  href={`${import.meta.env.BASE_URL}icons.svg#arrow-up-right`}
+                />
               </svg>
             </button>
           </li>
