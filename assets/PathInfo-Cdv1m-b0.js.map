@@ -1,1 +1,0 @@
-{"version":3,"file":"PathInfo-Cdv1m-b0.js","names":[],"sources":["../../src/components/PathInfo/PathInfo.jsx"],"sourcesContent":["export const PathInfo = ({ children }) => {\n  return <div>{children}</div>;\n};"],"mappings":"wDAAa,GAAY,CAAE,eAClB,EAAA,EAAA,IAAA,CAAC,MAAD,CAAM,UAAc,CAAA"}
