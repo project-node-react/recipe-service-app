@@ -22,6 +22,7 @@ import {
   selectCurrentRecipeError,
   selectCurrentRecipeLoading,
   selectFavoriteMutationRecipeId,
+  selectFavoriteRecipeIds,
   selectFavoritesError,
   selectFavoritesInitialized,
   selectFavoritesLoading,
@@ -52,6 +53,7 @@ const RecipePage = () => {
   const favoritesInitialized = useSelector(selectFavoritesInitialized);
   const favoritesError = useSelector(selectFavoritesError);
   const favoriteMutationRecipeId = useSelector(selectFavoriteMutationRecipeId);
+  const favoriteRecipeIds = useSelector(selectFavoriteRecipeIds);
   const isFavorite = useSelector((state) =>
     selectIsRecipeFavorite(state, recipeId),
   );
@@ -74,19 +76,27 @@ const RecipePage = () => {
     }
   }, [dispatch, isLoggedIn]);
 
-  const handleToggleFavorite = async () => {
-    if (!isLoggedIn || !recipeId || favoriteMutationRecipeId) {
+  const handleToggleFavorite = async (
+    targetRecipeId = recipeId,
+    targetIsFavorite = isFavorite,
+  ) => {
+    if (!isLoggedIn) {
+      setIsSignInOpen(true);
       return;
     }
 
-    const action = isFavorite
-      ? removeRecipeFromFavorites(recipeId)
-      : addRecipeToFavorites(recipeId);
+    if (!targetRecipeId || favoriteMutationRecipeId) {
+      return;
+    }
+
+    const action = targetIsFavorite
+      ? removeRecipeFromFavorites(targetRecipeId)
+      : addRecipeToFavorites(targetRecipeId);
 
     try {
       await dispatch(action).unwrap();
       toast.success(
-        isFavorite
+        targetIsFavorite
           ? "Recipe removed from favorites"
           : "Recipe added to favorites",
       );
@@ -163,7 +173,7 @@ const RecipePage = () => {
                   Home
                 </Link>
                 <span aria-hidden="true"> / </span>
-                <span>{recipe.title}</span>
+                <span className={styles.currentPath}>{recipe.title}</span>
               </PathInfo>
             </div>
 
@@ -183,8 +193,12 @@ const RecipePage = () => {
 
             <PopularRecipes
               recipes={popularRecipes}
+              favoriteRecipeIds={favoriteRecipeIds}
+              isLoggedIn={Boolean(isLoggedIn)}
               isLoading={popularLoading}
               error={popularError}
+              onAuthRequired={() => setIsSignInOpen(true)}
+              onToggleFavorite={handleToggleFavorite}
             />
           </>
         )}
