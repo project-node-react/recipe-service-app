@@ -27,6 +27,8 @@ import { selectIsLoggedIn } from "../../redux/auth/selectors";
 import style from "./HomePage.module.css";
 import SignUpModal from "../../components/SignUpModal/SignUpModal";
 
+import { Hero } from "../../components/Hero/Hero";
+
 export default function HomePage() {
   const dispatch = useDispatch();
 
@@ -77,6 +79,7 @@ export default function HomePage() {
 
   return (
     <Container>
+      <Hero />
       <section className={style.section}>
         <h2 className={style.title}>Recipes</h2>
 
