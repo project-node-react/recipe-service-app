@@ -79,7 +79,7 @@ export default function HomePage() {
 
   return (
     <Container>
-      <Hero />
+      <Hero onAuthRequired={handleAuthRequired} />
       <section className={style.section}>
         <h2 className={style.title}>Recipes</h2>
 

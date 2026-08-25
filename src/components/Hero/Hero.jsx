@@ -1,13 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { selectIsLoggedIn } from "../../redux/auth/selectors";
-import { openModal } from "../../redux/ui/slice";
 import heroLarge from "../../assets/hero/hero-1.webp";
 import heroSmall from "../../assets/hero/hero-2.webp";
 import style from "./Hero.module.css";
 
-export const Hero = () => {
-  const dispatch = useDispatch();
+export const Hero = ({ onAuthRequired }) => {
   const navigate = useNavigate();
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
@@ -15,7 +13,7 @@ export const Hero = () => {
     if (isLoggedIn) {
       navigate("/recipe/add");
     } else {
-      dispatch(openModal("signIn"));
+      onAuthRequired?.();
     }
   };
 
