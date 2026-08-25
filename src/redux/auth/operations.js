@@ -1,16 +1,19 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
+// Додаємо /api до базової URL-адреси
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
 export const api = axios.create({
-  baseURL: "http://localhost:3000/api",
+  baseURL: BASE_URL.endsWith("/api") ? BASE_URL : `${BASE_URL.replace(/\/$/, "")}/api`,
   withCredentials: true,
 });
 
-const setAuthHeader = (token) => {
+export const setAuthHeader = (token) => {
   api.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
 
-const clearAuthHeader = () => {
+export const clearAuthHeader = () => {
   delete api.defaults.headers.common.Authorization;
 };
 
@@ -18,7 +21,7 @@ export const getErrorMessage = (error) =>
   error.response?.data?.message || error.response?.data?.error || error.message;
 
 /*
- * POST @ /auth/register
+ * POST @ /api/auth/register
  * body: { name, email, password }
  */
 export const register = createAsyncThunk(
@@ -26,41 +29,38 @@ export const register = createAsyncThunk(
   async (credentials, thunkAPI) => {
     try {
       const res = await api.post("/auth/register", credentials);
-      // After successful registration, add the accessToken to the HTTP header
       setAuthHeader(res.data.accessToken);
       return res.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(getErrorMessage(error));
     }
-  },
+  }
 );
 
 /*
- * POST @ /auth/login
- * body: { name, password }
+ * POST @ /api/auth/login
+ * body: { email, password }
  */
 export const logIn = createAsyncThunk(
   "auth/login",
   async (credentials, thunkAPI) => {
     try {
       const res = await api.post("/auth/login", credentials);
-      // After successful login, add the token to the HTTP header
       setAuthHeader(res.data.accessToken);
       return res.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(getErrorMessage(error));
     }
-  },
+  }
 );
 
 /*
- * POST @ /auth/logout
+ * POST @ /api/auth/logout
  * headers: Authorization: Bearer token
  */
 export const logOut = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
   try {
     await api.post("/auth/logout");
-    // After a successful logout, remove the token from the HTTP header
     clearAuthHeader();
   } catch (error) {
     return thunkAPI.rejectWithValue(getErrorMessage(error));
@@ -68,15 +68,27 @@ export const logOut = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
 });
 
 /*
- * GET @ auth/refresh
- * headers: Authorization: Bearer token
+ * POST @ /api/auth/refresh
+ * GET @ /api/users/current
  */
 export const refreshUser = createAsyncThunk(
   "auth/refresh",
   async (_, thunkAPI) => {
+    const state = thunkAPI.getState();
+    const persistedToken = state.auth?.token || state.auth?.accessToken;
+
+    // Якщо токена немає у сторі, скасовуємо операцію (не робимо зайвий запит)
+    if (!persistedToken) {
+      return thunkAPI.rejectWithValue("No token found");
+    }
+
+    setAuthHeader(persistedToken);
+
     try {
       const refreshRes = await api.post("/auth/refresh");
       const newAccessToken = refreshRes.data.accessToken;
+
+      // Встановлюємо новий отриманий токен
       setAuthHeader(newAccessToken);
 
       const userRes = await api.get("/users/current");
@@ -89,5 +101,5 @@ export const refreshUser = createAsyncThunk(
       clearAuthHeader();
       return thunkAPI.rejectWithValue(getErrorMessage(error));
     }
-  },
+  }
 );
