@@ -13,7 +13,7 @@ import Select from 'react-select';
 
 const MAX_DESC_LENGTH = 200;
 const MAX_INST_LENGTH = 1000;
-const FALLBACK_IMAGE = "/foodicon.svg";
+const FALLBACK_IMAGE = `${import.meta.env.BASE_URL}foodicon.svg`;
 
 const handleIngredientImageError = (event) => {
   event.currentTarget.onerror = null;
