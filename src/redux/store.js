@@ -5,6 +5,10 @@ import { optionsReducer } from "./options/slice";
 import { recipesReducer } from "./recipes/slice";
 import { ingredientsReducer } from "./ingredients/slice";
 import { areasReducer } from "./areas/slice";
+import { testimonialsReducer } from './testimonials/slice';
+import { usersReducer } from "./users/slice";
+
+
 
 import {
   persistStore,
@@ -15,16 +19,16 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
-} from "redux-persist";
-import rawStorage from "redux-persist/lib/storage";
+} from 'redux-persist';
+import rawStorage from 'redux-persist/lib/storage';
 
 // Перевірка експорту для Vite
 const storage = rawStorage.default || rawStorage;
 
 const authPersistConfig = {
-  key: "auth",
+  key: 'auth',
   storage,
-  whitelist: ["token"],
+  whitelist: ['token'],
 };
 
 export const store = configureStore({
@@ -32,9 +36,11 @@ export const store = configureStore({
     auth: persistReducer(authPersistConfig, authReducer),
     options: optionsReducer,
     recipes: recipesReducer,
+    testimonials: testimonialsReducer,
     categories: categoriesReducer,
     ingredients: ingredientsReducer,
     areas: areasReducer,
+    users: usersReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -42,7 +48,7 @@ export const store = configureStore({
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }),
-  devTools: import.meta.env.MODE === "development",
+  devTools: import.meta.env.MODE === 'development',
 });
 
 export const persistor = persistStore(store);

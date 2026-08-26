@@ -1,5 +1,5 @@
-export const Subtitle = ({ children }) => {
-  return <h2>{children}</h2>;
-};
+import styles from "./Subtitle.module.css";
 
-export default Subtitle;
+export const Subtitle = ({ children }) => {
+	return <h2 className={styles.subtitle}>{children}</h2>;
+};

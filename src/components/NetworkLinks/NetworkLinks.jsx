@@ -31,7 +31,7 @@ export default function NetworkLinks() {
             aria-label={label}
           >
             <svg className={style.icon} aria-hidden="true">
-              <use href={`/icons.svg#${icon}`} />
+              <use href={`${import.meta.env.BASE_URL}icons.svg#${icon}`} />
             </svg>
           </a>
         </li>

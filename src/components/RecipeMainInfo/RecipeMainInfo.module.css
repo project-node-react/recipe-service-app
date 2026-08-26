@@ -7,45 +7,55 @@
   display: grid;
   place-items: center;
   overflow: hidden;
-  min-height: 280px;
-  border-radius: 24px;
-  background: #f4f4f4;
+  aspect-ratio: 343 / 318;
+  border-radius: 30px;
+  background: var(--gray);
 }
 
 .recipeImage {
   width: 100%;
   height: 100%;
-  max-height: 520px;
   object-fit: cover;
-}
-
-.details {
-  align-self: center;
-}
-
-.category {
-  display: inline-flex;
-  margin-bottom: 16px;
-  padding: 8px 14px;
-  border: 1px solid var(--gray);
-  border-radius: 30px;
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
 }
 
 .title {
   margin-bottom: 20px;
-  font-size: 32px;
+  color: var(--main);
+  font-size: 18px;
   font-weight: 800;
-  line-height: 1.1;
+  line-height: 24px;
   letter-spacing: -0.02em;
   text-transform: uppercase;
 }
 
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.metaItem {
+  display: inline-flex;
+  box-sizing: border-box;
+  align-items: center;
+  height: 38px;
+  padding: 0 10px;
+  border: 1px solid var(--gray);
+  border-radius: 20px;
+  color: var(--gray);
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.02em;
+}
+
 .description {
-  margin-bottom: 28px;
+  max-width: 650px;
+  margin-bottom: 20px;
   color: var(--text);
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -0.02em;
 }
 
 .authorButton {
@@ -63,10 +73,10 @@
 }
 
 .authorAvatar {
-  width: 48px;
-  height: 48px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  background: #f4f4f4;
+  background: var(--gray);
   object-fit: cover;
 }
 
@@ -75,29 +85,88 @@
   display: block;
 }
 
+.authorText {
+  display: grid;
+  gap: 0;
+}
+
 .authorLabel {
   color: var(--gray);
   font-size: 12px;
+  line-height: 18px;
+  letter-spacing: -0.02em;
 }
 
 .authorName {
-  font-size: 16px;
+  color: var(--gray);
+  font-size: 14px;
   font-weight: 700;
+  line-height: 20px;
+  letter-spacing: -0.02em;
 }
 
 @media screen and (min-width: 768px) {
+  .mainInfo {
+    gap: 40px;
+  }
+
+  .imageWrap {
+    aspect-ratio: 704 / 400;
+    border-radius: 30px;
+  }
+
   .title {
-    font-size: 40px;
+    margin-bottom: 20px;
+    font-size: 24px;
+    line-height: 28px;
+  }
+
+  .meta {
+    margin-bottom: 20px;
+  }
+
+  .description {
+    margin-bottom: 20px;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .authorAvatar {
+    width: 50px;
+    height: 50px;
+  }
+
+  .authorText {
+    gap: 4px;
+  }
+
+  .authorLabel {
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .authorName {
+    color: var(--text);
+    font-size: 16px;
+    line-height: 24px;
   }
 }
 
 @media screen and (min-width: 1440px) {
   .mainInfo {
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-    gap: 80px;
+    display: contents;
   }
 
-  .title {
-    font-size: 48px;
+  .imageWrap {
+    grid-column: 1;
+    grid-row: 1 / span 3;
+    width: 100%;
+    height: 400px;
+    aspect-ratio: auto;
+  }
+
+  .details {
+    grid-column: 2;
+    grid-row: 1;
   }
 }
