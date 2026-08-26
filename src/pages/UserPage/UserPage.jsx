@@ -48,8 +48,9 @@ const UserPage = () => {
 				</Subtitle>
 
 				{/* <UserInfo user={user} /> */}
-				{/* <Logut />
-				<Follow /> */}
+				{/* <Logout />
+				<Follow /> 
+        <Unfollow />*/}
 
 				<TabsList isOwnPage={isOwnPage} />
 				<Outlet />
