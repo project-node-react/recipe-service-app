@@ -59,11 +59,19 @@ export const logIn = createAsyncThunk(
  * headers: Authorization: Bearer token
  */
 export const logOut = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
+  const state = thunkAPI.getState();
+  const token = state.auth?.token || state.auth?.accessToken;
+
+  if (token) {
+    setAuthHeader(token);
+  }
+
   try {
     await api.post("/auth/logout");
-    clearAuthHeader();
   } catch (error) {
     return thunkAPI.rejectWithValue(getErrorMessage(error));
+  } finally {
+    clearAuthHeader();
   }
 });
 
@@ -74,23 +82,11 @@ export const logOut = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
 export const refreshUser = createAsyncThunk(
   "auth/refresh",
   async (_, thunkAPI) => {
-    const state = thunkAPI.getState();
-    const persistedToken = state.auth?.token || state.auth?.accessToken;
-
-    // Якщо токена немає у сторі, скасовуємо операцію (не робимо зайвий запит)
-    if (!persistedToken) {
-      return thunkAPI.rejectWithValue("No token found");
-    }
-
-    setAuthHeader(persistedToken);
-
     try {
+      clearAuthHeader();
       const refreshRes = await api.post("/auth/refresh");
       const newAccessToken = refreshRes.data.accessToken;
-
-      // Встановлюємо новий отриманий токен
       setAuthHeader(newAccessToken);
-
       const userRes = await api.get("/users/current");
 
       return {
