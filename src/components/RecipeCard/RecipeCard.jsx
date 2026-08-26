@@ -77,7 +77,7 @@ export default function RecipeCard({
               }
             >
               <svg className={style.icon} aria-hidden="true">
-                <use href="/icons.svg#heart" />
+                <use href={`${import.meta.env.BASE_URL}icons.svg#heart`} />
               </svg>
             </button>
 
@@ -88,7 +88,9 @@ export default function RecipeCard({
               aria-label={`Open recipe ${title}`}
             >
               <svg className={style.icon} aria-hidden="true">
-                <use href="/icons.svg#arrow-up-right" />
+                <use
+                  href={`${import.meta.env.BASE_URL}icons.svg#arrow-up-right`}
+                />
               </svg>
             </button>
           </div>

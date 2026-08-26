@@ -2,8 +2,6 @@ import styles from "./RecipePreparation.module.css";
 
 const RecipePreparation = ({
   instructions,
-  isAuthenticated,
-  isFavoriteAvailable,
   isFavorite,
   isPending,
   onToggleFavorite,
@@ -16,21 +14,19 @@ const RecipePreparation = ({
     buttonText = "Updating...";
   }
 
-  if (!isFavoriteAvailable && isAuthenticated) {
-    buttonText = "Favorites unavailable";
-  }
-
   return (
     <section aria-labelledby="preparation-title">
       <h2 id="preparation-title" className={styles.title}>
-        Preparation
+        Recipe preparation
       </h2>
       <p className={styles.instructions}>{instructions}</p>
       <button
-        className={styles.favoriteButton}
+        className={`${styles.favoriteButton} ${
+          isFavorite ? styles.favoriteButtonActive : ""
+        }`}
         type="button"
-        disabled={!isAuthenticated || !isFavoriteAvailable || isPending}
-        onClick={onToggleFavorite}
+        disabled={isPending}
+        onClick={() => onToggleFavorite()}
       >
         {buttonText}
       </button>
