@@ -3,32 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { setFilters } from "../../redux/recipes/slice";
 import style from "./CategoryCard.module.css";
 
-import beefImage from "../../assets/categories/Beef.png";
-import breakfastImage from "../../assets/categories/Breakfast.png";
-import dessertsImage from "../../assets/categories/Desserts.png";
-import goatImage from "../../assets/categories/Goat.png";
-import lambImage from "../../assets/categories/Lamb.png";
-import miscellaneousImage from "../../assets/categories/Miscellaneous.png";
-import pastaImage from "../../assets/categories/Pasta.png";
-import porkImage from "../../assets/categories/Pork.png";
-import seafoodImage from "../../assets/categories/Seafood.png";
-import sideImage from "../../assets/categories/Side.png";
-import starterImage from "../../assets/categories/Starter.png";
-
-const categoryImages = {
-  Beef: beefImage,
-  Breakfast: breakfastImage,
-  Dessert: dessertsImage,
-  Goat: goatImage,
-  Lamb: lambImage,
-  Miscellaneous: miscellaneousImage,
-  Pasta: pastaImage,
-  Pork: porkImage,
-  Seafood: seafoodImage,
-  Side: sideImage,
-  Starter: starterImage,
-};
-
 export default function CategoryCard({ category }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -42,7 +16,7 @@ export default function CategoryCard({ category }) {
     <li className={style.card}>
       <img
         className={style.image}
-        src={categoryImages[category.name]}
+        src={category.img}
         alt={category.name}
       />
 
@@ -57,8 +31,20 @@ export default function CategoryCard({ category }) {
           onClick={handleClick}
           aria-label={`Open ${category.name} recipes`}
         >
-          <svg className={style.icon} aria-hidden="true">
-            <use href="/icons.svg#arrow-up-right" />
+          <svg
+            className={style.icon}
+            viewBox="0 0 18 18"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path
+              d="M5.25 12.75L12.75 5.25M12.75 5.25H7.125M12.75 5.25V10.875"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
         </button>
       </div>
