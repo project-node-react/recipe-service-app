@@ -1,26 +1,32 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useParams, useSearchParams } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import { ClipLoader } from "react-spinners";
 
-// import RecipePreview from "../RecipePreview/RecipePreview";
-// import UserCard from "../UserCard/UserCard";
-// import ListPagination from "../ListPagination/ListPagination";
+import RecipePreview from "../RecipePreview/RecipePreview";
+import UserCard from "../UserCard/UserCard";
+import RecipePagination from "../RecipePagination/RecipePagination";
 
-// import {
-// 	selectUserRecipes,
-// 	selectUserFavorites,
-// 	selectFollowers,
-// 	selectFollowing,
-// } from "../../redux/users/selectors";
+import {
+	selectUserRecipes,
+	selectUserFavorites,
+	selectFollowers,
+	selectFollowing,
+} from "../../redux/users/selectors";
 
-// import {
-// 	fetchUserRecipes,
-// 	fetchUserFavorites,
-// 	fetchFollowers,
-// 	fetchFollowing,
-// } from "../../redux/users/operations";
+import {
+	fetchUserRecipes,
+	fetchUserFavorites,
+	fetchFollowers,
+	fetchFollowing,
+	deleteOwnRecipe,
+} from "../../redux/users/operations";
+import { removeFavoriteRecipe } from "../../redux/recipes/operations";
 
-// import styles from "./ListItems.module.css";
+import styles from "./ListItems.module.css";
+
+const PAGE_LIMIT = 12;
 
 export default function ListItems() {
 	const { id: userId } = useParams();
@@ -32,77 +38,105 @@ export default function ListItems() {
 
 	const pathSegments = location.pathname.split("/").filter(Boolean);
 	const activeTab = pathSegments[pathSegments.length - 1] || "my-recipes";
-	console.log(activeTab);
 
-	// const cardVariant =
-	// 	activeTab === "followers" || activeTab === "following" ? "user" : "recipe";
+	const recipes = useSelector(selectUserRecipes);
+	const favorites = useSelector(selectUserFavorites);
+	const followers = useSelector(selectFollowers);
+	const following = useSelector(selectFollowing);
 
-	// useEffect(() => {
-	// 	if (!userId) return;
+	useEffect(() => {
+		if (!userId) return;
 
-	// 	const params = { userId, page: currentPage };
+		switch (activeTab) {
+			case "my-recipes":
+				dispatch(fetchUserRecipes({ page: currentPage, limit: PAGE_LIMIT }));
+				break;
+			case "my-favorites":
+				dispatch(fetchUserFavorites({ page: currentPage, limit: PAGE_LIMIT }));
+				break;
+			case "followers":
+				dispatch(fetchFollowers(userId));
+				break;
+			case "following":
+				// Дублюємо запит з UserPage навмисно: список має бути свіжим одразу
+				// після Follow/Unfollow, зробленого деінде на цій самій сторінці.
+				dispatch(fetchFollowing());
+				break;
+			default:
+				break;
+		}
+	}, [dispatch, userId, activeTab, currentPage]);
 
-	// 	switch (activeTab) {
-	// 		case "my-recipes":
-	// 			dispatch(fetchUserRecipes(params));
-	// 			break;
-	// 		case "my-favorites":
-	// 			dispatch(fetchUserFavorites(params));
-	// 			break;
-	// 		case "followers":
-	// 			dispatch(fetchFollowers(params));
-	// 			break;
-	// 		case "following":
-	// 			dispatch(fetchFollowing(params));
-	// 			break;
-	// 		default:
-	// 			break;
-	// 	}
-	// }, [dispatch, userId, activeTab, currentPage]);
+	const isRecipeTab = activeTab === "my-recipes" || activeTab === "my-favorites";
 
-	// const recipes = useSelector(selectUserRecipes);
-	// const favorites = useSelector(selectUserFavorites);
-	// const followers = useSelector(selectFollowers);
-	// const following = useSelector(selectFollowing);
+	const currentData =
+		{
+			"my-recipes": recipes,
+			"my-favorites": favorites,
+			followers,
+			following,
+		}[activeTab] || { data: [], isLoading: false, error: null };
 
-	// let currentData = { items: [], totalPages: 1 };
-	// if (activeTab === "my-recipes") currentData = recipes || {};
-	// if (activeTab === "my-favorites") currentData = favorites || {};
-	// if (activeTab === "followers") currentData = followers || {};
-	// if (activeTab === "following") currentData = following || {};
+	const items = currentData.data || [];
+	const totalPages = currentData.totalPages || 1;
+	const isLoading = currentData.isLoading;
 
-	// const items = currentData.items || [];
-	// const totalPages = currentData.totalPages || 1;
+	const handlePageChange = (nextPage) => {
+		setSearchParams({ page: String(nextPage) });
+	};
 
-	// const handlePageChange = (newPage) => {
-	// 	setSearchParams({ page: newPage });
-	// };
+	const handleRemoveRecipe = async (recipeId) => {
+		const action =
+			activeTab === "my-favorites"
+				? removeFavoriteRecipe(recipeId)
+				: deleteOwnRecipe(recipeId);
+
+		try {
+			await dispatch(action).unwrap();
+
+			// Видалили останній рецепт на не першій сторінці — повертаємось на
+			// попередню, а не лишаємось дивитись на порожню.
+			if (items.length === 1 && currentPage > 1) {
+				setSearchParams({ page: String(currentPage - 1) });
+			}
+		} catch (error) {
+			toast.error(error || "Failed to remove recipe");
+		}
+	};
+
+	if (isLoading) {
+		return (
+			<div className={styles.loader}>
+				<ClipLoader color="#e44848" size={48} aria-label="Loading" />
+			</div>
+		);
+	}
+
+	if (!items.length) {
+		return <p className={styles.empty}>Nothing found yet.</p>;
+	}
 
 	return (
 		<div>
-			{/* {items.length === 0 ? (
-				<p className={styles.empty}>Нічого не знайдено</p>
-			) : (
-				<ul className={styles.list}>
-					{items.map((item) => (
-						<li key={item.id || item._id}>
-							{cardVariant === "recipe" ? (
-								<RecipePreview recipe={item} />
-							) : (
-								<UserCard user={item} />
-							)}
-						</li>
-					))}
-				</ul>
-			)}
+			<ul className={styles.list}>
+				{items.map((item) => (
+					<li className={styles.item} key={item.id}>
+						{isRecipeTab ? (
+							<RecipePreview recipe={item} onRemove={handleRemoveRecipe} />
+						) : (
+							<UserCard user={item} />
+						)}
+					</li>
+				))}
+			</ul>
 
-			{totalPages > 1 && (
-				<ListPagination
-					currentPage={currentPage}
+			{isRecipeTab && (
+				<RecipePagination
+					page={currentPage}
 					totalPages={totalPages}
 					onPageChange={handlePageChange}
 				/>
-			)} */}
+			)}
 		</div>
 	);
 }
