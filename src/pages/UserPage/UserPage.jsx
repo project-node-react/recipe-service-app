@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { ClipLoader } from "react-spinners";
-import { NavLink, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 import Container from "../../components/Container/Container";
 import { PathInfo } from "../../components/PathInfo/PathInfo";
@@ -13,6 +13,7 @@ import { MainTitle } from "../../components/MainTitle/MainTitle";
 import styles from "./UserPage.module.css";
 import { selectCurrentUser } from "../../redux/users/selectors";
 import { fetchUserById } from "../../redux/users/operations";
+import TabsList from "../../components/TabsList/TabsList";
 
 const UserPage = () => {
 	const { id: userId } = useParams();
@@ -45,28 +46,7 @@ const UserPage = () => {
 				{/* <Logut />
 				<Follow /> */}
 
-				<ul>
-					<li>
-						<NavLink to="my-recipes" aria-label="to the my-recipes">
-							Features
-						</NavLink>
-					</li>
-					<li>
-						<NavLink to="my-favorites" aria-label="to the campers my-favorites">
-							Reviews
-						</NavLink>
-					</li>
-					<li>
-						<NavLink to="followers" aria-label="to the followers">
-							Features
-						</NavLink>
-					</li>
-					<li>
-						<NavLink to="following" aria-label="to the campers following">
-							Reviews
-						</NavLink>
-					</li>
-				</ul>
+				<TabsList />
 
 				{/* <Outlet context={user} /> */}
 			</Container>
