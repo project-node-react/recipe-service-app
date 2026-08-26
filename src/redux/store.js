@@ -1,8 +1,13 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { authReducer } from './auth/slice';
-import { optionsReducer } from './options/slice';
-import { recipesReducer } from './recipes/slice';
+import { configureStore } from "@reduxjs/toolkit";
+import { authReducer } from "./auth/slice";
+import { categoriesReducer } from "./categories/slice";
+import { optionsReducer } from "./options/slice";
+import { recipesReducer } from "./recipes/slice";
+import { ingredientsReducer } from "./ingredients/slice";
+import { areasReducer } from "./areas/slice";
 import { testimonialsReducer } from './testimonials/slice';
+
+
 
 import {
   persistStore,
@@ -31,6 +36,9 @@ export const store = configureStore({
     options: optionsReducer,
     recipes: recipesReducer,
     testimonials: testimonialsReducer,
+    categories: categoriesReducer,
+    ingredients: ingredientsReducer,
+    areas: areasReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

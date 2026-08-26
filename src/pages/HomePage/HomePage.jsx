@@ -4,23 +4,24 @@ import { ClipLoader } from "react-spinners";
 
 import Container from "../../components/Container/Container";
 import RecipeList from "../../components/RecipeList/RecipeList";
-import RecipePagination from "../../components/RecipePagination/RecipePagination";
+import CategoryList from "../../components/CategoryList/CategoryList";
 import SignInModal from "../../components/SignInModal/SignInModal";
+import RecipePagination from "../../components/RecipePagination/RecipePagination";
 
 import {
-  fetchRecipes,
-  fetchFavoriteIds,
-  addFavoriteRecipe,
-  removeFavoriteRecipe,
+	fetchRecipes,
+	fetchFavoriteIds,
+	addFavoriteRecipe,
+	removeFavoriteRecipe,
 } from "../../redux/recipes/operations";
 import { setPage } from "../../redux/recipes/slice";
 import {
-  selectRecipes,
-  selectRecipesPage,
-  selectRecipesTotalPages,
-  selectRecipesFilters,
-  selectFavoriteIds,
-  selectRecipesIsLoading,
+	selectRecipes,
+	selectRecipesPage,
+	selectRecipesTotalPages,
+	selectRecipesFilters,
+	selectFavoriteIds,
+	selectRecipesIsLoading,
 } from "../../redux/recipes/selectors";
 import { selectIsLoggedIn } from "../../redux/auth/selectors";
 
@@ -30,102 +31,104 @@ import SignUpModal from "../../components/SignUpModal/SignUpModal";
 import { Hero } from "../../components/Hero/Hero";
 
 export default function HomePage() {
-  const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
-  const recipes = useSelector(selectRecipes);
-  const page = useSelector(selectRecipesPage);
-  const totalPages = useSelector(selectRecipesTotalPages);
-  const filters = useSelector(selectRecipesFilters);
-  const favoriteIds = useSelector(selectFavoriteIds);
-  const isLoading = useSelector(selectRecipesIsLoading);
-  const isLoggedIn = useSelector(selectIsLoggedIn);
+	const recipes = useSelector(selectRecipes);
+	const page = useSelector(selectRecipesPage);
+	const totalPages = useSelector(selectRecipesTotalPages);
+	const filters = useSelector(selectRecipesFilters);
+	const favoriteIds = useSelector(selectFavoriteIds);
+	const isLoading = useSelector(selectRecipesIsLoading);
+	const isLoggedIn = useSelector(selectIsLoggedIn);
 
-  const [isSignInOpen, setIsSignInOpen] = useState(false);
-  const [isSignUpOpen, setIsSignUpOpen] = useState(false);
+	const [isSignInOpen, setIsSignInOpen] = useState(false);
+	const [isSignUpOpen, setIsSignUpOpen] = useState(false);
 
-  // Кожна зміна сторінки або фільтрів — це новий запит на бекенд:
-  // пагінація серверна, а не нарізка вже завантаженого масиву.
-  useEffect(() => {
-    dispatch(fetchRecipes());
-  }, [dispatch, page, filters]);
+	// Кожна зміна сторінки або фільтрів — це новий запит на бекенд:
+	// пагінація серверна, а не нарізка вже завантаженого масиву.
+	useEffect(() => {
+		dispatch(fetchRecipes());
+	}, [dispatch, page, filters]);
 
-  // Список улюблених потрібен, щоб іконка-серце мала стилі акценту.
-  useEffect(() => {
-    if (isLoggedIn) {
-      dispatch(fetchFavoriteIds());
-    }
-  }, [dispatch, isLoggedIn]);
+	// Список улюблених потрібен, щоб іконка-серце мала стилі акценту.
+	useEffect(() => {
+		if (isLoggedIn) {
+			dispatch(fetchFavoriteIds());
+		}
+	}, [dispatch, isLoggedIn]);
 
-  const handlePageChange = useCallback(
-    (nextPage) => {
-      dispatch(setPage(nextPage));
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    },
-    [dispatch],
-  );
+	const handlePageChange = useCallback(
+		(nextPage) => {
+			dispatch(setPage(nextPage));
+			window.scrollTo({ top: 0, behavior: "smooth" });
+		},
+		[dispatch],
+	);
 
-  const handleToggleFavorite = useCallback(
-    (recipeId, isFavorite) => {
-      dispatch(
-        isFavorite
-          ? removeFavoriteRecipe(recipeId)
-          : addFavoriteRecipe(recipeId),
-      );
-    },
-    [dispatch],
-  );
+	const handleToggleFavorite = useCallback(
+		(recipeId, isFavorite) => {
+			dispatch(
+				isFavorite
+					? removeFavoriteRecipe(recipeId)
+					: addFavoriteRecipe(recipeId),
+			);
+		},
+		[dispatch],
+	);
 
-  const handleAuthRequired = useCallback(() => setIsSignInOpen(true), []);
+	const handleAuthRequired = useCallback(() => setIsSignInOpen(true), []);
 
-  return (
-    <Container>
-      <Hero onAuthRequired={handleAuthRequired} />
-      <section className={style.section}>
-        <h2 className={style.title}>Recipes</h2>
+	return (
+		<Container>
+			<Hero onAuthRequired={handleAuthRequired} />
+			<CategoryList />
 
-        {isLoading ? (
-          <div className={style.loader}>
-            <ClipLoader
-              color="#e44848"
-              size={60}
-              aria-label="Loading recipes"
-            />
-          </div>
-        ) : (
-          <>
-            <RecipeList
-              recipes={recipes}
-              favoriteIds={favoriteIds}
-              isLoggedIn={isLoggedIn}
-              onToggleFavorite={handleToggleFavorite}
-              onAuthRequired={handleAuthRequired}
-            />
+			<section className={style.section}>
+				<h2 className={style.title}>Recipes</h2>
 
-            <RecipePagination
-              page={page}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-            />
-          </>
-        )}
-      </section>
+				{isLoading ? (
+					<div className={style.loader}>
+						<ClipLoader
+							color="#e44848"
+							size={60}
+							aria-label="Loading recipes"
+						/>
+					</div>
+				) : (
+					<>
+						<RecipeList
+							recipes={recipes}
+							favoriteIds={favoriteIds}
+							isLoggedIn={isLoggedIn}
+							onToggleFavorite={handleToggleFavorite}
+							onAuthRequired={handleAuthRequired}
+						/>
 
-      <SignInModal
-        isOpen={isSignInOpen}
-        onClose={() => setIsSignInOpen(false)}
-        onCreateAccount={() => {
-          setIsSignInOpen(false);
-          setIsSignUpOpen(true);
-        }}
-      />
-      <SignUpModal
-        isOpen={isSignUpOpen}
-        onClose={() => setIsSignUpOpen(false)}
-        onSignInAccount={() => {
-          setIsSignInOpen(true);
-          setIsSignUpOpen(false);
-        }}
-      />
-    </Container>
-  );
+						<RecipePagination
+							page={page}
+							totalPages={totalPages}
+							onPageChange={handlePageChange}
+						/>
+					</>
+				)}
+			</section>
+
+			<SignInModal
+				isOpen={isSignInOpen}
+				onClose={() => setIsSignInOpen(false)}
+				onCreateAccount={() => {
+					setIsSignInOpen(false);
+					setIsSignUpOpen(true);
+				}}
+			/>
+			<SignUpModal
+				isOpen={isSignUpOpen}
+				onClose={() => setIsSignUpOpen(false)}
+				onSignInAccount={() => {
+					setIsSignInOpen(true);
+					setIsSignUpOpen(false);
+				}}
+			/>
+		</Container>
+	);
 }
