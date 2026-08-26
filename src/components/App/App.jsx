@@ -17,6 +17,7 @@ const UserPage = lazy(() => import("../../pages/UserPage/UserPage"));
 const NotFoundPage = lazy(
 	() => import("../../pages/NotFoundPage/NotFoundPage"),
 );
+const ListItems = lazy(() => import("../../components/ListItems/ListItems"));
 
 function PrivateRoute({ children }) {
 	const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -76,10 +77,10 @@ export default function App() {
 							}
 						>
 							<Route index element={<Navigate to="my-recipes" replace />} />
-							{/* <Route path="my-recipes" element={<MyRecipes />} />
-							<Route path="my-favorites" element={<MyFavorites />} />
-							<Route path="followers" element={<Followers />} />
-							<Route path="following" element={<Following />} /> */}
+							<Route path="my-recipes" element={<ListItems />} />
+							<Route path="my-favorites" element={<ListItems />} />
+							<Route path="followers" element={<ListItems />} />
+							<Route path="following" element={<ListItems />} />
 						</Route>
 						<Route path="*" element={<NotFoundPage />} />
 					</Route>
