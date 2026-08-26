@@ -1,2 +1,0 @@
-import{r as e,t}from"./jsx-runtime-CKtB3nVw.js";var n={pathInfo:`_pathInfo_ijotd_1`,pathLink:`_pathLink_ijotd_12`,currentPath:`_currentPath_ijotd_17`},r=t(),i=({currentPage:t})=>(0,r.jsxs)(`div`,{className:n.pathInfo,children:[(0,r.jsx)(e,{className:n.pathLink,to:`/`,children:`Home`}),(0,r.jsx)(`span`,{"aria-hidden":`true`,children:` / `}),(0,r.jsx)(`span`,{className:n.currentPath,children:t})]});export{i as t};
-//# sourceMappingURL=PathInfo-COU9fsSp.js.map

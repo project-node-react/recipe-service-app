@@ -1,0 +1,2 @@
+import{t as e}from"./jsx-runtime-BIT6nIgj.js";var t={title:`_title_ey4g4_1`},n=e(),r=({children:e})=>(0,n.jsx)(`h1`,{className:t.title,children:e}),i={subtitle:`_subtitle_yk9yc_1`},a=({children:e})=>(0,n.jsx)(`h2`,{className:i.subtitle,children:e});export{r as n,a as t};
+//# sourceMappingURL=Subtitle-DLj4o1sY.js.map
