@@ -47,6 +47,9 @@
     <path d="M5.25 12.75L12.75 5.25" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     <path d="M5.25 5.25H12.75V12.75" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   </symbol>
+  <symbol id="icon-quote" viewBox="0 0 39 32">
+    <path d="M0 32v-10.706c0-4 0.704-7.686 2.113-11.059s3.796-6.784 7.162-10.235l6.105 4.824c-1.957 1.961-3.444 3.804-4.462 5.529s-1.683 3.49-1.996 5.294h7.514v16.353h-16.438zM22.896 32v-10.706c0-4 0.704-7.686 2.113-11.059s3.796-6.784 7.162-10.235l6.105 4.824c-1.957 1.961-3.444 3.804-4.462 5.529s-1.683 3.49-1.996 5.294h7.514v16.353h-16.438z"></path>
+  </symbol>
   <symbol id="chevron-down" viewBox="0 0 18 18">
     <path d="M4.5 6.75L9 11.25L13.5 6.75" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   </symbol>
