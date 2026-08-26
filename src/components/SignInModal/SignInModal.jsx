@@ -80,7 +80,9 @@ export default function SignInModal({ isOpen, onClose, onCreateAccount }) {
                 aria-label={showPassword ? "Hide password" : "Show password"}
               >
                 <svg className={style.toggleIcon} aria-hidden="true">
-                  <use href={showPassword ? "/icons.svg#eye-off" : "/icons.svg#eye"} />
+                  <use
+                    href={`${import.meta.env.BASE_URL}icons.svg#${showPassword ? "eye-off" : "eye"}`}
+                  />
                 </svg>
               </button>
             </span>

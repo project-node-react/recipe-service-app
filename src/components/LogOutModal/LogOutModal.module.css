@@ -1,0 +1,50 @@
+.container {
+  text-align: center;
+}
+
+.title {
+  font-weight: 800;
+  font-size: 32px;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--main);
+}
+
+.description {
+  margin-top: 20px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.btn,
+.btn_outline {
+  padding: 16px 0;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  border-radius: 30px;
+}
+
+.btn {
+  color: var(--white);
+  background-color: var(--main);
+  border: 1px solid var(--main);
+}
+
+.btn_outline {
+  color: var(--main);
+  background-color: var(--white);
+  border: 1px solid var(--main);
+}

@@ -1,5 +1,5 @@
-export const MainTitle = ({ children }) => {
-  return <h1>{children}</h1>;
-};
+import styles from "./MainTitle.module.css";
 
-export default MainTitle;
+export const MainTitle = ({ children }) => {
+	return <h1 className={styles.title}>{children}</h1>;
+};
