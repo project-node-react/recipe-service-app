@@ -1,6 +1,6 @@
 import { useEffect, lazy, Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { refreshUser } from "../../redux/auth/operations";
 import { selectIsRefreshing } from "../../redux/auth/selectors";
@@ -15,6 +15,12 @@ const RecipePage = lazy(() => import("../../pages/RecipePage/RecipePage"));
 const NotFoundPage = lazy(
   () => import("../../pages/NotFoundPage/NotFoundPage"),
 );
+
+function PrivateRoute({ children }) {
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+
+  return isLoggedIn ? children : <Navigate to="/" replace />;
+}
 
 export default function App() {
   const dispatch = useDispatch();
@@ -47,7 +53,14 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />}></Route>
-            <Route path="recipe/add" element={<AddRecipePage />} />
+            <Route
+              path="recipe/add"
+              element={
+                <PrivateRoute>
+                  <AddRecipePage />
+                </PrivateRoute>
+              }
+            />
             <Route path="recipe/:id" element={<RecipePage />} />
             <Route path="*" element={<NotFoundPage />}></Route>
           </Route>
