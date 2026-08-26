@@ -13,6 +13,7 @@ const AddRecipePage = lazy(
 	() => import("../../pages/AddRecipePage/AddRecipePage"),
 );
 const RecipePage = lazy(() => import("../../pages/RecipePage/RecipePage"));
+const UserPage = lazy(() => import("../../pages/UserPage/UserPage"));
 const NotFoundPage = lazy(
 	() => import("../../pages/NotFoundPage/NotFoundPage"),
 );
@@ -65,6 +66,21 @@ export default function App() {
 								</PrivateRoute>
 							}
 						/>
+
+						<Route
+							path="user/:id"
+							element={
+								<PrivateRoute>
+									<UserPage />
+								</PrivateRoute>
+							}
+						>
+							<Route index element={<Navigate to="my-recipes" replace />} />
+							{/* <Route path="my-recipes" element={<MyRecipes />} />
+							<Route path="my-favorites" element={<MyFavorites />} />
+							<Route path="followers" element={<Followers />} />
+							<Route path="following" element={<Following />} /> */}
+						</Route>
 						<Route path="*" element={<NotFoundPage />} />
 					</Route>
 				</Routes>

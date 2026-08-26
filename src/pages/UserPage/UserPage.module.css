@@ -1,0 +1,79 @@
+.page {
+  padding: 54px 0 80px;
+}
+
+.pathInfo {
+  margin-bottom: 32px;
+  color: var(--gray);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 18px;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.pathLink {
+  color: var(--gray);
+}
+
+.currentPath {
+  color: var(--main);
+}
+
+.pathLink:hover,
+.pathLink:focus-visible {
+  text-decoration: underline;
+}
+
+.loader {
+  display: grid;
+  min-height: 50vh;
+  place-items: center;
+}
+
+.message {
+  display: grid;
+  justify-items: start;
+  gap: 16px;
+  min-height: 50vh;
+  align-content: center;
+  max-width: 600px;
+}
+
+.message h1 {
+  font-size: 32px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.homeLink,
+.retryButton {
+  padding: 12px 20px;
+  border: 1px solid var(--main);
+  border-radius: 30px;
+  background: var(--main);
+  color: var(--white);
+  font-weight: 700;
+}
+
+@media screen and (min-width: 768px) {
+  .page {
+    padding-top: 96px;
+    padding-bottom: 100px;
+  }
+
+  .pathInfo {
+    margin-bottom: 40px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .page {
+    padding-top: 116px;
+    padding-bottom: 120px;
+  }
+
+  .pathInfo {
+    margin-bottom: 40px;
+  }
+}

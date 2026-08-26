@@ -6,6 +6,7 @@ import { recipesReducer } from "./recipes/slice";
 import { ingredientsReducer } from "./ingredients/slice";
 import { areasReducer } from "./areas/slice";
 import { testimonialsReducer } from './testimonials/slice';
+import { usersReducer } from "./users/slice";
 
 
 
@@ -39,6 +40,7 @@ export const store = configureStore({
     categories: categoriesReducer,
     ingredients: ingredientsReducer,
     areas: areasReducer,
+    users: usersReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
