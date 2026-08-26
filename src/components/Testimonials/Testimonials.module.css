@@ -1,142 +1,142 @@
 .container {
-  position: relative;
+	position: relative;
 }
 
 .icon {
-  position: absolute;
-  width: 40px;
-  height: 32px;
-  left: 8px;
-  top: 80px;
-  fill: var(--gray);
+	position: absolute;
+	width: 40px;
+	height: 32px;
+	left: 8px;
+	top: 80px;
+	fill: var(--gray);
 }
 
 .container {
-  width: 100%;
-  max-width: 343px;
-  margin: 0 auto;
+	width: 100%;
+	max-width: 343px;
+	margin: 0 auto;
 }
 
 .subtitle {
-  margin: 0 0 16px;
+	margin: 0 0 16px;
 
-  font-size: 14px;
-  line-height: 1.42;
-  letter-spacing: -0.28px;
-  font-weight: 500;
-  text-align: center;
+	font-size: 14px;
+	line-height: 1.42;
+	letter-spacing: -0.28px;
+	font-weight: 500;
+	text-align: center;
 }
 
 .title {
-  margin: 0 0 64px;
+	margin: 0 0 64px;
 
-  font-size: 28px;
-  font-style: normal;
-  font-weight: 800;
-  line-height: 1.14;
-  letter-spacing: -0.56px;
-  text-align: center;
-  text-transform: uppercase;
-  color: var(--main);
+	font-size: 28px;
+	font-style: normal;
+	font-weight: 800;
+	line-height: 1.14;
+	letter-spacing: -0.56px;
+	text-align: center;
+	text-transform: uppercase;
+	color: var(--main);
 }
 
 .slider {
-  width: 100%;
+	width: 100%;
 }
 
 .slide {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 180px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	min-height: 180px;
 }
 
 .text {
-  margin: 0 0 64px;
+	margin: 0 0 64px;
 
-  font-size: 18px;
-  line-height: 1.33;
-  letter-spacing: -0.36px;
-  font-weight: 500;
-  text-align: center;
-  color: var(--main);
+	font-size: 18px;
+	line-height: 1.33;
+	letter-spacing: -0.36px;
+	font-weight: 500;
+	text-align: center;
+	color: var(--main);
 }
 
 .author {
-  font-size: 16px;
-  line-height: 1.5;
-  font-weight: 800;
-  text-align: center;
-  color: var(--main);
-  letter-spacing: -0.32px;
-  text-transform: uppercase;
+	font-size: 16px;
+	line-height: 1.5;
+	font-weight: 800;
+	text-align: center;
+	color: var(--main);
+	letter-spacing: -0.32px;
+	text-transform: uppercase;
 }
 
 .pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 8px;
 
-  margin-top: 40px;
+	margin-top: 40px;
 }
 
 .paginationButton {
-  width: 14px;
-  height: 14px;
+	width: 14px;
+	height: 14px;
 
-  border: 0;
-  border-radius: 50%;
+	border: 0;
+	border-radius: 50%;
 
-  cursor: pointer;
-  background-color: var(--gray);
+	cursor: pointer;
+	background-color: var(--gray);
 }
 
 .paginationButton.active {
-  background-color: var(--main);
+	background-color: var(--main);
 }
 
 @media screen and (min-width: 768px) {
-  .icon {
-    position: absolute;
-    width: 59px;
-    height: 48px;
-    left: 40px;
-    top: 76px;
-    fill: var(--gray);
-  }
+	.icon {
+		position: absolute;
+		width: 59px;
+		height: 48px;
+		left: 40px;
+		top: 76px;
+		fill: var(--gray);
+	}
 
-  .container {
-    max-width: 704px;
-  }
+	.container {
+		max-width: 704px;
+	}
 
-  .subtitle {
-    font-size: 16px;
-    line-height: 1.5;
-    letter-spacing: -0.32px;
-  }
+	.subtitle {
+		font-size: 16px;
+		line-height: 1.5;
+		letter-spacing: -0.32px;
+	}
 
-  .title {
-    margin-bottom: 80px;
+	.title {
+		margin-bottom: 80px;
 
-    font-size: 40px;
-    line-height: 1.1;
-    letter-spacing: -0.8px;
-  }
+		font-size: 40px;
+		line-height: 1.1;
+		letter-spacing: -0.8px;
+	}
 
-  .slide {
-    min-height: 200px;
-  }
+	.slide {
+		min-height: 200px;
+	}
 
-  .text {
-    font-size: 24px;
-    line-height: 1.5;
-    letter-spacing: -0.48px;
-  }
+	.text {
+		font-size: 24px;
+		line-height: 1.5;
+		letter-spacing: -0.48px;
+	}
 
-  .author {
-    font-size: 20px;
-    line-height: 1.2;
-    letter-spacing: -0.4px;
-  }
+	.author {
+		font-size: 20px;
+		line-height: 1.2;
+		letter-spacing: -0.4px;
+	}
 }

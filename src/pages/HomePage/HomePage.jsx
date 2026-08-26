@@ -29,6 +29,7 @@ import style from "./HomePage.module.css";
 import SignUpModal from "../../components/SignUpModal/SignUpModal";
 
 import { Hero } from "../../components/Hero/Hero";
+import Testimonials from "../../components/Testimonials/Testimonials";
 
 export default function HomePage() {
 	const dispatch = useDispatch();
@@ -112,6 +113,8 @@ export default function HomePage() {
 					</>
 				)}
 			</section>
+
+			<Testimonials />
 
 			<SignInModal
 				isOpen={isSignInOpen}
