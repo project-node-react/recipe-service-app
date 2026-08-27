@@ -84,36 +84,6 @@ export default function HomePage() {
 			<Hero onAuthRequired={handleAuthRequired} />
 			<CategoryList />
 
-			<section className={style.section}>
-				<h2 className={style.title}>Recipes</h2>
-
-				{isLoading ? (
-					<div className={style.loader}>
-						<ClipLoader
-							color="#e44848"
-							size={60}
-							aria-label="Loading recipes"
-						/>
-					</div>
-				) : (
-					<>
-						<RecipeList
-							recipes={recipes}
-							favoriteIds={favoriteIds}
-							isLoggedIn={isLoggedIn}
-							onToggleFavorite={handleToggleFavorite}
-							onAuthRequired={handleAuthRequired}
-						/>
-
-						<RecipePagination
-							page={page}
-							totalPages={totalPages}
-							onPageChange={handlePageChange}
-						/>
-					</>
-				)}
-			</section>
-
 			<Testimonials />
 
 			<SignInModal
