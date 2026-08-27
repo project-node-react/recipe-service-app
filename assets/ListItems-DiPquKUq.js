@@ -1,2 +1,0 @@
-import{d as e,f as t,l as n,m as r,t as i}from"./jsx-runtime-BIT6nIgj.js";import{k as a}from"./index-C-whV_HR.js";r();var o=i();function s(){let{id:r}=e(),i=n();a();let[s,c]=t();Number(s.get(`page`));let l=i.pathname.split(`/`).filter(Boolean),u=l[l.length-1]||`my-recipes`;return console.log(u),(0,o.jsx)(`div`,{})}export{s as default};
-//# sourceMappingURL=ListItems-DiPquKUq.js.map
