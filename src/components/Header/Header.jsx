@@ -9,9 +9,13 @@ import SignInModal from "../SignInModal/SignInModal";
 import SignUpModal from "../SignUpModal/SignUpModal";
 import LogOutModal from "../LogOutModal/LogOutModal";
 import { selectIsLoggedIn } from "../../redux/auth/selectors";
+import { useLocation } from "react-router-dom";
+
 import style from "./Header.module.css";
 
 export default function Header() {
+	const { pathname } = useLocation();
+	const isHomePage = pathname === "/";
 	const isLoggedIn = useSelector(selectIsLoggedIn);
 
 	const [isSignInOpen, setIsSignInOpen] = useState(false);
@@ -32,7 +36,12 @@ export default function Header() {
 	return (
 		<>
 			<header className={style.header}>
-				<Logo className={style.header__logo} />
+				<Logo
+					className={clsx(
+						style.header__logo,
+						!isHomePage && style.header__logo__rev,
+					)}
+				/>
 
 				<div className={style.header__nav}>
 					<Navigation onProtectedClick={handleProtectedClick} />
