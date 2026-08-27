@@ -126,6 +126,10 @@ export default function Header() {
 						onProtectedClick={handleProtectedClick}
 					/>
 				</div>
+				<div className={style.gallery} aria-hidden="true">
+					<img src={heroSmall} alt="" className={`${style.photo} ${style.photoSmall}`} />
+					<img src={heroLarge} alt="" className={`${style.photo} ${style.photoLarge}`} />
+				</div>
 			</div>
 		</>
 	);
