@@ -44,7 +44,10 @@ export default function Header() {
 				/>
 
 				<div className={style.header__nav}>
-					<Navigation onProtectedClick={handleProtectedClick} />
+					<Navigation
+						onProtectedClick={handleProtectedClick}
+						rev={!isHomePage}
+					/>
 				</div>
 
 				{isLoggedIn ? (
@@ -53,7 +56,10 @@ export default function Header() {
 
 						<button
 							type="button"
-							className={style.burger}
+							className={clsx(
+								style.burger,
+								!isHomePage && style.burger__rev,
+							)}
 							onClick={onShowMobileMenu}
 							aria-label="Open menu"
 						>

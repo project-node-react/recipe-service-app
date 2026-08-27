@@ -45,6 +45,10 @@
 	background-color: var(--white);
 }
 
+.burger__rev span {
+	background-color: var(--main);
+}
+
 .mobile_menu {
 	display: none;
 	flex-direction: column;
