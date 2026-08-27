@@ -10,6 +10,8 @@ import SignUpModal from "../SignUpModal/SignUpModal";
 import LogOutModal from "../LogOutModal/LogOutModal";
 import { selectIsLoggedIn } from "../../redux/auth/selectors";
 import { useLocation } from "react-router-dom";
+import heroLarge from "../../assets/hero/hero-1.webp";
+import heroSmall from "../../assets/hero/hero-2.webp";
 
 import style from "./Header.module.css";
 
@@ -125,6 +127,10 @@ export default function Header() {
 						onNavigate={onHideMobileMenu}
 						onProtectedClick={handleProtectedClick}
 					/>
+				</div>
+				<div className={style.gallery} aria-hidden="true">
+					<img src={heroSmall} alt="" className={`${style.photo} ${style.photoSmall}`} />
+					<img src={heroLarge} alt="" className={`${style.photo} ${style.photoLarge}`} />
 				</div>
 			</div>
 		</>
