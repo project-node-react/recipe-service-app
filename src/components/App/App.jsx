@@ -8,7 +8,6 @@ import style from "./App.module.css";
 
 const Layout = lazy(() => import("../../layouts/Layout/Layout"));
 const HomePage = lazy(() => import("../../pages/HomePage/HomePage"));
-const RecipesPage = lazy(() => import("../../pages/RecipesPage/RecipesPage"));
 const AddRecipePage = lazy(
 	() => import("../../pages/AddRecipePage/AddRecipePage"),
 );
