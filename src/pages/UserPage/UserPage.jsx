@@ -1,20 +1,24 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
-import { toast } from "react-hot-toast";
-import { ClipLoader } from "react-spinners";
-import { Outlet } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 
 import Container from "../../components/Container/Container";
 import { PathInfo } from "../../components/PathInfo/PathInfo";
 import { Subtitle } from "../../components/Subtitle/Subtitle";
 import { MainTitle } from "../../components/MainTitle/MainTitle";
+import TabsList from "../../components/TabsList/TabsList";
+import UserInfo from "../../components/UserInfo/UserInfo";
+import LogOutModal from "../../components/LogOutModal/LogOutModal";
 
 import styles from "./UserPage.module.css";
 import { selectCurrentUser } from "../../redux/users/selectors";
-import { fetchUserById } from "../../redux/users/operations";
+import {
+	fetchCurrentUser,
+	fetchUserById,
+	fetchFollowing,
+} from "../../redux/users/operations";
+import { resetCurrentUser } from "../../redux/users/slice";
 import { selectUser } from "../../redux/auth/selectors";
-import TabsList from "../../components/TabsList/TabsList";
 
 const UserPage = () => {
 	const { id: userId } = useParams();
@@ -23,16 +27,27 @@ const UserPage = () => {
 	const authUser = useSelector(selectUser);
 	const user = useSelector(selectCurrentUser);
 
-	useEffect(() => {
-		if (!userId?.trim()) {
-			return;
-		}
-		dispatch(fetchUserById(userId));
-	}, [dispatch, userId]);
+	const [isLogOutOpen, setIsLogOutOpen] = useState(false);
 
 	const isOwnPage = Boolean(
 		authUser?.id && String(authUser.id) === String(userId),
 	);
+
+	useEffect(() => {
+		if (!userId?.trim()) {
+			return;
+		}
+
+		dispatch(isOwnPage ? fetchCurrentUser() : fetchUserById(userId));
+
+		return () => {
+			dispatch(resetCurrentUser());
+		};
+	}, [dispatch, userId, isOwnPage]);
+
+	useEffect(() => {
+		dispatch(fetchFollowing());
+	}, [dispatch, userId]);
 
 	return (
 		<div className={styles.page}>
@@ -47,14 +62,24 @@ const UserPage = () => {
 					gastronomic masterpieces with us.
 				</Subtitle>
 
-				{/* <UserInfo user={user} /> */}
-				{/* <Logout />
-				<Follow /> 
-        <Unfollow />*/}
+				<div className={styles.layout}>
+					<UserInfo
+						user={user}
+						isOwnPage={isOwnPage}
+						onLogOutClick={() => setIsLogOutOpen(true)}
+					/>
 
-				<TabsList isOwnPage={isOwnPage} />
-				<Outlet />
+					<div className={styles.content}>
+						<TabsList isOwnPage={isOwnPage} />
+						<Outlet />
+					</div>
+				</div>
 			</Container>
+
+			<LogOutModal
+				isOpen={isLogOutOpen}
+				onClose={() => setIsLogOutOpen(false)}
+			/>
 		</div>
 	);
 };
