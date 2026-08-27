@@ -1,0 +1,128 @@
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 330px;
+  min-width: 330px;
+  height: 126px;
+}
+
+.field {
+  position: relative;
+  width: 330px;
+  min-width: 330px;
+  height: 56px;
+}
+
+.selectWrapper {
+  position: relative;
+  width: 330px;
+  min-width: 330px;
+  height: 56px;
+}
+
+.select {
+  box-sizing: border-box;
+  display: block;
+
+  width: 330px;
+  min-width: 330px;
+  max-width: 330px;
+
+  height: 56px;
+  min-height: 56px;
+  max-height: 56px;
+
+  padding: 16px 48px 16px 18px;
+
+  border: 1px solid #bfbebe;
+  border-radius: 30px;
+
+  background-color: #fff;
+  color: #bfbebe;
+
+  font-family: "Mulish", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+
+  appearance: none;
+  outline: none;
+  cursor: pointer;
+
+  transition: border-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.select:hover,
+.select:focus {
+  border-color: #050505;
+}
+
+.select:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.icon {
+  position: absolute;
+  top: 19px;
+  right: 18px;
+
+  width: 18px;
+  height: 18px;
+
+  color: #050505;
+  pointer-events: none;
+}
+
+/* TABLET */
+@media screen and (min-width: 768px) and (max-width: 1439px) {
+  .filters {
+    flex-direction: row;
+    gap: 20px;
+    width: 704px;
+    min-width: 704px;
+    height: 56px;
+  }
+
+  .field,
+  .selectWrapper,
+  .select {
+    width: 342px;
+    min-width: 342px;
+    max-width: 342px;
+  }
+}
+
+/* MOBILE */
+@media screen and (max-width: 767px) {
+  .filters {
+    width: 100%;
+    min-width: 0;
+    height: auto;
+  }
+
+  .field,
+  .selectWrapper,
+  .select {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+  }
+}
+
+/* DESKTOP */
+@media screen and (min-width: 1440px) {
+  .select {
+    color: #1a1a1a;
+  }
+}
+
+/* TABLET */
+@media screen and (min-width: 768px) and (max-width: 1439px) {
+  .select {
+    color: #bfbebe;
+  }
+}
