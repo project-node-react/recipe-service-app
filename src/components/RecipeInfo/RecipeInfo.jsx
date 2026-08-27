@@ -14,10 +14,14 @@ const RecipeInfo = ({
 }) => {
   return (
     <article className={styles.recipeInfo}>
-      <RecipeMainInfo recipe={recipe} onAuthorClick={onAuthorClick} />
+      <div className={styles.mainInfo}>
+        <RecipeMainInfo recipe={recipe} onAuthorClick={onAuthorClick} />
+      </div>
+
       <div className={styles.ingredients}>
         <RecipeIngredients ingredients={recipe.ingredients} />
       </div>
+
       <div className={styles.preparation}>
         <RecipePreparation
           instructions={recipe.instructions}

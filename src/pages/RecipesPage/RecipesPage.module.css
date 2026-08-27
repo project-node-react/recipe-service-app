@@ -1,0 +1,96 @@
+.page {
+  padding-top: 38px;
+}
+
+.back {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  width: fit-content;
+  height: 18px;
+
+  padding: 0;
+
+  background: transparent;
+  color: #050505;
+
+  font-family: "Mulish", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 18px;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.backIcon {
+  width: 18px;
+  height: 18px;
+}
+
+.intro {
+  width: 540px;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+.description {
+  width: 540px;
+  margin: 16px 0 0;
+
+  color: #1a1a1a;
+
+  font-family: "Mulish", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+}
+
+.content {
+  display: flex;
+  align-items: flex-start;
+  gap: 40px;
+
+  width: 1280px;
+}
+
+@media screen and (max-width: 767px) {
+  .page {
+    padding-top: 32px;
+  }
+
+  .intro {
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 32px;
+  }
+
+  .description {
+    width: 100%;
+    max-width: 343px;
+    margin-top: 16px;
+
+    color: #bfbebe;
+
+    font-family: "Mulish", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: -0.02em;
+  }
+
+  .content {
+    width: 100%;
+    flex-direction: column;
+    gap: 32px;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1439px) {
+  .content {
+    width: 100%;
+    flex-direction: column;
+    gap: 40px;
+  }
+}

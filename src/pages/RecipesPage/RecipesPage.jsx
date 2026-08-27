@@ -1,91 +1,216 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+
 import Container from "../../components/Container/Container";
 import { MainTitle } from "../../components/MainTitle/MainTitle";
-import { Subtitle } from "../../components/Subtitle/Subtitle";
 import RecipeFilters from "../../components/RecipeFilters/RecipeFilters";
 import RecipeList from "../../components/RecipeList/RecipeList";
 import RecipePagination from "../../components/RecipePagination/RecipePagination";
-import { fetchRecipes } from "../../redux/recipes/operations";
+
+import {
+  fetchRecipes,
+  fetchFavoriteIds,
+  addFavoriteRecipe,
+  removeFavoriteRecipe,
+} from "../../redux/recipes/operations";
+import { setFilters, setPage } from "../../redux/recipes/slice";
+
+import {
+  selectRecipes,
+  selectRecipesFilters,
+  selectRecipesIsLoading,
+  selectRecipesError,
+  selectRecipesPage,
+  selectRecipesTotalPages,
+  selectFavoriteIds,
+} from "../../redux/recipes/selectors";
+
+import { selectCategories } from "../../redux/categories/selectors";
+import { selectIsLoggedIn } from "../../redux/auth/selectors";
+
+import styles from "./RecipesPage.module.css";
 
 export default function RecipesPage() {
-	const navigate = useNavigate();
-	const dispatch = useDispatch();
-	const { categoryId } = useParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { categoryId } = useParams();
 
-	const [ingredient, setIngredient] = useState("");
-	const [area, setArea] = useState("");
-	const [page, setPage] = useState(1);
+  const recipes = useSelector(selectRecipes);
+  const filters = useSelector(selectRecipesFilters);
+  const isLoading = useSelector(selectRecipesIsLoading);
+  const error = useSelector(selectRecipesError);
+  const page = useSelector(selectRecipesPage);
+  const totalPages = useSelector(selectRecipesTotalPages);
+  const categories = useSelector(selectCategories);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const favoriteIds = useSelector(selectFavoriteIds);
 
-	const categories = useSelector((state) => state.categories.items);
-	const { items, isLoading, error, totalPages } = useSelector(
-		(state) => state.recipes,
-	);
+  console.log("❤️ RECIPES PAGE FAVORITE IDS:", favoriteIds);
 
-	const selectedCategory = categories.find(
-		(category) => category.id === categoryId,
-	);
+  console.log("❤️ RECIPES PAGE FAVORITE IDS:", favoriteIds);
 
-	useEffect(() => {
-		dispatch(
-			fetchRecipes({
-				...(categoryId ? { category: categoryId } : {}),
-				...(ingredient ? { ingredient } : {}),
-				...(area ? { area } : {}),
-				page,
-				limit: 12,
-			}),
-		);
-	}, [dispatch, categoryId, ingredient, area, page]);
+  const selectedCategory = categories.find(
+    (category) => String(category.id) === String(categoryId),
+  );
 
-	useEffect(() => {
-		if (error) {
-			toast.error(`Error: ${error}`);
-		}
-	}, [error]);
+  useEffect(() => {
+    if (isLoggedIn) {
+      dispatch(fetchFavoriteIds());
+    }
+  }, [dispatch, isLoggedIn]);
 
-	const handleBack = () => {
-		navigate("/");
-	};
+  useEffect(() => {
+    dispatch(
+      setFilters({
+        category: categoryId || null,
+      }),
+    );
 
-	const handleIngredientChange = (value) => {
-		setIngredient(value);
-		setPage(1);
-	};
+    dispatch(setPage(1));
+  }, [dispatch, categoryId]);
 
-	const handleAreaChange = (value) => {
-		setArea(value);
-		setPage(1);
-	};
+  useEffect(() => {
+    dispatch(
+      fetchRecipes({
+        page,
+        limit: 12,
+        category: categoryId || undefined,
+        ingredient: filters.ingredient || undefined,
+        area: filters.area || undefined,
+      }),
+    );
+  }, [
+    dispatch,
+    categoryId,
+    filters.ingredient,
+    filters.area,
+    page,
+  ]);
 
-	return (
-		<Container>
-			<button type="button" onClick={handleBack}>
-				Back
-			</button>
+  useEffect(() => {
+    if (error) {
+      toast.error(`Error: ${error}`);
+    }
+  }, [error]);
 
-			<MainTitle>{selectedCategory?.name || "All categories"}</MainTitle>
+  const handleToggleFavorite = (recipeId, isFavorite) => {
+    dispatch(
+      isFavorite
+        ? removeFavoriteRecipe(recipeId)
+        : addFavoriteRecipe(recipeId),
+    );
+  };
 
-			<Subtitle>Choose a recipe</Subtitle>
+  const handleBack = () => {
+    navigate("/");
+  };
 
-			<RecipeFilters
-				ingredient={ingredient}
-				area={area}
-				onIngredientChange={handleIngredientChange}
-				onAreaChange={handleAreaChange}
-			/>
+  const handleIngredientChange = (value) => {
+    dispatch(
+      setFilters({
+        ingredient: value || null,
+      }),
+    );
 
-			{isLoading && <p>Loading recipes...</p>}
+    dispatch(setPage(1));
+  };
 
-			{!isLoading && !error && <RecipeList recipes={items} />}
+  const handleAreaChange = (value) => {
+    dispatch(
+      setFilters({
+        area: value || null,
+      }),
+    );
 
-			<RecipePagination
-				page={page}
-				totalPages={totalPages}
-				onPageChange={setPage}
-			/>
-		</Container>
-	);
+    dispatch(setPage(1));
+  };
+
+  const handlePageChange = (nextPage) => {
+    dispatch(setPage(nextPage));
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  const title =
+    selectedCategory?.name === "Dessert"
+      ? "Desserts"
+      : selectedCategory?.name || "All categories";
+
+  return (
+    <Container>
+      <div className={styles.page}>
+        <button
+          type="button"
+          className={styles.back}
+          onClick={handleBack}
+        >
+          <svg
+            className={styles.backIcon}
+            viewBox="0 0 18 18"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M14.25 9H3.75"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+            />
+            <path
+              d="M8.25 4.5L3.75 9L8.25 13.5"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+
+          Back
+        </button>
+
+        <div className={styles.intro}>
+          <MainTitle>{title}</MainTitle>
+
+          <p className={styles.description}>
+            Go on a taste journey, where every sip is a sophisticated
+            creative chord, and every dessert is an expression of the most
+            refined gastronomic desires.
+          </p>
+        </div>
+
+        <div className={styles.content}>
+          <RecipeFilters
+            ingredient={filters.ingredient || ""}
+            area={filters.area || ""}
+            onIngredientChange={handleIngredientChange}
+            onAreaChange={handleAreaChange}
+          />
+
+          <div>
+            {isLoading && <p>Loading recipes...</p>}
+
+            {!isLoading && !error && (
+              <RecipeList
+                recipes={recipes}
+                favoriteIds={favoriteIds}
+                isLoggedIn={isLoggedIn}
+                onToggleFavorite={handleToggleFavorite}
+              />
+            )}
+
+            <RecipePagination
+              page={page}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          </div>
+        </div>
+      </div>
+    </Container>
+  );
 }

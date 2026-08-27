@@ -1,29 +1,83 @@
 .recipeInfo {
   display: grid;
+  width: 100%;
   gap: 32px;
+}
+
+.recipeSections {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
+}
+
+.ingredients,
+.preparation {
+  min-width: 0;
 }
 
 @media screen and (min-width: 768px) {
   .recipeInfo {
+    display: grid;
+    grid-template-columns: 704px;
+    width: 704px;
     gap: 40px;
+  }
+
+  .recipeSections {
+    display: grid;
+    grid-template-columns: 345px 345px;
+    grid-template-rows: auto;
+    column-gap: 14px;
+    row-gap: 40px;
+    width: 704px;
+  }
+
+  .ingredients {
+    grid-column: 1;
+    grid-row: 1;
+    width: 345px;
+  }
+
+  .preparation {
+    grid-column: 2;
+    grid-row: 1;
+    width: 345px;
   }
 }
 
 @media screen and (min-width: 1440px) {
   .recipeInfo {
-    grid-template-columns: minmax(0, 551px) minmax(0, 1fr);
+    grid-template-columns: 551px 649px;
+    width: 1280px;
     column-gap: 80px;
     row-gap: 40px;
     align-items: start;
   }
 
-  .ingredients {
+  .recipeInfo > :first-child {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+  }
+
+  .recipeSections {
     grid-column: 2;
-    grid-row: 2;
+    grid-row: 1;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    width: 649px;
+  }
+
+  .ingredients {
+    grid-column: 1;
+    grid-row: auto;
+    width: 649px;
   }
 
   .preparation {
-    grid-column: 2;
-    grid-row: 3;
+    grid-column: 1;
+    grid-row: auto;
+    width: 649px;
   }
 }
