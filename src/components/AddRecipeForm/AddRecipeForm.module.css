@@ -168,8 +168,19 @@
 }
 
 .textarea {
+  box-sizing: border-box;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #bfbebe;
+  padding: 0 60px 16px 0; 
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.32px;
+  color: #1a1a1a;
+  background: transparent;
+  outline: none;
   resize: none;
-  min-height: 100px;
+  overflow: hidden;
 }
 
 .charCount {
@@ -253,6 +264,14 @@
   gap: 8px;
   color: #bfbebe;
   white-space: nowrap;
+}
+
+.timeControl > span {
+  color: #bfbebe;
+}
+
+.activeTime {
+  color: #050505 !important;
 }
 
 .timeBtn {
@@ -403,14 +422,20 @@
 .removeBtn {
   position: absolute;
   top: 2px;
-  right: 0;
+  right: -8px;
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 16px;
   color: #bfbebe;
   padding: 0;
   line-height: 16px;
+}
+
+.removeIcon {
+  display: block;
+  width: 16px;
+  height: 16px;
+  color: #050505;
 }
 
 @media (min-width: 768px) {

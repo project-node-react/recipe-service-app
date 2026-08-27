@@ -157,6 +157,11 @@ const AddRecipeForm = () => {
     formik.setFieldValue('ingredients', updatedIngredients);
   };
 
+  const handleResize = (e) => {
+    e.target.style.height = 'auto';
+    e.target.style.height = `${e.target.scrollHeight}px`;
+  };
+
   return (
     <div className={styles.container}>
       
@@ -208,15 +213,18 @@ const AddRecipeForm = () => {
           </div>
 
           <div className={styles.inputGroup}>
-            <input
-              type="text"
+            <textarea
               name="description"
               placeholder="Enter a description of the dish"
-              className={`${styles.input} ${formik.touched.description && formik.errors.description ? styles.inputError : ''}`}
+              className={`${styles.textarea} ${formik.touched.description && formik.errors.description ? styles.inputError : ''}`}
               value={formik.values.description}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              maxLength={MAX_DESC_LENGTH}
+              onChange={(e) => {
+              formik.handleChange(e);
+              handleResize(e);
+            }}
+            onBlur={formik.handleBlur}
+            maxLength={MAX_DESC_LENGTH}
+             rows={1}
             />
             <span className={`${styles.charCount} ${styles.descriptionCharCount}`}>
               <span
@@ -260,7 +268,13 @@ const AddRecipeForm = () => {
                     <use href={`${import.meta.env.BASE_URL}icons.svg#minus`} />
                   </svg>
                 </button>
-                <span> {formik.values.time} min </span>
+                <span
+                  className={
+                    formik.values.time !== 10 ? styles.activeTime : undefined
+                  }
+                >
+                  {formik.values.time} min
+                </span>
                 <button
                   type="button"
                   className={styles.timeBtn}
@@ -338,7 +352,9 @@ const AddRecipeForm = () => {
                       onClick={() => handleRemoveIngredient(index)}
                       aria-label={`Remove ${ing.name}`}
                     >
-                      ×
+                      <svg className={styles.removeIcon} aria-hidden="true">
+                        <use href={`${import.meta.env.BASE_URL}icons.svg#close-small`} />
+                      </svg>
                     </button>
                   </div>
                 ))}
@@ -353,7 +369,10 @@ const AddRecipeForm = () => {
               placeholder="Enter recipe"
               className={`${styles.textarea} ${formik.touched.instructions && formik.errors.instructions ? styles.inputError : ''}`}
               value={formik.values.instructions}
-              onChange={formik.handleChange}
+              onChange={(e) => {
+              formik.handleChange(e);
+              handleResize(e);
+              }}
               onBlur={formik.handleBlur}
               maxLength={MAX_INST_LENGTH}
             ></textarea>
