@@ -1,2 +1,0 @@
-import{t as e}from"./jsx-runtime-BIT6nIgj.js";var t={title:`_title_1w44r_1`},n=e(),r=({children:e})=>(0,n.jsx)(`h1`,{className:t.title,children:e});export{r as t};
-//# sourceMappingURL=MainTitle-DkuZi2XV.js.map
