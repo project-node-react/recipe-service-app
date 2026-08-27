@@ -1,14 +1,14 @@
 .nav_list {
   display: flex;
+  gap: 40px;
 }
 
 .nav_link {
   display: block;
-  padding: 14px;
+  padding: 14px 30px;
   font-weight: 700;
   font-size: 12px;
   line-height: 18px;
-  margin-right: 40px;
   text-transform: uppercase;
   color: var(--white);
   text-decoration: none;
@@ -34,6 +34,6 @@
 
 @media screen and (min-width: 768px) {
   .nav_link {
-    padding: 14px 30px;
+    padding: 14px;
   }
 }
