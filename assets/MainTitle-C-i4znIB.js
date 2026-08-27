@@ -1,0 +1,2 @@
+import{N as e}from"./index-CH5RGHWX.js";var t={title:`_title_zr1lp_1`},n=e(),r=({children:e})=>(0,n.jsx)(`h1`,{className:t.title,children:e});export{r as t};
+//# sourceMappingURL=MainTitle-C-i4znIB.js.map
