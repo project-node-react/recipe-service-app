@@ -1,0 +1,2 @@
+import{r as e,t}from"./jsx-runtime-BIT6nIgj.js";var n={pathInfo:`_pathInfo_efwym_1`,pathLink:`_pathLink_efwym_12`,currentPath:`_currentPath_efwym_17`},r=t(),i=({currentPage:t})=>(0,r.jsxs)(`div`,{className:n.pathInfo,children:[(0,r.jsx)(e,{className:n.pathLink,to:`/`,children:`Home`}),(0,r.jsx)(`span`,{"aria-hidden":`true`,children:` / `}),(0,r.jsx)(`span`,{className:n.currentPath,children:t})]});export{i as t};
+//# sourceMappingURL=PathInfo-CW3qnek8.js.map
