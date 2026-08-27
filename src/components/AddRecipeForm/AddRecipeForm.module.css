@@ -155,6 +155,10 @@
   color: #bfbebe;
 }
 
+.detailsSection > .inputGroup:first-child .input:not(:placeholder-shown) {
+  color: #050505;
+}
+
 .input:focus, .textarea:focus {
   border-bottom-color: #050505;
 }
@@ -176,6 +180,14 @@
   line-height: 24px;
   letter-spacing: -0.32px;
   color: #bfbebe;
+}
+
+.descriptionCharCount {
+  color: #bfbebe;
+}
+
+.currentCharCount {
+  color: #050505;
 }
 
 .errorText {

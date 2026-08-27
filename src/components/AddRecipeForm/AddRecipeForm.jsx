@@ -218,7 +218,18 @@ const AddRecipeForm = () => {
               onBlur={formik.handleBlur}
               maxLength={MAX_DESC_LENGTH}
             />
-            <span className={styles.charCount}>{formik.values.description.length}/{MAX_DESC_LENGTH}</span>
+            <span className={`${styles.charCount} ${styles.descriptionCharCount}`}>
+              <span
+                className={
+                  formik.values.description.length > 0
+                    ? styles.currentCharCount
+                    : undefined
+                }
+              >
+                {formik.values.description.length}
+              </span>
+              <span>/{MAX_DESC_LENGTH}</span>
+            </span>
             {formik.touched.description && formik.errors.description && <div className={styles.errorText}>{formik.errors.description}</div>}
           </div>
 
