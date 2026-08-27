@@ -5,12 +5,11 @@ import Container from "../../components/Container/Container";
 import CategoryList from "../../components/CategoryList/CategoryList";
 import SignInModal from "../../components/SignInModal/SignInModal";
 
-import { fetchRecipes, fetchFavoriteIds } from "../../redux/recipes/operations";
+import { fetchRecipes } from "../../redux/recipes/operations";
 import {
 	selectRecipesPage,
 	selectRecipesFilters,
 } from "../../redux/recipes/selectors";
-import { selectIsLoggedIn } from "../../redux/auth/selectors";
 
 import style from "./HomePage.module.css";
 import SignUpModal from "../../components/SignUpModal/SignUpModal";
@@ -24,7 +23,6 @@ export default function HomePage() {
 
 	const page = useSelector(selectRecipesPage);
 	const filters = useSelector(selectRecipesFilters);
-	const isLoggedIn = useSelector(selectIsLoggedIn);
 
 	const [isSignInOpen, setIsSignInOpen] = useState(false);
 	const [isSignUpOpen, setIsSignUpOpen] = useState(false);
@@ -34,13 +32,6 @@ export default function HomePage() {
 	useEffect(() => {
 		dispatch(fetchRecipes());
 	}, [dispatch, page, filters]);
-
-	// Список улюблених потрібен, щоб іконка-серце мала стилі акценту.
-	useEffect(() => {
-		if (isLoggedIn) {
-			dispatch(fetchFavoriteIds());
-		}
-	}, [dispatch, isLoggedIn]);
 
 	const handleAuthRequired = useCallback(() => setIsSignInOpen(true), []);
 	const isCategorySelected = Boolean(filters?.category);

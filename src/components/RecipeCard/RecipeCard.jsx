@@ -17,15 +17,10 @@ export default function RecipeCard({
 			onAuthRequired?.();
 			return;
 		}
-
 		navigate(`/user/${owner.id}`);
 	};
 
 	const handleFavoriteClick = () => {
-		if (!isLoggedIn) {
-			onAuthRequired?.();
-			return;
-		}
 		onToggleFavorite?.(id, isFavorite);
 	};
 
@@ -78,8 +73,6 @@ export default function RecipeCard({
 								// console.log("🖱️ MOUSE DOWN:", title, id);
 							}}
 							onClick={(event) => {
-								// console.log("🔥 BUTTON CLICK:", title, id);
-								event.stopPropagation();
 								handleFavoriteClick();
 							}}
 							aria-pressed={isFavorite}

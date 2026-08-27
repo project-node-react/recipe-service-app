@@ -9,6 +9,7 @@ import { PathInfo } from "../../components/PathInfo/PathInfo";
 import PopularRecipes from "../../components/PopularRecipes/PopularRecipes";
 import RecipeInfo from "../../components/RecipeInfo/RecipeInfo";
 import SignInModal from "../../components/SignInModal/SignInModal";
+import SignUpModal from "../../components/SignUpModal/SignUpModal";
 import { selectIsLoggedIn } from "../../redux/auth/selectors";
 import {
 	addRecipeToFavorites,
@@ -33,7 +34,6 @@ import {
 	selectRequestedRecipeId,
 } from "../../redux/recipes/selectors";
 import styles from "./RecipePage.module.css";
-import SignUpModal from "../../components/SignUpModal/SignUpModal";
 
 const RecipePage = () => {
 	const { id: recipeId } = useParams();

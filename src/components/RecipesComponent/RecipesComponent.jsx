@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,9 +31,13 @@ import { selectIsLoggedIn } from "../../redux/auth/selectors";
 
 import styles from "./RecipesComponent.module.css";
 import { selectCategories } from "../../redux/categories/selectors";
+import SignInModal from "../../components/SignInModal/SignInModal";
+import SignUpModal from "../../components/SignUpModal/SignUpModal";
 
 export default function RecipesComponent() {
 	const dispatch = useDispatch();
+	const [isSignInOpen, setIsSignInOpen] = useState(false);
+	const [isSignUpOpen, setIsSignUpOpen] = useState(false);
 
 	const recipes = useSelector(selectRecipes);
 	const filters = useSelector(selectRecipesFilters);
@@ -70,6 +74,10 @@ export default function RecipesComponent() {
 	}, [error]);
 
 	const handleToggleFavorite = (recipeId, isFavorite) => {
+		if (!isLoggedIn) {
+			setIsSignInOpen(true);
+			return;
+		}
 		dispatch(
 			isFavorite ? removeFavoriteRecipe(recipeId) : addFavoriteRecipe(recipeId),
 		);
@@ -110,7 +118,7 @@ export default function RecipesComponent() {
 
 	const title = categories.find((cat) => cat.id === filters?.category)?.name;
 	return (
-		<Container>
+		<div>
 			<div className={styles.page}>
 				<button type="button" className={styles.back} onClick={handleBack}>
 					<svg
@@ -174,6 +182,22 @@ export default function RecipesComponent() {
 					</div>
 				</div>
 			</div>
-		</Container>
+			<SignInModal
+				isOpen={isSignInOpen}
+				onClose={() => setIsSignInOpen(false)}
+				onCreateAccount={() => {
+					setIsSignInOpen(false);
+					setIsSignUpOpen(true);
+				}}
+			/>
+			<SignUpModal
+				isOpen={isSignUpOpen}
+				onClose={() => setIsSignUpOpen(false)}
+				onSignInAccount={() => {
+					setIsSignInOpen(true);
+					setIsSignUpOpen(false);
+				}}
+			/>
+		</div>
 	);
 }
