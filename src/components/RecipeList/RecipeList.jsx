@@ -1,7 +1,6 @@
 import RecipeCard from "../RecipeCard/RecipeCard";
 import style from "./RecipeList.module.css";
 
-// Список рецептів, елементи якого є універсальним компонентом RecipeCard.
 export default function RecipeList({
   recipes,
   favoriteIds = [],
@@ -9,6 +8,14 @@ export default function RecipeList({
   onToggleFavorite,
   onAuthRequired,
 }) {
+  console.log(
+    "AUTHORS FROM DB:",
+    recipes.map((recipe) => ({
+      title: recipe.title,
+      owner: recipe.owner,
+    })),
+  );
+
   if (!recipes.length) {
     return <p className={style.empty}>No recipes found. Try other filters.</p>;
   }
