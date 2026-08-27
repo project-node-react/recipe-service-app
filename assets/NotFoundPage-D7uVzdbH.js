@@ -1,2 +1,0 @@
-import{r as e,t}from"./jsx-runtime-BIT6nIgj.js";var n={NotFoundPage:`_NotFoundPage_1sqiv_1`,warning:`_warning_1sqiv_8`,link:`_link_1sqiv_11`},r=t();function i(){return(0,r.jsxs)(`div`,{className:n.NotFoundPage,children:[(0,r.jsx)(`h2`,{className:n.warning,children:`404 Page not found!`}),(0,r.jsx)(e,{to:`/`,className:n.link,children:`Link to Home Page`})]})}export{i as default};
-//# sourceMappingURL=NotFoundPage-D7uVzdbH.js.map
