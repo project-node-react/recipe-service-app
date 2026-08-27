@@ -1,0 +1,32 @@
+.page {
+  padding-bottom: 80px;
+}
+
+.pathInfo {
+  margin-bottom: 20px;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin-top: 32px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+@media screen and (min-width: 768px) {
+  .layout {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .content {
+    flex: 1;
+  }
+}
