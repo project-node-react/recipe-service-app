@@ -1,15 +1,12 @@
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { setFilters } from "../../redux/recipes/slice";
 import style from "./CategoryCard.module.css";
 
 export default function CategoryCard({ category }) {
-	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
 	const handleClick = () => {
 		dispatch(setFilters({ category: category.id }));
-		navigate(`/recipes/${category.id}`);
 	};
 
 	return (

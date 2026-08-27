@@ -32,7 +32,6 @@ export default function ListItems() {
 
 	const pathSegments = location.pathname.split("/").filter(Boolean);
 	const activeTab = pathSegments[pathSegments.length - 1] || "my-recipes";
-	console.log(activeTab);
 
 	// const cardVariant =
 	// 	activeTab === "followers" || activeTab === "following" ? "user" : "recipe";

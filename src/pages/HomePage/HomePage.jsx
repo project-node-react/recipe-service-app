@@ -1,27 +1,14 @@
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ClipLoader } from "react-spinners";
 
 import Container from "../../components/Container/Container";
-import RecipeList from "../../components/RecipeList/RecipeList";
 import CategoryList from "../../components/CategoryList/CategoryList";
 import SignInModal from "../../components/SignInModal/SignInModal";
-import RecipePagination from "../../components/RecipePagination/RecipePagination";
 
+import { fetchRecipes, fetchFavoriteIds } from "../../redux/recipes/operations";
 import {
-	fetchRecipes,
-	fetchFavoriteIds,
-	addFavoriteRecipe,
-	removeFavoriteRecipe,
-} from "../../redux/recipes/operations";
-import { setPage } from "../../redux/recipes/slice";
-import {
-	selectRecipes,
 	selectRecipesPage,
-	selectRecipesTotalPages,
 	selectRecipesFilters,
-	selectFavoriteIds,
-	selectRecipesIsLoading,
 } from "../../redux/recipes/selectors";
 import { selectIsLoggedIn } from "../../redux/auth/selectors";
 
@@ -30,16 +17,13 @@ import SignUpModal from "../../components/SignUpModal/SignUpModal";
 
 import { Hero } from "../../components/Hero/Hero";
 import Testimonials from "../../components/Testimonials/Testimonials";
+import RecipesComponent from "../../components/RecipesComponent/RecipesComponent";
 
 export default function HomePage() {
 	const dispatch = useDispatch();
 
-	const recipes = useSelector(selectRecipes);
 	const page = useSelector(selectRecipesPage);
-	const totalPages = useSelector(selectRecipesTotalPages);
 	const filters = useSelector(selectRecipesFilters);
-	const favoriteIds = useSelector(selectFavoriteIds);
-	const isLoading = useSelector(selectRecipesIsLoading);
 	const isLoggedIn = useSelector(selectIsLoggedIn);
 
 	const [isSignInOpen, setIsSignInOpen] = useState(false);
@@ -58,31 +42,12 @@ export default function HomePage() {
 		}
 	}, [dispatch, isLoggedIn]);
 
-	const handlePageChange = useCallback(
-		(nextPage) => {
-			dispatch(setPage(nextPage));
-			window.scrollTo({ top: 0, behavior: "smooth" });
-		},
-		[dispatch],
-	);
-
-	const handleToggleFavorite = useCallback(
-		(recipeId, isFavorite) => {
-			dispatch(
-				isFavorite
-					? removeFavoriteRecipe(recipeId)
-					: addFavoriteRecipe(recipeId),
-			);
-		},
-		[dispatch],
-	);
-
 	const handleAuthRequired = useCallback(() => setIsSignInOpen(true), []);
-
+	const isCategorySelected = Boolean(filters?.category);
 	return (
 		<Container>
 			<Hero onAuthRequired={handleAuthRequired} />
-			<CategoryList />
+			{isCategorySelected ? <RecipesComponent /> : <CategoryList />}
 
 			<Testimonials />
 

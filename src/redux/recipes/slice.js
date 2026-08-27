@@ -90,26 +90,17 @@ const recipesSlice = createSlice({
       })
       // Улюблені (ID)
       .addCase(fetchFavoriteIds.fulfilled, (state, action) => {
-        console.log("FAVORITES FETCHED:", action.payload);
         state.favoriteIds = action.payload;
       })
       .addCase(addFavoriteRecipe.fulfilled, (state, action) => {
-        console.log("FAVORITE ADD FULFILLED:", action.payload);
-
         if (!state.favoriteIds.includes(action.payload)) {
           state.favoriteIds.push(action.payload);
         }
-
-        console.log("FAVORITE IDS AFTER ADD:", state.favoriteIds);
       })
       .addCase(removeFavoriteRecipe.fulfilled, (state, action) => {
-        console.log("FAVORITE REMOVE FULFILLED:", action.payload);
-
         state.favoriteIds = state.favoriteIds.filter(
           (id) => id !== action.payload,
         );
-
-        console.log("FAVORITE IDS AFTER REMOVE:", state.favoriteIds);
       })
       // Рецепт за ID
       .addCase(fetchRecipeById.pending, (state, action) => {
