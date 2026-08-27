@@ -172,7 +172,7 @@
   width: 100%;
   border: none;
   border-bottom: 1px solid #bfbebe;
-  padding: 0 60px 16px 0; 
+  padding: 0 60px 16px 0; /* 60px справа резервують місце для лічильника */
   font-size: 16px;
   line-height: 24px;
   letter-spacing: -0.32px;
@@ -361,10 +361,7 @@
   transition: all 0.2s ease;
 }
 
-.addIngredientBtn:hover {
-  background-color: #050505;
-  color: #fff;
-}
+
 
 .ingredientsList {
   display: grid;

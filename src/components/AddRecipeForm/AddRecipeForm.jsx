@@ -375,8 +375,20 @@ const AddRecipeForm = () => {
               }}
               onBlur={formik.handleBlur}
               maxLength={MAX_INST_LENGTH}
-            ></textarea>
-            <span className={styles.charCount}>{formik.values.instructions.length}/{MAX_INST_LENGTH}</span>
+              rows={1}
+            />
+            <span className={`${styles.charCount} ${styles.instructionsCharCount}`}>
+              <span
+                className={
+                  formik.values.instructions.length > 0
+                    ? styles.currentCharCount
+                    : undefined
+                }
+              >
+                {formik.values.instructions.length}
+              </span>
+              <span>/{MAX_INST_LENGTH}</span>
+            </span>
             {formik.touched.instructions && formik.errors.instructions && <div className={styles.errorText}>{formik.errors.instructions}</div>}
           </div>
 
