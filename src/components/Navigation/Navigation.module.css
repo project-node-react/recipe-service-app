@@ -20,6 +20,10 @@
   margin-right: 0;
 }
 
+.nav_link__rev {
+  color: var(--main);
+}
+
 .nav_link:hover {
   border: 1px solid var(--gray);
 }
