@@ -1,0 +1,2 @@
+import{N as e}from"./index-CuXIUjEB.js";var t={title:`_title_tvu97_1`},n=e(),r=({children:e})=>(0,n.jsx)(`h1`,{className:t.title,children:e});export{r as t};
+//# sourceMappingURL=MainTitle-gaw-rRhl.js.map
