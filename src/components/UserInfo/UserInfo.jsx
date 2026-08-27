@@ -10,10 +10,6 @@ import {
 } from "../../redux/users/selectors";
 import style from "./UserInfo.module.css";
 
-// Аватарка + email + лічильники + кнопка дії (Log out на своєму профілі,
-// Follow/Unfollow на чужому). favoritesCount/followingCount бекенд віддає
-// ЛИШЕ у відповіді /users/current — на чужому профілі (/users/:id) цих
-// полів немає, тому відповідні рядки показуємо тільки для isOwnPage.
 export default function UserInfo({ user, isOwnPage, onLogOutClick }) {
   const dispatch = useDispatch();
 

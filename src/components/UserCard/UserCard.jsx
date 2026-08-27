@@ -8,13 +8,6 @@ import { selectFollowPendingId, selectIsFollowing } from "../../redux/users/sele
 import { selectUser } from "../../redux/auth/selectors";
 import style from "./UserCard.module.css";
 
-// Рядок юзера для вкладок Followers / Following.
-// ВАЖЛИВО: бекенд (за підтвердженою схемою /users/{id}/followers та
-// /users/following) віддає на кожен елемент лише { id, name, avatar } —
-// ні recipesCount, ні прев'ю останніх рецептів там немає. Ці два блоки
-// нижче зроблені захисно (рендеряться, лише якщо поле реально прийшло) і
-// запрацюють, коли бекенд-команда додасть їх у відповідь — те саме
-// прохання, що й про пагінацію followers/following.
 export default function UserCard({ user }) {
   const dispatch = useDispatch();
   const authUser = useSelector(selectUser);

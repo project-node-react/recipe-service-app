@@ -1,7 +1,7 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { toast } from "react-hot-toast";
 
-// Додаємо /api до базової URL-адреси
 const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 export const api = axios.create({
@@ -20,10 +20,69 @@ export const clearAuthHeader = () => {
 export const getErrorMessage = (error) =>
   error.response?.data?.message || error.response?.data?.error || error.message;
 
-/*
- * POST @ /api/auth/register
- * body: { name, email, password }
- */
+let isRefreshingToken = false;
+let pendingRequests = [];
+
+const resolvePendingRequests = (token) => {
+  pendingRequests.forEach((resolve) => resolve(token));
+  pendingRequests = [];
+};
+
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+    const status = error.response?.status;
+    const isAuthCall = originalRequest?.url?.startsWith("/auth/");
+
+    if (status !== 401 || !originalRequest || isAuthCall || originalRequest._retry) {
+      return Promise.reject(error);
+    }
+
+    originalRequest._retry = true;
+
+    if (isRefreshingToken) {
+      return new Promise((resolve, reject) => {
+        pendingRequests.push((token) => {
+          if (!token) {
+            reject(error);
+            return;
+          }
+          originalRequest.headers.Authorization = `Bearer ${token}`;
+          resolve(api(originalRequest));
+        });
+      });
+    }
+
+    isRefreshingToken = true;
+
+    try {
+      const refreshRes = await api.post("/auth/refresh");
+      const newToken = refreshRes.data.accessToken;
+      setAuthHeader(newToken);
+
+      const { store } = await import("../store");
+      store.dispatch({ type: "auth/tokenRefreshed", payload: newToken });
+
+      resolvePendingRequests(newToken);
+      isRefreshingToken = false;
+
+      originalRequest.headers.Authorization = `Bearer ${newToken}`;
+      return api(originalRequest);
+    } catch (refreshError) {
+      isRefreshingToken = false;
+      resolvePendingRequests(null);
+      clearAuthHeader();
+
+      const { store } = await import("../store");
+      store.dispatch({ type: "auth/sessionExpired" });
+      toast.error("Your session has expired. Please sign in again.");
+
+      return Promise.reject(error);
+    }
+  },
+);
+
 export const register = createAsyncThunk(
   "auth/register",
   async (credentials, thunkAPI) => {
@@ -37,10 +96,6 @@ export const register = createAsyncThunk(
   }
 );
 
-/*
- * POST @ /api/auth/login
- * body: { email, password }
- */
 export const logIn = createAsyncThunk(
   "auth/login",
   async (credentials, thunkAPI) => {
@@ -54,10 +109,6 @@ export const logIn = createAsyncThunk(
   }
 );
 
-/*
- * POST @ /api/auth/logout
- * headers: Authorization: Bearer token
- */
 export const logOut = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
   const state = thunkAPI.getState();
   const token = state.auth?.token || state.auth?.accessToken;
@@ -75,10 +126,6 @@ export const logOut = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
   }
 });
 
-/*
- * POST @ /api/auth/refresh
- * GET @ /api/users/current
- */
 export const refreshUser = createAsyncThunk(
   "auth/refresh",
   async (_, thunkAPI) => {

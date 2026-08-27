@@ -33,8 +33,6 @@ const UserPage = () => {
 		authUser?.id && String(authUser.id) === String(userId),
 	);
 
-	// /users/:id не віддає favoritesCount/followingCount — на своєму профілі
-	// потрібен саме /users/current, де ці поля є.
 	useEffect(() => {
 		if (!userId?.trim()) {
 			return;
@@ -47,12 +45,9 @@ const UserPage = () => {
 		};
 	}, [dispatch, userId, isOwnPage]);
 
-	// Список "моїх підписок" потрібен завжди на цій сторінці — і щоб знати
-	// стан кнопки Follow/Unfollow в UserInfo на чужому профілі, і пізніше
-	// для карток UserCard на вкладках Followers/Following.
 	useEffect(() => {
 		dispatch(fetchFollowing());
-	}, [dispatch]);
+	}, [dispatch, userId]);
 
 	return (
 		<div className={styles.page}>

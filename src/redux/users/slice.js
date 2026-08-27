@@ -3,6 +3,7 @@ import {
   fetchUserById,
   fetchCurrentUser,
   fetchUserRecipes,
+  fetchUserRecipesById,
   fetchUserFavorites,
   deleteOwnRecipe,
   fetchFollowers,
@@ -11,10 +12,6 @@ import {
   unfollowUser,
   updateAvatar,
 } from "./operations";
-// Видалення з улюблених на вкладці My favorites йде через уже готовий
-// thunk з redux/recipes (щоб не дублювати виклик DELETE /recipes/:id/favorite),
-// але саму картку зі списку users.favorites.data і лічильник currentUser
-// прибираємо тут — recipes-слайс про існування users-слайсу нічого не знає.
 import { removeFavoriteRecipe } from "../recipes/operations";
 
 const emptyList = {
@@ -28,24 +25,16 @@ const emptyList = {
 };
 
 const initialState = {
-  // Профіль, що зараз відкритий на UserPage (свій або чужий) —
-  // приходить або з fetchCurrentUser, або з fetchUserById.
   currentUser: null,
   isLoading: false,
   error: null,
 
-  // My recipes / My favorites — серверна пагінація (page/limit/totalPages).
   recipes: { ...emptyList },
   favorites: { ...emptyList },
 
-  // Followers / Following — бекенд поки без пагінації, тримаємо просто
-  // список + isLoading/error. Коли бекенд додасть page/limit — сюди
-  // додадуться ті самі поля, що й у recipes/favorites.
   followers: { data: [], isLoading: false, error: null },
   following: { data: [], isLoading: false, error: null },
 
-  // Follow/Unfollow — id користувача, на якого зараз йде запит
-  // (щоб задизейблити саме його кнопку, а не всі одразу).
   followPendingId: null,
   followError: null,
 
@@ -80,7 +69,6 @@ const usersSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Профіль (чужий або свій)
       .addCase(fetchUserById.pending, setProfilePending)
       .addCase(fetchUserById.fulfilled, setProfileFulfilled)
       .addCase(fetchUserById.rejected, setProfileRejected)
@@ -88,7 +76,6 @@ const usersSlice = createSlice({
       .addCase(fetchCurrentUser.fulfilled, setProfileFulfilled)
       .addCase(fetchCurrentUser.rejected, setProfileRejected)
 
-      // My recipes
       .addCase(fetchUserRecipes.pending, (state) => {
         state.recipes.isLoading = true;
         state.recipes.error = null;
@@ -97,6 +84,17 @@ const usersSlice = createSlice({
         state.recipes = { ...action.payload, isLoading: false, error: null };
       })
       .addCase(fetchUserRecipes.rejected, (state, action) => {
+        state.recipes.isLoading = false;
+        state.recipes.error = action.payload;
+      })
+      .addCase(fetchUserRecipesById.pending, (state) => {
+        state.recipes.isLoading = true;
+        state.recipes.error = null;
+      })
+      .addCase(fetchUserRecipesById.fulfilled, (state, action) => {
+        state.recipes = { ...action.payload, isLoading: false, error: null };
+      })
+      .addCase(fetchUserRecipesById.rejected, (state, action) => {
         state.recipes.isLoading = false;
         state.recipes.error = action.payload;
       })
@@ -113,7 +111,6 @@ const usersSlice = createSlice({
         }
       })
 
-      // My favorites
       .addCase(fetchUserFavorites.pending, (state) => {
         state.favorites.isLoading = true;
         state.favorites.error = null;
@@ -138,13 +135,17 @@ const usersSlice = createSlice({
         }
       })
 
-      // Followers
       .addCase(fetchFollowers.pending, (state) => {
         state.followers.isLoading = true;
         state.followers.error = null;
       })
       .addCase(fetchFollowers.fulfilled, (state, action) => {
-        state.followers.data = action.payload;
+        const fetched = action.payload;
+        const fetchedIds = new Set(fetched.map((user) => user.id));
+        const localOnly = state.followers.data.filter(
+          (user) => !fetchedIds.has(user.id),
+        );
+        state.followers.data = [...fetched, ...localOnly];
         state.followers.isLoading = false;
       })
       .addCase(fetchFollowers.rejected, (state, action) => {
@@ -152,13 +153,17 @@ const usersSlice = createSlice({
         state.followers.error = action.payload;
       })
 
-      // Following
       .addCase(fetchFollowing.pending, (state) => {
         state.following.isLoading = true;
         state.following.error = null;
       })
       .addCase(fetchFollowing.fulfilled, (state, action) => {
-        state.following.data = action.payload;
+        const fetched = action.payload;
+        const fetchedIds = new Set(fetched.map((user) => user.id));
+        const localOnly = state.following.data.filter(
+          (user) => !fetchedIds.has(user.id),
+        );
+        state.following.data = [...fetched, ...localOnly];
         state.following.isLoading = false;
       })
       .addCase(fetchFollowing.rejected, (state, action) => {
@@ -166,22 +171,44 @@ const usersSlice = createSlice({
         state.following.error = action.payload;
       })
 
-      // Follow / Unfollow
       .addCase(followUser.pending, (state, action) => {
         state.followPendingId = action.meta.arg;
         state.followError = null;
       })
       .addCase(followUser.fulfilled, (state, action) => {
         state.followPendingId = null;
-        if (state.currentUser?.id === action.payload) {
-          // підписались просто зі своєї сторінки (малоймовірно, але про всяк)
+
+        const { userId: followedId, me } = action.payload;
+        const alreadyFollowing = state.following.data.some(
+          (user) => user.id === followedId,
+        );
+
+        if (alreadyFollowing) {
+          return;
         }
-        if (state.currentUser?.followingCount != null) {
+
+        const profile =
+          state.currentUser?.id === followedId ? state.currentUser : null;
+        state.following.data.push({
+          id: followedId,
+          name: profile?.name ?? null,
+          avatar: profile?.avatar ?? null,
+        });
+
+        if (state.currentUser?.id === followedId) {
+          if (state.currentUser.followersCount != null) {
+            state.currentUser.followersCount += 1;
+          }
+          if (me?.id && !state.followers.data.some((user) => user.id === me.id)) {
+            state.followers.data.push({
+              id: me.id,
+              name: me.name,
+              avatar: me.avatar,
+            });
+          }
+        } else if (state.currentUser?.followingCount != null) {
           state.currentUser.followingCount += 1;
         }
-        // якщо цей юзер вже в списку "моїх підписок" — не дублюємо чергове
-        // додавання в UI-стан; сам список підтягнеться заново при заході
-        // на вкладку Following.
       })
       .addCase(followUser.rejected, (state, action) => {
         state.followPendingId = null;
@@ -193,24 +220,44 @@ const usersSlice = createSlice({
       })
       .addCase(unfollowUser.fulfilled, (state, action) => {
         state.followPendingId = null;
-        if (state.currentUser?.followingCount != null) {
+
+        const { userId: unfollowedId, me } = action.payload;
+        const wasFollowing = state.following.data.some(
+          (user) => user.id === unfollowedId,
+        );
+
+        state.following.data = state.following.data.filter(
+          (user) => user.id !== unfollowedId,
+        );
+
+        if (!wasFollowing) {
+          return;
+        }
+
+        if (state.currentUser?.id === unfollowedId) {
+          if (state.currentUser.followersCount != null) {
+            state.currentUser.followersCount = Math.max(
+              0,
+              state.currentUser.followersCount - 1,
+            );
+          }
+          if (me?.id) {
+            state.followers.data = state.followers.data.filter(
+              (user) => user.id !== me.id,
+            );
+          }
+        } else if (state.currentUser?.followingCount != null) {
           state.currentUser.followingCount = Math.max(
             0,
             state.currentUser.followingCount - 1,
           );
         }
-        // Якщо відписка відбулась зі списку Following (на своїй сторінці) —
-        // картка має зникнути без перезавантаження.
-        state.following.data = state.following.data.filter(
-          (user) => user.id !== action.payload,
-        );
       })
       .addCase(unfollowUser.rejected, (state, action) => {
         state.followPendingId = null;
         state.followError = action.payload;
       })
 
-      // Avatar
       .addCase(updateAvatar.pending, (state) => {
         state.avatarUploading = true;
         state.avatarError = null;

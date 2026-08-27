@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 import style from "./RecipePreview.module.css";
 
-// Рядок рецепта для вкладок My recipes / My favorites на UserPage.
-// onRemove/removePending прокидаються з ListItems — сам компонент нічого
-// не диспатчить, тільки повідомляє про клік (той самий підхід, що й у
-// RecipeCard).
-export default function RecipePreview({ recipe, onRemove, removePending }) {
+export default function RecipePreview({
+  recipe,
+  onRemove,
+  removePending,
+  showRemove = true,
+}) {
   const { id, title, description, thumb } = recipe;
 
   return (
@@ -33,17 +34,19 @@ export default function RecipePreview({ recipe, onRemove, removePending }) {
           </svg>
         </Link>
 
-        <button
-          type="button"
-          className={style.action}
-          onClick={() => onRemove?.(id)}
-          disabled={removePending}
-          aria-label={`Remove recipe ${title}`}
-        >
-          <svg className={style.icon} aria-hidden="true">
-            <use href={`${import.meta.env.BASE_URL}icons.svg#trash`} />
-          </svg>
-        </button>
+        {showRemove && (
+          <button
+            type="button"
+            className={style.action}
+            onClick={() => onRemove?.(id)}
+            disabled={removePending}
+            aria-label={`Remove recipe ${title}`}
+          >
+            <svg className={style.icon} aria-hidden="true">
+              <use href={`${import.meta.env.BASE_URL}icons.svg#trash`} />
+            </svg>
+          </button>
+        )}
       </div>
     </article>
   );
