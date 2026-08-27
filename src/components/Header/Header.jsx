@@ -10,6 +10,7 @@ import SignUpModal from "../SignUpModal/SignUpModal";
 import LogOutModal from "../LogOutModal/LogOutModal";
 import { selectIsLoggedIn } from "../../redux/auth/selectors";
 import { useLocation } from "react-router-dom";
+import heroSmall from "../../assets/hero/hero-2.webp";
 
 import style from "./Header.module.css";
 
