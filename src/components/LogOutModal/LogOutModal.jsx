@@ -1,56 +1,40 @@
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 
-import Modal from '../Modal/Modal';
-import { logOut } from '../../redux/auth/operations';
-
-import styles from './LogOutModal.module.css';
+import { useDispatch } from "react-redux";
+import { toast } from "react-hot-toast";
+import Modal from "../Modal/Modal";
+import { logOut } from "../../redux/auth/operations";
+import style from "./LogOutModal.module.css";
 
 export default function LogOutModal({ isOpen, onClose }) {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
-  const handleLogout = async () => {
+  const handleSubmit = async () => {
     try {
       await dispatch(logOut()).unwrap();
-    } catch {
-      // Незалежно від відповіді backend
-      // користувача все одно деавторизуємо
-    } finally {
-      localStorage.clear();
-
-      navigate('/');
+      onClose?.();
+    } catch (error) {
+      toast.error(error || "Server error. Please try again later");
     }
   };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div className={styles.content}>
-        <div className={styles.titleWrapper}>
-          <h2 className={`${styles.title} ${styles.mobileTitle}`}>LOG OUT</h2>
+      <div className={style.container}>
+        <p className={style.title}>Are you logging out?</p>
+        <p className={style.description}>
+          You can always log back in at any time.
+        </p>
 
-          <h2 className={`${styles.title} ${styles.tabletTitle}`}>
-            ARE YOU LOGGING OUT?
-          </h2>
-
-          <p className={styles.text}>You can always log back in at my time.</p>
-        </div>
-
-        <div className={styles.actions}>
-          <button
-            type="button"
-            className={styles.logoutButton}
-            onClick={handleLogout}
-          >
-            LOG OUT
+        <div className={style.actions}>
+          <button type="button" className={style.btn} onClick={handleSubmit}>
+            Log Out
           </button>
-
           <button
             type="button"
-            className={styles.cancelButton}
+            className={style.btn_outline}
             onClick={onClose}
           >
-            CANCEL
+            Cancel
           </button>
         </div>
       </div>

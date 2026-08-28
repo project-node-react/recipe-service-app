@@ -13,6 +13,12 @@ import Select from 'react-select';
 
 const MAX_DESC_LENGTH = 200;
 const MAX_INST_LENGTH = 1000;
+const FALLBACK_IMAGE = `${import.meta.env.BASE_URL}foodicon.svg`;
+
+const handleIngredientImageError = (event) => {
+  event.currentTarget.onerror = null;
+  event.currentTarget.src = FALLBACK_IMAGE;
+};
 
 const validationSchema = Yup.object({
   title: Yup.string().required('Required field'),
@@ -138,8 +144,7 @@ const AddRecipeForm = () => {
         id: currentIngredient,
         name: selectedIng ? selectedIng.name : '',
         measure: currentMeasure,
-        // Assuming backend provides image URL for ingredients (e.g., selectedIng.img)
-        img: selectedIng?.img || 'https://via.placeholder.com/40', 
+        img: selectedIng?.img || null,
       };
       formik.setFieldValue('ingredients', [...formik.values.ingredients, newIngredient]);
       setCurrentIngredient('');
@@ -152,10 +157,14 @@ const AddRecipeForm = () => {
     formik.setFieldValue('ingredients', updatedIngredients);
   };
 
+  const handleResize = (e) => {
+    e.target.style.height = 'auto';
+    e.target.style.height = `${e.target.scrollHeight}px`;
+  };
+
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>ADD RECIPE</h1>
-      <p className={styles.subtitle}>Reveal your culinary art, share your favorite recipe and create gastronomic masterpieces with us.</p>
+      
 
       <form className={styles.formGrid} onSubmit={formik.handleSubmit}>
         
@@ -167,7 +176,15 @@ const AddRecipeForm = () => {
               <img src={photoPreview} alt="Preview" className={styles.photoPreview} />
             ) : (
               <div className={styles.photoPlaceholder}>
-                <span>📷 Upload a photo</span>
+                <span className={styles.photoIcon} aria-hidden="true">
+                  <svg className={styles.captureFrame}>
+                    <use href={`${import.meta.env.BASE_URL}icons.svg#capture-frame`} />
+                  </svg>
+                  <svg className={styles.cameraIcon}>
+                    <use href={`${import.meta.env.BASE_URL}icons.svg#camera`} />
+                  </svg>
+                </span>
+                <span>Upload a photo</span>
               </div>
             )}
           </label>
@@ -196,17 +213,31 @@ const AddRecipeForm = () => {
           </div>
 
           <div className={styles.inputGroup}>
-            <input
-              type="text"
+            <textarea
               name="description"
               placeholder="Enter a description of the dish"
-              className={`${styles.input} ${formik.touched.description && formik.errors.description ? styles.inputError : ''}`}
+              className={`${styles.textarea} ${formik.touched.description && formik.errors.description ? styles.inputError : ''}`}
               value={formik.values.description}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              maxLength={MAX_DESC_LENGTH}
+              onChange={(e) => {
+              formik.handleChange(e);
+              handleResize(e);
+            }}
+            onBlur={formik.handleBlur}
+            maxLength={MAX_DESC_LENGTH}
+             rows={1}
             />
-            <span className={styles.charCount}>{formik.values.description.length}/{MAX_DESC_LENGTH}</span>
+            <span className={`${styles.charCount} ${styles.descriptionCharCount}`}>
+              <span
+                className={
+                  formik.values.description.length > 0
+                    ? styles.currentCharCount
+                    : undefined
+                }
+              >
+                {formik.values.description.length}
+              </span>
+              <span>/{MAX_DESC_LENGTH}</span>
+            </span>
             {formik.touched.description && formik.errors.description && <div className={styles.errorText}>{formik.errors.description}</div>}
           </div>
 
@@ -227,9 +258,33 @@ const AddRecipeForm = () => {
             <div>
               <label className={styles.label}>COOKING TIME</label>
               <div className={styles.timeControl}>
-                <button type="button" className={styles.timeBtn} onClick={() => formik.setFieldValue('time', Math.max(1, formik.values.time - 1))}>-</button>
-                <span> {formik.values.time} min </span>
-                <button type="button" className={styles.timeBtn} onClick={() => formik.setFieldValue('time', formik.values.time + 1)}>+</button>
+                <button
+                  type="button"
+                  className={styles.timeBtn}
+                  onClick={() => formik.setFieldValue('time', Math.max(1, formik.values.time - 1))}
+                  aria-label="Decrease cooking time"
+                >
+                  <svg className={styles.minusIcon} aria-hidden="true">
+                    <use href={`${import.meta.env.BASE_URL}icons.svg#minus`} />
+                  </svg>
+                </button>
+                <span
+                  className={
+                    formik.values.time !== 10 ? styles.activeTime : undefined
+                  }
+                >
+                  {formik.values.time} min
+                </span>
+                <button
+                  type="button"
+                  className={styles.timeBtn}
+                  onClick={() => formik.setFieldValue('time', formik.values.time + 1)}
+                  aria-label="Increase cooking time"
+                >
+                  <svg className={styles.plusIcon} aria-hidden="true">
+                    <use href={`${import.meta.env.BASE_URL}icons.svg#plus`} />
+                  </svg>
+                </button>
               </div>
             </div>
           </div>
@@ -261,14 +316,16 @@ const AddRecipeForm = () => {
               <input
                 type="text"
                 placeholder="Enter quantity"
-                className={styles.input}
-                style={{ width: '40%' }}
+                className={`${styles.input} ${styles.measureInput}`}
                 value={currentMeasure}
                 onChange={(e) => setCurrentMeasure(e.target.value)}
               />
             </div>
             <button type="button" className={styles.addIngredientBtn} onClick={handleAddIngredient}>
-                Add ingredient <span>+</span>
+                Add ingredient
+                <svg className={styles.addIcon} aria-hidden="true">
+                  <use href={`${import.meta.env.BASE_URL}icons.svg#plus`} />
+                </svg>
             </button>
             {formik.touched.ingredients && formik.errors.ingredients && <div className={styles.errorText}>{formik.errors.ingredients}</div>}
 
@@ -277,12 +334,28 @@ const AddRecipeForm = () => {
               <div className={styles.ingredientsList}>
                 {formik.values.ingredients.map((ing, index) => (
                   <div key={index} className={styles.ingredientCard}>
-                    <img src={ing.img} alt={ing.name} className={styles.ingredientImg} />
+                    <div className={styles.ingredientImageWrap}>
+                      <img
+                        src={ing.img || FALLBACK_IMAGE}
+                        alt={ing.img ? ing.name : ""}
+                        className={styles.ingredientImg}
+                        onError={handleIngredientImageError}
+                      />
+                    </div>
                     <div className={styles.ingredientInfo}>
                       <span className={styles.ingredientName}>{ing.name}</span>
-                      <span>{ing.measure}</span>
+                      <span className={styles.ingredientMeasure}>{ing.measure}</span>
                     </div>
-                    <button type="button" className={styles.removeBtn} onClick={() => handleRemoveIngredient(index)}>×</button>
+                    <button
+                      type="button"
+                      className={styles.removeBtn}
+                      onClick={() => handleRemoveIngredient(index)}
+                      aria-label={`Remove ${ing.name}`}
+                    >
+                      <svg className={styles.removeIcon} aria-hidden="true">
+                        <use href={`${import.meta.env.BASE_URL}icons.svg#close-small`} />
+                      </svg>
+                    </button>
                   </div>
                 ))}
               </div>
@@ -296,16 +369,40 @@ const AddRecipeForm = () => {
               placeholder="Enter recipe"
               className={`${styles.textarea} ${formik.touched.instructions && formik.errors.instructions ? styles.inputError : ''}`}
               value={formik.values.instructions}
-              onChange={formik.handleChange}
+              onChange={(e) => {
+              formik.handleChange(e);
+              handleResize(e);
+              }}
               onBlur={formik.handleBlur}
               maxLength={MAX_INST_LENGTH}
-            ></textarea>
-            <span className={styles.charCount}>{formik.values.instructions.length}/{MAX_INST_LENGTH}</span>
+              rows={1}
+            />
+            <span className={`${styles.charCount} ${styles.instructionsCharCount}`}>
+              <span
+                className={
+                  formik.values.instructions.length > 0
+                    ? styles.currentCharCount
+                    : undefined
+                }
+              >
+                {formik.values.instructions.length}
+              </span>
+              <span>/{MAX_INST_LENGTH}</span>
+            </span>
             {formik.touched.instructions && formik.errors.instructions && <div className={styles.errorText}>{formik.errors.instructions}</div>}
           </div>
 
           <div className={styles.formActions}>
-            <button type="button" className={styles.clearBtn} onClick={handleClear}>🗑</button>
+            <button
+              type="button"
+              className={styles.clearBtn}
+              onClick={handleClear}
+              aria-label="Clear recipe form"
+            >
+              <svg aria-hidden="true">
+                <use href={`${import.meta.env.BASE_URL}icons.svg#trash`} />
+              </svg>
+            </button>
             <button type="submit" className={styles.publishBtn}>PUBLISH</button>
           </div>
 

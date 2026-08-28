@@ -15,61 +15,7 @@ export const addRecipe = createAsyncThunk(
   },
 );
 
-// //Для тестування з токеном
-// import { createAsyncThunk } from "@reduxjs/toolkit";
-// import axios from "axios";
-// import { http, withAuth } from "../../api/http";
 
-// const recipeApi = axios.create({
-//   baseURL: "http://localhost:3000",
-// });
-
-// const getRequestError = (error) => ({
-//   message:
-//     error.response?.data?.error ||
-//     error.response?.data?.message ||
-//     error.message ||
-//     "Request failed",
-//   status: error.response?.status || null,
-// });
-
-// const getAuthConfig = (token) => ({
-//   headers: {
-//     Authorization: `Bearer ${token}`,
-//   },
-// });
-
-// const getAuthToken = (thunkAPI) => thunkAPI.getState().auth.token;
-
-// const rejectAuthenticationRequired = (thunkAPI) =>
-//   thunkAPI.rejectWithValue({
-//     message: "Authentication required",
-//     status: 401,
-//   });
-
-// export const addRecipe = createAsyncThunk(
-//   "recipes/addRecipe",
-//   async (formData, thunkAPI) => {
-//     try {
-//       // 1. Дістаємо поточний стейт
-//       const state = thunkAPI.getState();
-
-//       // 2. Дістаємо токен (переконайся, що шлях state.auth.token правильний для вашого проєкту)
-//       const token = state.auth.token;
-
-//       // 3. Відправляємо запит із токеном у заголовках
-//       const response = await axios.post("/api/recipes", formData, {
-//         headers: {
-//           "Content-Type": "multipart/form-data",
-//           Authorization: `Bearer ${token}`,
-//         },
-//       });
-//       return response.data;
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(error.message);
-//     }
-//   },
-// );
 // ─────────────────────────────────────────────────────────────
 // HomePage: список рецептів + серверна пагінація + улюблені
 // ─────────────────────────────────────────────────────────────
@@ -180,11 +126,11 @@ export const fetchRecipeById = createAsyncThunk(
         },
         ingredients: Array.isArray(recipe.ingredients)
           ? recipe.ingredients.map((ingredient) => ({
-              id: ingredient.id,
-              name: ingredient.name,
-              image: ingredient.img || null,
-              measure: ingredient.measure,
-            }))
+            id: ingredient.id,
+            name: ingredient.name,
+            image: ingredient.img || null,
+            measure: ingredient.measure,
+          }))
           : [],
       };
     } catch (error) {

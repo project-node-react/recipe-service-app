@@ -1,4 +1,3 @@
-/* Значення взяті з макета: карточка 290px, зображення 290x275, радіус 30px. */
 .card {
   display: flex;
   flex-direction: column;
@@ -25,7 +24,6 @@
   gap: 8px;
 }
 
-/* Desktop_tablet/H4 */
 .title {
   font-weight: 800;
   font-size: 20px;
@@ -34,13 +32,11 @@
   text-transform: uppercase;
   color: var(--main);
 
-  /* у макеті назва в один рядок з трикрапкою */
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
-/* Desktop_tablet/Main */
 .description {
   height: 54px;
   overflow: hidden;
@@ -117,44 +113,45 @@
   flex-shrink: 0;
 }
 
-/* 10px padding + іконка 16px на мобільному, 12px + 18px від планшета */
+/* Кнопки */
 .action {
   display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 10px;
   border-radius: 30px;
   background-color: transparent;
   border: 1px solid var(--gray);
   color: var(--main);
-  transition:
-    background-color var(--trans-norm),
-    border-color var(--trans-norm),
-    color var(--trans-norm);
+  cursor: pointer;
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
 }
 
-/* Стан акценту з UI Kit: чорне коло з білою іконкою.
-   Той самий вигляд і для hover, і для рецепта в улюблених. */
-.action:hover,
-.action:focus-visible,
-.actionActive {
-  background-color: var(--main);
-  border-color: var(--main);
-  color: var(--white);
-}
-
+/* Іконка */
 .icon {
   width: 16px;
   height: 16px;
-  stroke: currentColor;
   fill: none;
+  stroke: currentColor;
+  transition:
+    fill var(--trans-norm),
+    stroke var(--trans-norm),
+    color var(--trans-norm);
 }
 
-@media screen and (min-width: 768px) {
-  .action {
-    padding: 12px;
-  }
+/* Серце */
+.iconHeart {
+  width: 18px;
+  height: 18px;
+  fill: transparent;
+  stroke: #050505;
+  stroke-width: 1.5;
+}
 
-  .icon {
-    width: 18px;
-    height: 18px;
-  }
+/* Серце після кліку */
+.actionActive .iconHeart {
+  fill: #050505;
+  stroke: #050505;
 }

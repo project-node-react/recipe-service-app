@@ -1,0 +1,22 @@
+.title {
+  width: fit-content;
+  height: auto;
+  margin: 0;
+
+  color: #050505;
+  font-family: "Mulish", sans-serif;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 44px;
+  letter-spacing: -0.8px;
+  text-transform: uppercase;
+}
+
+@media screen and (max-width: 767px) {
+  .title {
+    font-size: 28px;
+    line-height: 32px;
+    letter-spacing: -0.02em;
+  }
+}

@@ -1,12 +1,39 @@
 .nav_list {
   display: flex;
-  gap: 32px;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 1.5;
+  gap: 40px;
+}
+
+.nav_link {
+  display: block;
+  padding: 14px 30px;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 18px;
+  text-transform: uppercase;
+  color: var(--white);
+  text-decoration: none;
+  border: 1px solid transparent;
+  border-radius: 30px;
+}
+
+.nav_link:last-child {
+  margin-right: 0;
+}
+
+.nav_link__rev {
   color: var(--main);
 }
 
+.nav_link:hover {
+  border: 1px solid var(--gray);
+}
+
 .active {
-  color: var(--gray);
+  border: 1px solid var(--gray);
+}
+
+@media screen and (min-width: 768px) {
+  .nav_link {
+    padding: 14px;
+  }
 }

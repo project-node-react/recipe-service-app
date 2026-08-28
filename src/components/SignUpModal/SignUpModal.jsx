@@ -103,9 +103,7 @@ export default function SignUpModal({ isOpen, onClose, onSignInAccount }) {
               >
                 <svg className={style.toggleIcon} aria-hidden="true">
                   <use
-                    href={
-                      showPassword ? "/icons.svg#eye-off" : "/icons.svg#eye"
-                    }
+                    href={`${import.meta.env.BASE_URL}icons.svg#${showPassword ? "eye-off" : "eye"}`}
                   />
                 </svg>
               </button>

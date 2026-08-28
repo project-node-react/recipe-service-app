@@ -1,0 +1,20 @@
+.subtitle {
+  width: 540px;
+  max-width: 100%;
+
+  margin-top: 16px;
+
+  color: #1a1a1a;
+  font-family: "Mulish", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+}
+
+@media screen and (max-width: 767px) {
+  .subtitle {
+    width: 100%;
+  }
+}
