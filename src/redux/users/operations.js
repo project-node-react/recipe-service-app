@@ -86,7 +86,7 @@ export const fetchFollowers = createAsyncThunk(
       const response = await api.get(`/users/${userId}/followers`, {
         params: { page, limit },
       });
-      return response.data.data ?? response.data.followers ?? [];
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(getErrorMessage(error));
     }
@@ -100,7 +100,7 @@ export const fetchFollowing = createAsyncThunk(
       const response = await api.get("/users/following", {
         params: { page, limit },
       });
-      return response.data.data ?? response.data.following ?? [];
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(getErrorMessage(error));
     }

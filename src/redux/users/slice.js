@@ -32,8 +32,8 @@ const initialState = {
   recipes: { ...emptyList },
   favorites: { ...emptyList },
 
-  followers: { data: [], isLoading: false, error: null },
-  following: { data: [], isLoading: false, error: null },
+  followers: { data: [], totalPages: 1, currentPage: 1, isLoading: false, error: null },
+  following: { data: [], totalPages: 1, currentPage: 1, isLoading: false, error: null },
 
   followPendingId: null,
   followError: null,
@@ -140,13 +140,11 @@ const usersSlice = createSlice({
         state.followers.error = null;
       })
       .addCase(fetchFollowers.fulfilled, (state, action) => {
-        const fetched = action.payload;
-        const fetchedIds = new Set(fetched.map((user) => user.id));
-        const localOnly = state.followers.data.filter(
-          (user) => !fetchedIds.has(user.id),
-        );
-        state.followers.data = [...fetched, ...localOnly];
         state.followers.isLoading = false;
+        state.followers.error = null;
+        state.followers.data = action.payload?.data || action.payload?.followers || [];
+        state.followers.totalPages = action.payload?.totalPages || 1;
+        state.followers.currentPage = action.payload?.currentPage || 1;
       })
       .addCase(fetchFollowers.rejected, (state, action) => {
         state.followers.isLoading = false;
@@ -158,13 +156,11 @@ const usersSlice = createSlice({
         state.following.error = null;
       })
       .addCase(fetchFollowing.fulfilled, (state, action) => {
-        const fetched = action.payload;
-        const fetchedIds = new Set(fetched.map((user) => user.id));
-        const localOnly = state.following.data.filter(
-          (user) => !fetchedIds.has(user.id),
-        );
-        state.following.data = [...fetched, ...localOnly];
         state.following.isLoading = false;
+        state.following.error = null;
+        state.following.data = action.payload?.data || action.payload?.following || [];
+        state.following.totalPages = action.payload?.totalPages || 1;
+        state.following.currentPage = action.payload?.currentPage || 1;
       })
       .addCase(fetchFollowing.rejected, (state, action) => {
         state.following.isLoading = false;

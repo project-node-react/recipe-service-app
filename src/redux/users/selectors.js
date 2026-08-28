@@ -19,7 +19,7 @@ export const selectFollowError = (state) => state.users.followError;
 // заздалегідь підвантажений (dispatch(fetchFollowing()) при вході на
 // будь-яку сторінку зі списками юзерів, не тільки на вкладці Following).
 export const selectIsFollowing = (state, userId) =>
-  state.users.following.data.some((user) => user.id === userId);
+  (state.users.following?.data || []).some((user) => user.id === userId);
 
 export const selectAvatarUploading = (state) => state.users.avatarUploading;
 export const selectAvatarError = (state) => state.users.avatarError;

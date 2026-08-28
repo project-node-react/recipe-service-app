@@ -177,11 +177,13 @@ export default function ListItems() {
 				))}
 			</ul>
 
-			<RecipePagination
-				page={currentPage}
-				totalPages={totalPages}
-				onPageChange={handlePageChange}
-			/>
+			{totalPages > 1 && (
+				<RecipePagination
+					page={currentPage}
+					totalPages={totalPages}
+					onPageChange={handlePageChange}
+				/>
+			)}
 		</div>
 	);
 }
