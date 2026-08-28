@@ -66,13 +66,7 @@ export default function RecipeCard({
 						<button
 							type="button"
 							className={clsx(style.action, isFavorite && style.actionActive)}
-							onPointerDown={() => {
-								// console.log("👆 POINTER DOWN:", title, id);
-							}}
-							onMouseDown={() => {
-								// console.log("🖱️ MOUSE DOWN:", title, id);
-							}}
-							onClick={(event) => {
+							onClick={() => {
 								handleFavoriteClick();
 							}}
 							aria-pressed={isFavorite}
