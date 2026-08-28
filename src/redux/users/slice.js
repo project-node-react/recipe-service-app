@@ -8,6 +8,7 @@ import {
   deleteOwnRecipe,
   fetchFollowers,
   fetchFollowing,
+  fetchUserRecipesPreview,
   followUser,
   unfollowUser,
   updateAvatar,
@@ -34,6 +35,8 @@ const initialState = {
 
   followers: { data: [], isLoading: false, error: null },
   following: { data: [], isLoading: false, error: null },
+
+  recipesPreview: {},
 
   followPendingId: null,
   followError: null,
@@ -169,6 +172,32 @@ const usersSlice = createSlice({
       .addCase(fetchFollowing.rejected, (state, action) => {
         state.following.isLoading = false;
         state.following.error = action.payload;
+      })
+
+      .addCase(fetchUserRecipesPreview.pending, (state, action) => {
+        const userId = action.meta.arg;
+        state.recipesPreview[userId] = {
+          ...(state.recipesPreview[userId] || {}),
+          isLoading: true,
+          error: null,
+        };
+      })
+      .addCase(fetchUserRecipesPreview.fulfilled, (state, action) => {
+        const { userId, totalItems, recipes } = action.payload;
+        state.recipesPreview[userId] = {
+          totalItems,
+          recipes,
+          isLoading: false,
+          error: null,
+        };
+      })
+      .addCase(fetchUserRecipesPreview.rejected, (state, action) => {
+        const userId = action.meta.arg;
+        state.recipesPreview[userId] = {
+          ...(state.recipesPreview[userId] || {}),
+          isLoading: false,
+          error: action.payload,
+        };
       })
 
       .addCase(followUser.pending, (state, action) => {

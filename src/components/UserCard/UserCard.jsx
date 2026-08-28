@@ -1,9 +1,14 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 import defaultAvatar from "../../assets/profile.png";
-import { followUser, unfollowUser } from "../../redux/users/operations";
-import { selectFollowPendingId, selectIsFollowing } from "../../redux/users/selectors";
+import { followUser, unfollowUser, fetchUserRecipesPreview } from "../../redux/users/operations";
+import {
+  selectFollowPendingId,
+  selectIsFollowing,
+  selectRecipesPreview,
+} from "../../redux/users/selectors";
 import { selectUser } from "../../redux/auth/selectors";
 import style from "./UserCard.module.css";
 
@@ -12,10 +17,18 @@ export default function UserCard({ user }) {
   const authUser = useSelector(selectUser);
   const followPendingId = useSelector(selectFollowPendingId);
   const isFollowing = useSelector((state) => selectIsFollowing(state, user.id));
+  const preview = useSelector((state) => selectRecipesPreview(state, user.id));
 
   const isSelf = authUser?.id && String(authUser.id) === String(user.id);
   const isPending = followPendingId === user.id;
-  const recentRecipes = user.recipes || [];
+  const recentRecipes = preview?.recipes || [];
+  const recipesCount = preview?.totalItems;
+
+  useEffect(() => {
+    if (!preview) {
+      dispatch(fetchUserRecipesPreview(user.id));
+    }
+  }, [dispatch, user.id, preview]);
 
   const handleFollowClick = () => {
     const action = isFollowing ? unfollowUser(user.id) : followUser(user.id);
@@ -39,8 +52,8 @@ export default function UserCard({ user }) {
 
       <div className={style.info}>
         <p className={style.name}>{user.name}</p>
-        {user.recipesCount != null && (
-          <p className={style.recipesCount}>Own recipes: {user.recipesCount}</p>
+        {recipesCount != null && (
+          <p className={style.recipesCount}>Own recipes: {recipesCount}</p>
         )}
 
         {!isSelf && (
