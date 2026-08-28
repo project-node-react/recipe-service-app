@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { register, logIn, logOut, refreshUser } from "./operations";
+import { updateAvatar } from "../users/operations";
 
 const emptyUser = { id: null, name: null, email: null, avatar: null };
 
@@ -63,6 +64,11 @@ const authSlice = createSlice({
         state.token = null;
         state.isLoggedIn = false;
         state.isRefreshing = false;
+      })
+      .addCase(updateAvatar.fulfilled, (state, action) => {
+        if (state.user) {
+          state.user.avatar = action.payload;
+        }
       });
   },
 });

@@ -102,7 +102,8 @@ export const logIn = createAsyncThunk(
     try {
       const res = await api.post("/auth/login", credentials);
       setAuthHeader(res.data.accessToken);
-      return res.data;
+      const userRes = await api.get("/users/current");
+      return { accessToken: res.data.accessToken, user: userRes.data };
     } catch (error) {
       return thunkAPI.rejectWithValue(getErrorMessage(error));
     }
