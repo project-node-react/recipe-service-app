@@ -1,2 +1,0 @@
-import{L as e,N as t}from"./index-BZOkbKlX.js";var n={NotFoundPage:`_NotFoundPage_sovyy_1`,warning:`_warning_sovyy_11`,link:`_link_sovyy_14`},r=t();function i(){return(0,r.jsxs)(`div`,{className:n.NotFoundPage,children:[(0,r.jsx)(`h2`,{className:n.warning,children:`404 Page not found!`}),(0,r.jsx)(e,{to:`/`,className:n.link,children:`Link to Home Page`})]})}export{i as default};
-//# sourceMappingURL=NotFoundPage-BDc8DhBA.js.map
