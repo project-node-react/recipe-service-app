@@ -113,7 +113,7 @@
 	flex-shrink: 0;
 }
 
-/* Кнопки */
+/* Кнопка (загальні стилі) */
 .action {
 	display: flex;
 	align-items: center;
@@ -127,9 +127,12 @@
 	position: relative;
 	z-index: 10;
 	pointer-events: auto;
+	transition:
+		background-color var(--trans-norm),
+		border-color var(--trans-norm);
 }
 
-/* Іконка */
+/* Іконка (загальні стилі) */
 .icon {
 	width: 16px;
 	height: 16px;
@@ -144,21 +147,43 @@
 	stroke: inherit;
 }
 
-/* Серце */
+/* --- СЕРЦЕ --- */
 .iconHeart {
 	width: 18px;
 	height: 18px;
 	fill: transparent;
 	stroke: var(--main);
+	paint-order: stroke fill;
+	transition:
+		fill var(--trans-norm),
+		stroke var(--trans-norm);
 }
 
-/* Серце після кліку */
-.actionActive .iconHeart {
+/* --- СТРІЛКА --- */
+.iconArrow {
+	stroke: var(--main);
+	fill: none;
+	transition: stroke var(--trans-norm);
+}
+
+/* --- ХОВЕР ТА АКТИВНИЙ СТАН ДЛЯ КНОПОК --- */
+
+/* Чорний фон кнопки при ховері чи активності */
+.actionActive,
+.action:hover {
+	background-color: var(--main);
+	border-color: var(--main);
+}
+
+/* Серце: чорна середина, біла лінія */
+.actionActive .iconHeart,
+.action:hover .iconHeart {
 	fill: var(--main);
 	stroke: var(--white);
 }
 
-.actionActive {
-	background-color: var(--main);
-	border-color: var(--main);
+/* Стрілка: білий колір лінії при ховері або активному стані */
+.actionActive .iconArrow,
+.action:hover .iconArrow {
+	stroke: var(--white);
 }
