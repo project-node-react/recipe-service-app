@@ -28,8 +28,6 @@ import { selectUser } from "../../redux/auth/selectors";
 
 import styles from "./ListItems.module.css";
 
-const PAGE_LIMIT = 12;
-
 const getEmptyMessage = (tab, isOwnPage) => {
 	switch (tab) {
 		case "my-recipes":
@@ -70,6 +68,11 @@ export default function ListItems() {
 	const followers = useSelector(selectFollowers);
 	const following = useSelector(selectFollowing);
 
+	const isRecipeTab =
+		activeTab === "my-recipes" || activeTab === "my-favorites";
+
+	const PAGE_LIMIT = isRecipeTab ? 9 : 5;
+
 	useEffect(() => {
 		if (!userId) return;
 
@@ -89,25 +92,24 @@ export default function ListItems() {
 				dispatch(fetchUserFavorites({ page: currentPage, limit: PAGE_LIMIT }));
 				break;
 			case "followers":
-				dispatch(fetchFollowers(userId));
+				dispatch(
+					fetchFollowers({ userId, page: currentPage, limit: PAGE_LIMIT }),
+				);
 				break;
 			case "following":
-				dispatch(fetchFollowing());
+				dispatch(fetchFollowing({ page: currentPage, limit: PAGE_LIMIT }));
 				break;
 			default:
 				break;
 		}
 	}, [dispatch, userId, isOwnPage, activeTab, currentPage]);
 
-	const isRecipeTab = activeTab === "my-recipes" || activeTab === "my-favorites";
-
-	const currentData =
-		{
-			"my-recipes": recipes,
-			"my-favorites": favorites,
-			followers,
-			following,
-		}[activeTab] || { data: [], isLoading: false, error: null };
+	const currentData = {
+		"my-recipes": recipes,
+		"my-favorites": favorites,
+		followers,
+		following,
+	}[activeTab] || { data: [], isLoading: false, error: null };
 
 	const items = currentData.data || [];
 	const totalPages = currentData.totalPages || 1;
@@ -175,13 +177,11 @@ export default function ListItems() {
 				))}
 			</ul>
 
-			{isRecipeTab && (
-				<RecipePagination
-					page={currentPage}
-					totalPages={totalPages}
-					onPageChange={handlePageChange}
-				/>
-			)}
+			<RecipePagination
+				page={currentPage}
+				totalPages={totalPages}
+				onPageChange={handlePageChange}
+			/>
 		</div>
 	);
 }

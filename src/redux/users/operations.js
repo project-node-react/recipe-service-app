@@ -27,7 +27,7 @@ export const fetchCurrentUser = createAsyncThunk(
 
 export const fetchUserRecipes = createAsyncThunk(
   "users/fetchUserRecipes",
-  async ({ page = 1, limit = 12 } = {}, thunkAPI) => {
+  async ({ page = 1, limit = 9 } = {}, thunkAPI) => {
     try {
       const response = await api.get("/recipes/own", {
         params: { page, limit },
@@ -41,7 +41,7 @@ export const fetchUserRecipes = createAsyncThunk(
 
 export const fetchUserFavorites = createAsyncThunk(
   "users/fetchUserFavorites",
-  async ({ page = 1, limit = 12 } = {}, thunkAPI) => {
+  async ({ page = 1, limit = 9 } = {}, thunkAPI) => {
     try {
       const response = await api.get("/recipes/favorites", {
         params: { page, limit },
@@ -55,7 +55,7 @@ export const fetchUserFavorites = createAsyncThunk(
 
 export const fetchUserRecipesById = createAsyncThunk(
   "users/fetchUserRecipesById",
-  async ({ userId, page = 1, limit = 12 }, thunkAPI) => {
+  async ({ userId, page = 1, limit = 9 }, thunkAPI) => {
     try {
       const response = await api.get(`/users/${userId}/recipes`, {
         params: { page, limit },
@@ -81,9 +81,11 @@ export const deleteOwnRecipe = createAsyncThunk(
 
 export const fetchFollowers = createAsyncThunk(
   "users/fetchFollowers",
-  async (userId, thunkAPI) => {
+  async ({ userId, page = 1, limit = 5 }, thunkAPI) => {
     try {
-      const response = await api.get(`/users/${userId}/followers`);
+      const response = await api.get(`/users/${userId}/followers`, {
+        params: { page, limit },
+      });
       return response.data.data ?? response.data.followers ?? [];
     } catch (error) {
       return thunkAPI.rejectWithValue(getErrorMessage(error));
@@ -93,9 +95,11 @@ export const fetchFollowers = createAsyncThunk(
 
 export const fetchFollowing = createAsyncThunk(
   "users/fetchFollowing",
-  async (_, thunkAPI) => {
+  async ({ page = 1, limit = 5 }, thunkAPI) => {
     try {
-      const response = await api.get("/users/following");
+      const response = await api.get("/users/following", {
+        params: { page, limit },
+      });
       return response.data.data ?? response.data.following ?? [];
     } catch (error) {
       return thunkAPI.rejectWithValue(getErrorMessage(error));
