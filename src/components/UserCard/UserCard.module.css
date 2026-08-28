@@ -47,21 +47,9 @@
     color var(--trans-norm);
 }
 
-.followBtn:hover,
-.followBtn:focus-visible {
+.followBtn:active {
   background-color: #050505;
   color: var(--white);
-}
-
-.followBtnActive {
-  background-color: #050505;
-  color: var(--white);
-}
-
-.followBtnActive:hover,
-.followBtnActive:focus-visible {
-  background-color: var(--white);
-  color: #050505;
 }
 
 .followBtn:disabled {

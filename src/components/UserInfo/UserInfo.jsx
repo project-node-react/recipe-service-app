@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from "react-redux";
-import clsx from "clsx";
 import { toast } from "react-hot-toast";
 import defaultAvatar from "../../assets/profile.png";
 import { followUser, unfollowUser, updateAvatar } from "../../redux/users/operations";
@@ -40,8 +39,9 @@ export default function UserInfo({ user, isOwnPage, onLogOutClick }) {
   const isFollowPending = followPendingId === user.id;
 
   return (
-    <div className={style.card}>
-      <div className={style.avatarWrap}>
+    <div className={style.wrapper}>
+      <div className={style.card}>
+        <div className={style.avatarWrap}>
         <img
           className={style.avatar}
           src={user.avatar || defaultAvatar}
@@ -66,36 +66,37 @@ export default function UserInfo({ user, isOwnPage, onLogOutClick }) {
             </svg>
           </label>
         )}
+        </div>
+
+        <p className={style.name}>{user.name}</p>
+
+        <dl className={style.stats}>
+          <div className={style.statRow}>
+            <dt>Email:</dt>
+            <dd className={style.statValueEmail}>{user.email}</dd>
+          </div>
+          <div className={style.statRow}>
+            <dt>Added recipes:</dt>
+            <dd>{user.recipesCount ?? 0}</dd>
+          </div>
+          {isOwnPage && (
+            <div className={style.statRow}>
+              <dt>Favorites:</dt>
+              <dd>{user.favoritesCount ?? 0}</dd>
+            </div>
+          )}
+          <div className={style.statRow}>
+            <dt>Followers:</dt>
+            <dd>{user.followersCount ?? 0}</dd>
+          </div>
+          {isOwnPage && (
+            <div className={style.statRow}>
+              <dt>Following:</dt>
+              <dd>{user.followingCount ?? 0}</dd>
+            </div>
+          )}
+        </dl>
       </div>
-
-      <p className={style.name}>{user.name}</p>
-
-      <dl className={style.stats}>
-        <div className={style.statRow}>
-          <dt>Email:</dt>
-          <dd className={style.statValueEmail}>{user.email}</dd>
-        </div>
-        <div className={style.statRow}>
-          <dt>Added recipes:</dt>
-          <dd>{user.recipesCount ?? 0}</dd>
-        </div>
-        {isOwnPage && (
-          <div className={style.statRow}>
-            <dt>Favorites:</dt>
-            <dd>{user.favoritesCount ?? 0}</dd>
-          </div>
-        )}
-        <div className={style.statRow}>
-          <dt>Followers:</dt>
-          <dd>{user.followersCount ?? 0}</dd>
-        </div>
-        {isOwnPage && (
-          <div className={style.statRow}>
-            <dt>Following:</dt>
-            <dd>{user.followingCount ?? 0}</dd>
-          </div>
-        )}
-      </dl>
 
       {isOwnPage ? (
         <button type="button" className={style.actionBtn} onClick={onLogOutClick}>
@@ -104,7 +105,7 @@ export default function UserInfo({ user, isOwnPage, onLogOutClick }) {
       ) : (
         <button
           type="button"
-          className={clsx(style.actionBtn, isFollowing && style.actionBtnOutline)}
+          className={style.followActionBtn}
           onClick={handleFollowClick}
           disabled={isFollowPending}
         >

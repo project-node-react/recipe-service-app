@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import clsx from "clsx";
 import { toast } from "react-hot-toast";
 import defaultAvatar from "../../assets/profile.png";
 import { followUser, unfollowUser } from "../../redux/users/operations";
@@ -47,7 +46,7 @@ export default function UserCard({ user }) {
         {!isSelf && (
           <button
             type="button"
-            className={clsx(style.followBtn, isFollowing && style.followBtnActive)}
+            className={style.followBtn}
             onClick={handleFollowClick}
             disabled={isPending}
           >
