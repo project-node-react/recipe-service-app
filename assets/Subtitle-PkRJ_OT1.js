@@ -1,0 +1,2 @@
+import{N as e}from"./index-YGTPTD7U.js";var t={subtitle:`_subtitle_7xww0_1`},n=e(),r=({children:e})=>(0,n.jsx)(`h2`,{className:t.subtitle,children:e});export{r as t};
+//# sourceMappingURL=Subtitle-PkRJ_OT1.js.map
