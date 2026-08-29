@@ -7,10 +7,14 @@ import Modal from "../Modal/Modal";
 import { logIn } from "../../redux/auth/operations";
 import style from "./SignInModal.module.css";
 
+const emailRegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
 const validationSchema = Yup.object({
-  name: Yup.string().required("Name is required"),
+  email: Yup.string()
+    .matches(emailRegExp, "Email is not valid.")
+    .required("Email is required"),
   password: Yup.string()
-    .min(6, "Password must be at least 6 characters")
+    .min(8, "Password must be at least 8 characters")
     .required("Password is required"),
 });
 
@@ -48,16 +52,16 @@ export default function SignInModal({ isOpen, onClose, onCreateAccount }) {
           <label className={style.field}>
             <input
               className={style.input}
-              type="text"
-              name="name"
-              placeholder="Name*"
-              autoComplete="username"
-              value={formik.values.name}
+              type="email"
+              name="email"
+              placeholder="Email*"
+              autoComplete="email"
+              value={formik.values.email}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
-            {formik.touched.name && formik.errors.name ? (
-              <span className={style.error}>{formik.errors.name}</span>
+            {formik.touched.email && formik.errors.email ? (
+              <span className={style.error}>{formik.errors.email}</span>
             ) : null}
           </label>
 

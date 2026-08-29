@@ -8,14 +8,22 @@ import { register } from "../../redux/auth/operations";
 import style from "./SignUpModal.module.css";
 
 const emailRegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const nameRegExp = /^[a-zA-Z0-9_]+$/;
 
 const validationSchema = Yup.object({
-  name: Yup.string().required("Name is required"),
+  name: Yup.string()
+    .required("Name is required")
+    .min(3, "Name must be at least 3 characters")
+    .max(30, "Name must be at most 30 characters")
+    .matches(
+      nameRegExp,
+      "Name can only contain latin letters, numbers, and underscores",
+    ),
   email: Yup.string()
     .matches(emailRegExp, "Email is not valid.")
     .required("Email is required"),
   password: Yup.string()
-    .min(6, "Password must be at least 6 characters")
+    .min(8, "Password must be at least 8 characters")
     .required("Password is required"),
 });
 
