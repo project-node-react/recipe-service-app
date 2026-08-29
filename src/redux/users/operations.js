@@ -107,6 +107,21 @@ export const fetchFollowing = createAsyncThunk(
   },
 );
 
+export const fetchFollowingIds = createAsyncThunk(
+  "users/fetchFollowingIds",
+  async (_, thunkAPI) => {
+    try {
+      const response = await api.get("/users/following", {
+        params: { page: 1, limit: 1000 },
+      });
+      const list = response.data?.data || response.data?.following || [];
+      return list.map((user) => user.id);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(getErrorMessage(error));
+    }
+  },
+);
+
 export const fetchUserRecipesPreview = createAsyncThunk(
   "users/fetchUserRecipesPreview",
   async (userId, thunkAPI) => {

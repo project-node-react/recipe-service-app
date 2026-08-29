@@ -4,17 +4,17 @@
   align-self: center;
   width: 100%;
   max-width: 394px;
-  gap: 8px;
+  gap: 20px;
 }
 
 .card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
-  padding: 32px 24px;
-  border: 1px solid rgba(5, 5, 5, 0.1);
-  border-radius: 20px;
+  gap: 16px;
+  padding: 30px 24px;
+  border: 1px solid rgba(191, 190, 190, 1);
+  border-radius: 30px;
 }
 
 .avatarWrap {
@@ -32,15 +32,15 @@
 
 .avatarUpload {
   position: absolute;
-  right: 0;
+  left: 50%;
   bottom: 0;
+  transform: translate(-50%, 30%);
   display: flex;
   align-items: center;
   justify-content: center;
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  border: 2px solid var(--white);
   background-color: #050505;
   cursor: pointer;
   transition: background-color var(--trans-norm);
@@ -55,38 +55,45 @@
   width: 14px;
   height: 14px;
   fill: var(--white);
+  color: var(--white);
 }
 
 .name {
   font-weight: 800;
   font-size: 18px;
+  line-height: 24px;
   text-transform: uppercase;
   letter-spacing: -0.02em;
 }
 
 .stats {
-  align-self: stretch;
+  /* align-self: stretch; */
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-top: 4px;
-  font-size: 13px;
+  gap: 6px;
+  margin: 0;
 }
 
 .statRow {
   display: flex;
   align-items: baseline;
-  gap: 4px;
+  gap: 8px;
 }
 
 .statRow dt {
   color: var(--gray);
-  font-weight: 400;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: -0.02em;
 }
 
 .statRow dd {
   margin: 0;
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -0.02em;
   word-break: break-word;
 }
 
@@ -96,13 +103,14 @@
 }
 
 .actionBtn {
-  padding: 14px 24px;
+  padding: 14px 140px;
   border: 1px solid #050505;
   border-radius: 30px;
-  background-color: #050505;
+  background-color: #1A1A1A;
   color: var(--white);
   font-weight: 700;
   font-size: 14px;
+  line-height: 20px;
   text-transform: uppercase;
   letter-spacing: -0.02em;
   transition:
@@ -148,6 +156,48 @@
 .followActionBtn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+@media screen and (min-width: 768px) {
+  .card {
+  gap: 20px;
+  padding: 40px 24px;
+}
+  .avatarWrap {
+  width: 120px;
+  height: 120px;
+}
+.avatarUpload {
+  width: 38px;
+  height: 38px;
+}
+.avatarUploadIcon {
+  width: 18px;
+  height: 18px;
+}
+.name {
+  font-size: 20px;
+}
+.stats {
+  gap: 8px;
+}
+.statRow {
+  gap: 8px;
+}
+
+.statRow dt {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.statRow dd {
+  font-size: 16px;
+  line-height: 24px;
+}
+.actionBtn {
+  padding: 16px 140px;
+  font-size: 16px;
+  line-height: 24px;
+}
 }
 
 @media screen and (min-width: 1440px) {

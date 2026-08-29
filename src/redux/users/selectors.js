@@ -11,8 +11,10 @@ export const selectFollowing = (state) => state.users.following;
 export const selectFollowPendingId = (state) => state.users.followPendingId;
 export const selectFollowError = (state) => state.users.followError;
 
+export const selectFollowingIds = (state) => state.users.followingIds;
+
 export const selectIsFollowing = (state, userId) =>
-  (state.users.following?.data || []).some((user) => user.id === userId);
+  (state.users.followingIds || []).includes(userId);
 
 export const selectAvatarUploading = (state) => state.users.avatarUploading;
 export const selectAvatarError = (state) => state.users.avatarError;

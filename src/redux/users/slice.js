@@ -9,6 +9,7 @@ import {
   deleteOwnRecipe,
   fetchFollowers,
   fetchFollowing,
+  fetchFollowingIds,
   fetchUserRecipesPreview,
   followUser,
   unfollowUser,
@@ -50,6 +51,8 @@ const initialState = {
   },
 
   recipesPreview: {},
+
+  followingIds: [],
 
   followPendingId: null,
   followError: null,
@@ -188,6 +191,10 @@ const usersSlice = createSlice({
         state.following.error = action.payload;
       })
 
+      .addCase(fetchFollowingIds.fulfilled, (state, action) => {
+        state.followingIds = action.payload;
+      })
+
       .addCase(fetchUserRecipesPreview.pending, (state, action) => {
         const userId = action.meta.arg;
         state.recipesPreview[userId] = {
@@ -222,21 +229,30 @@ const usersSlice = createSlice({
         state.followPendingId = null;
 
         const { userId: followedId, me } = action.payload;
-        const alreadyFollowing = state.following.data.some(
+
+        const wasAlreadyFollowing = state.followingIds.includes(followedId);
+
+        if (!wasAlreadyFollowing) {
+          state.followingIds.push(followedId);
+        }
+
+        const alreadyInList = state.following.data.some(
           (user) => user.id === followedId,
         );
 
-        if (alreadyFollowing) {
-          return;
+        if (!alreadyInList) {
+          const profile =
+            state.currentUser?.id === followedId ? state.currentUser : null;
+          state.following.data.push({
+            id: followedId,
+            name: profile?.name ?? null,
+            avatar: profile?.avatar ?? null,
+          });
         }
 
-        const profile =
-          state.currentUser?.id === followedId ? state.currentUser : null;
-        state.following.data.push({
-          id: followedId,
-          name: profile?.name ?? null,
-          avatar: profile?.avatar ?? null,
-        });
+        if (wasAlreadyFollowing) {
+          return;
+        }
 
         if (state.currentUser?.id === followedId) {
           if (state.currentUser.followersCount != null) {
@@ -268,10 +284,11 @@ const usersSlice = createSlice({
         state.followPendingId = null;
 
         const { userId: unfollowedId, me } = action.payload;
-        const wasFollowing = state.following.data.some(
-          (user) => user.id === unfollowedId,
-        );
+        const wasFollowing = state.followingIds.includes(unfollowedId);
 
+        state.followingIds = state.followingIds.filter(
+          (id) => id !== unfollowedId,
+        );
         state.following.data = state.following.data.filter(
           (user) => user.id !== unfollowedId,
         );

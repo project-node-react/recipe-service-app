@@ -15,7 +15,7 @@ import { selectCurrentUser } from "../../redux/users/selectors";
 import {
 	fetchCurrentUser,
 	fetchUserById,
-	fetchFollowing,
+	fetchFollowingIds,
 } from "../../redux/users/operations";
 import { resetCurrentUser } from "../../redux/users/slice";
 import { selectUser } from "../../redux/auth/selectors";
@@ -46,8 +46,8 @@ const UserPage = () => {
 	}, [dispatch, userId, isOwnPage]);
 
 	useEffect(() => {
-		dispatch(fetchFollowing());
-	}, [dispatch, userId]);
+		dispatch(fetchFollowingIds());
+	}, [dispatch, userId, isOwnPage]);
 
 	return (
 		<div className={styles.page}>
