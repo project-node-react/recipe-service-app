@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { logOut } from "../auth/operations";
 import {
   addRecipe,
   fetchRecipes,
@@ -181,6 +182,9 @@ const recipesSlice = createSlice({
       .addCase(removeRecipeFromFavorites.rejected, (state, action) => {
         state.favoriteMutationRecipeId = null;
         state.favoriteMutationError = action.payload;
+      })
+      .addCase(logOut.fulfilled, () => {
+        return initialState;
       });
   },
 });

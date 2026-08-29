@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { logOut } from "../auth/operations";
 import {
   fetchUserById,
   fetchCurrentUser,
@@ -32,8 +33,20 @@ const initialState = {
   recipes: { ...emptyList },
   favorites: { ...emptyList },
 
-  followers: { data: [], totalPages: 1, currentPage: 1, isLoading: false, error: null },
-  following: { data: [], totalPages: 1, currentPage: 1, isLoading: false, error: null },
+  followers: {
+    data: [],
+    totalPages: 1,
+    currentPage: 1,
+    isLoading: false,
+    error: null,
+  },
+  following: {
+    data: [],
+    totalPages: 1,
+    currentPage: 1,
+    isLoading: false,
+    error: null,
+  },
 
   followPendingId: null,
   followError: null,
@@ -126,7 +139,10 @@ const usersSlice = createSlice({
         state.favorites.data = state.favorites.data.filter(
           (recipe) => recipe.id !== action.payload,
         );
-        state.favorites.totalItems = Math.max(0, state.favorites.totalItems - 1);
+        state.favorites.totalItems = Math.max(
+          0,
+          state.favorites.totalItems - 1,
+        );
         if (state.currentUser?.favoritesCount != null) {
           state.currentUser.favoritesCount = Math.max(
             0,
@@ -142,7 +158,8 @@ const usersSlice = createSlice({
       .addCase(fetchFollowers.fulfilled, (state, action) => {
         state.followers.isLoading = false;
         state.followers.error = null;
-        state.followers.data = action.payload?.data || action.payload?.followers || [];
+        state.followers.data =
+          action.payload?.data || action.payload?.followers || [];
         state.followers.totalPages = action.payload?.totalPages || 1;
         state.followers.currentPage = action.payload?.currentPage || 1;
       })
@@ -158,7 +175,8 @@ const usersSlice = createSlice({
       .addCase(fetchFollowing.fulfilled, (state, action) => {
         state.following.isLoading = false;
         state.following.error = null;
-        state.following.data = action.payload?.data || action.payload?.following || [];
+        state.following.data =
+          action.payload?.data || action.payload?.following || [];
         state.following.totalPages = action.payload?.totalPages || 1;
         state.following.currentPage = action.payload?.currentPage || 1;
       })
@@ -195,7 +213,10 @@ const usersSlice = createSlice({
           if (state.currentUser.followersCount != null) {
             state.currentUser.followersCount += 1;
           }
-          if (me?.id && !state.followers.data.some((user) => user.id === me.id)) {
+          if (
+            me?.id &&
+            !state.followers.data.some((user) => user.id === me.id)
+          ) {
             state.followers.data.push({
               id: me.id,
               name: me.name,
@@ -267,6 +288,9 @@ const usersSlice = createSlice({
       .addCase(updateAvatar.rejected, (state, action) => {
         state.avatarUploading = false;
         state.avatarError = action.payload;
+      })
+      .addCase(logOut.fulfilled, () => {
+        return initialState;
       });
   },
 });
