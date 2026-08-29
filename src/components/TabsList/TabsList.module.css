@@ -1,55 +1,55 @@
 .TabsList {
-	display: flex;
-	align-items: center;
-	gap: 24px;
-	list-style: none;
-	padding-bottom: 14px;
-	margin-bottom: 8px;
-	border-bottom: 1px solid var(--gray);
-	overflow-x: auto;
-	overflow-x: auto;
-	overflow-y: hidden;
-	touch-action: pan-x;
-	-webkit-overflow-scrolling: touch;
-	/* Приховуємо смугу прокрутки для Firefox та IE/Edge */
-	scrollbar-width: none; /* Firefox */
-	-ms-overflow-style: none; /* IE та Edge */
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  list-style: none;
+  padding-bottom: 14px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--gray);
+  overflow-x: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
+  touch-action: pan-x;
+  -webkit-overflow-scrolling: touch;
+  /* Приховуємо смугу прокрутки для Firefox та IE/Edge */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE та Edge */
 }
 /* Приховуємо смугу прокрутки для Chrome, Safari, Opera (WebKit) */
 .TabsList::-webkit-scrollbar {
-	display: none;
+  display: none;
 }
 .TabsList li {
-	flex-shrink: 0;
+  flex-shrink: 0;
 }
 
 .TabsList a {
-	display: inline-block;
-	padding-bottom: 12px;
-	margin-bottom: -20px;
-	border-bottom: 1px solid transparent;
-	font-weight: 500;
-	font-size: 14px;
-	text-transform: uppercase;
-	letter-spacing: -0.02em;
-	color: var(--gray);
-	white-space: nowrap;
-	transition: color var(--trans-norm);
+  display: inline-block;
+  padding-bottom: 12px;
+  margin-bottom: -20px;
+  border-bottom: 1px solid transparent;
+  font-weight: 500;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: var(--gray);
+  white-space: nowrap;
+  transition: color var(--trans-norm);
 }
 
 .TabsList a:hover,
 .TabsList a:focus-visible {
-	color: var(--main);
+  color: var(--main);
 }
 
 .active {
-	color: var(--main) !important;
-	font-weight: 700;
-	border-bottom-color: var(--main) !important;
+  color: var(--main) !important;
+  font-weight: 700;
+  border-bottom-color: var(--main) !important;
 }
 
-@media screen and (min-width: 768px) {
-	.TabsList {
-		gap: 32px;
-	}
+@media screen and (min-width: 1440px) {
+  .TabsList {
+    gap: 32px;
+  }
 }

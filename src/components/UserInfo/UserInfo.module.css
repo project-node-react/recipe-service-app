@@ -1,3 +1,12 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  width: 100%;
+  max-width: 394px;
+  gap: 8px;
+}
+
 .card {
   display: flex;
   flex-direction: column;
@@ -87,8 +96,6 @@
 }
 
 .actionBtn {
-  align-self: stretch;
-  margin-top: 8px;
   padding: 14px 24px;
   border: 1px solid #050505;
   border-radius: 30px;
@@ -113,25 +120,38 @@
   transform: scale(0.98);
 }
 
-.actionBtnOutline {
-  background-color: var(--white);
-  color: #050505;
-}
-
-.actionBtnOutline:hover,
-.actionBtnOutline:focus-visible {
-  background-color: #050505;
-  color: var(--white);
-}
-
 .actionBtn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
-@media screen and (min-width: 768px) {
-  .card {
+.followActionBtn {
+  padding: 14px 24px;
+  border: 1px solid #050505;
+  border-radius: 30px;
+  background-color: var(--white);
+  color: #050505;
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  transition:
+    background-color var(--trans-norm),
+    color var(--trans-norm);
+}
+
+.followActionBtn:active {
+  background-color: #050505;
+  color: var(--white);
+}
+
+.followActionBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media screen and (min-width: 1440px) {
+  .wrapper {
     align-self: flex-start;
-    width: 296px;
   }
 }
