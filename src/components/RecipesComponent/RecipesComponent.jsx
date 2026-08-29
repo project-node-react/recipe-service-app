@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
-import Container from "../Container/Container";
 import { MainTitle } from "../MainTitle/MainTitle";
 import RecipeFilters from "../RecipeFilters/RecipeFilters";
 import RecipeList from "../RecipeList/RecipeList";

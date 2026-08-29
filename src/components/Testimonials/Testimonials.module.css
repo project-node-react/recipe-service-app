@@ -1,8 +1,12 @@
 .section {
 	padding-top: 80px;
+	padding-bottom: 80px;
 }
 .container {
 	position: relative;
+	max-width: 343px;
+	height: 394px;
+	margin: 0 auto;
 }
 
 .icon {
@@ -149,5 +153,6 @@
 @media screen and (min-width: 768px) {
 	.section {
 		padding-top: 120px;
+		padding-bottom: 120px;
 	}
 }

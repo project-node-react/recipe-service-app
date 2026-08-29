@@ -157,6 +157,11 @@ const AddRecipeForm = () => {
     formik.setFieldValue('ingredients', updatedIngredients);
   };
 
+  const handleResize = (e) => {
+    e.target.style.height = 'auto';
+    e.target.style.height = `${e.target.scrollHeight}px`;
+  };
+
   return (
     <div className={styles.container}>
       
@@ -208,17 +213,31 @@ const AddRecipeForm = () => {
           </div>
 
           <div className={styles.inputGroup}>
-            <input
-              type="text"
+            <textarea
               name="description"
               placeholder="Enter a description of the dish"
-              className={`${styles.input} ${formik.touched.description && formik.errors.description ? styles.inputError : ''}`}
+              className={`${styles.textarea} ${formik.touched.description && formik.errors.description ? styles.inputError : ''}`}
               value={formik.values.description}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              maxLength={MAX_DESC_LENGTH}
+              onChange={(e) => {
+              formik.handleChange(e);
+              handleResize(e);
+            }}
+            onBlur={formik.handleBlur}
+            maxLength={MAX_DESC_LENGTH}
+             rows={1}
             />
-            <span className={styles.charCount}>{formik.values.description.length}/{MAX_DESC_LENGTH}</span>
+            <span className={`${styles.charCount} ${styles.descriptionCharCount}`}>
+              <span
+                className={
+                  formik.values.description.length > 0
+                    ? styles.currentCharCount
+                    : undefined
+                }
+              >
+                {formik.values.description.length}
+              </span>
+              <span>/{MAX_DESC_LENGTH}</span>
+            </span>
             {formik.touched.description && formik.errors.description && <div className={styles.errorText}>{formik.errors.description}</div>}
           </div>
 
@@ -249,7 +268,13 @@ const AddRecipeForm = () => {
                     <use href={`${import.meta.env.BASE_URL}icons.svg#minus`} />
                   </svg>
                 </button>
-                <span> {formik.values.time} min </span>
+                <span
+                  className={
+                    formik.values.time !== 10 ? styles.activeTime : undefined
+                  }
+                >
+                  {formik.values.time} min
+                </span>
                 <button
                   type="button"
                   className={styles.timeBtn}
@@ -327,7 +352,9 @@ const AddRecipeForm = () => {
                       onClick={() => handleRemoveIngredient(index)}
                       aria-label={`Remove ${ing.name}`}
                     >
-                      ×
+                      <svg className={styles.removeIcon} aria-hidden="true">
+                        <use href={`${import.meta.env.BASE_URL}icons.svg#close-small`} />
+                      </svg>
                     </button>
                   </div>
                 ))}
@@ -342,11 +369,26 @@ const AddRecipeForm = () => {
               placeholder="Enter recipe"
               className={`${styles.textarea} ${formik.touched.instructions && formik.errors.instructions ? styles.inputError : ''}`}
               value={formik.values.instructions}
-              onChange={formik.handleChange}
+              onChange={(e) => {
+              formik.handleChange(e);
+              handleResize(e);
+              }}
               onBlur={formik.handleBlur}
               maxLength={MAX_INST_LENGTH}
-            ></textarea>
-            <span className={styles.charCount}>{formik.values.instructions.length}/{MAX_INST_LENGTH}</span>
+              rows={1}
+            />
+            <span className={`${styles.charCount} ${styles.instructionsCharCount}`}>
+              <span
+                className={
+                  formik.values.instructions.length > 0
+                    ? styles.currentCharCount
+                    : undefined
+                }
+              >
+                {formik.values.instructions.length}
+              </span>
+              <span>/{MAX_INST_LENGTH}</span>
+            </span>
             {formik.touched.instructions && formik.errors.instructions && <div className={styles.errorText}>{formik.errors.instructions}</div>}
           </div>
 

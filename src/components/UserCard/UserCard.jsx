@@ -3,7 +3,11 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 import defaultAvatar from "../../assets/profile.png";
-import { followUser, unfollowUser, fetchUserRecipesPreview } from "../../redux/users/operations";
+import {
+  followUser,
+  unfollowUser,
+  fetchUserRecipesPreview,
+} from "../../redux/users/operations";
 import {
   selectFollowPendingId,
   selectIsFollowing,
@@ -88,7 +92,7 @@ export default function UserCard({ user }) {
         aria-label={`Open profile of ${user.name}`}
       >
         <svg className={style.icon} aria-hidden="true">
-          <use href={`${import.meta.env.BASE_URL}icons.svg#arrow-up-right`} />
+          <use href={`${import.meta.env.BASE_URL}icons.svg#arrow-up-right1`} />
         </svg>
       </Link>
     </article>

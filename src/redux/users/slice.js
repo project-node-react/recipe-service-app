@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { logOut } from "../auth/operations";
 import {
   fetchUserById,
   fetchCurrentUser,
@@ -33,8 +34,20 @@ const initialState = {
   recipes: { ...emptyList },
   favorites: { ...emptyList },
 
-  followers: { data: [], isLoading: false, error: null },
-  following: { data: [], isLoading: false, error: null },
+  followers: {
+    data: [],
+    totalPages: 1,
+    currentPage: 1,
+    isLoading: false,
+    error: null,
+  },
+  following: {
+    data: [],
+    totalPages: 1,
+    currentPage: 1,
+    isLoading: false,
+    error: null,
+  },
 
   recipesPreview: {},
 
@@ -129,7 +142,10 @@ const usersSlice = createSlice({
         state.favorites.data = state.favorites.data.filter(
           (recipe) => recipe.id !== action.payload,
         );
-        state.favorites.totalItems = Math.max(0, state.favorites.totalItems - 1);
+        state.favorites.totalItems = Math.max(
+          0,
+          state.favorites.totalItems - 1,
+        );
         if (state.currentUser?.favoritesCount != null) {
           state.currentUser.favoritesCount = Math.max(
             0,
@@ -143,13 +159,12 @@ const usersSlice = createSlice({
         state.followers.error = null;
       })
       .addCase(fetchFollowers.fulfilled, (state, action) => {
-        const fetched = action.payload;
-        const fetchedIds = new Set(fetched.map((user) => user.id));
-        const localOnly = state.followers.data.filter(
-          (user) => !fetchedIds.has(user.id),
-        );
-        state.followers.data = [...fetched, ...localOnly];
         state.followers.isLoading = false;
+        state.followers.error = null;
+        state.followers.data =
+          action.payload?.data || action.payload?.followers || [];
+        state.followers.totalPages = action.payload?.totalPages || 1;
+        state.followers.currentPage = action.payload?.currentPage || 1;
       })
       .addCase(fetchFollowers.rejected, (state, action) => {
         state.followers.isLoading = false;
@@ -161,13 +176,12 @@ const usersSlice = createSlice({
         state.following.error = null;
       })
       .addCase(fetchFollowing.fulfilled, (state, action) => {
-        const fetched = action.payload;
-        const fetchedIds = new Set(fetched.map((user) => user.id));
-        const localOnly = state.following.data.filter(
-          (user) => !fetchedIds.has(user.id),
-        );
-        state.following.data = [...fetched, ...localOnly];
         state.following.isLoading = false;
+        state.following.error = null;
+        state.following.data =
+          action.payload?.data || action.payload?.following || [];
+        state.following.totalPages = action.payload?.totalPages || 1;
+        state.following.currentPage = action.payload?.currentPage || 1;
       })
       .addCase(fetchFollowing.rejected, (state, action) => {
         state.following.isLoading = false;
@@ -228,7 +242,10 @@ const usersSlice = createSlice({
           if (state.currentUser.followersCount != null) {
             state.currentUser.followersCount += 1;
           }
-          if (me?.id && !state.followers.data.some((user) => user.id === me.id)) {
+          if (
+            me?.id &&
+            !state.followers.data.some((user) => user.id === me.id)
+          ) {
             state.followers.data.push({
               id: me.id,
               name: me.name,
@@ -300,6 +317,9 @@ const usersSlice = createSlice({
       .addCase(updateAvatar.rejected, (state, action) => {
         state.avatarUploading = false;
         state.avatarError = action.payload;
+      })
+      .addCase(logOut.fulfilled, () => {
+        return initialState;
       });
   },
 });

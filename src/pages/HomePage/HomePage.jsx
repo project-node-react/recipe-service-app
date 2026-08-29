@@ -11,7 +11,6 @@ import {
 	selectRecipesFilters,
 } from "../../redux/recipes/selectors";
 
-import style from "./HomePage.module.css";
 import SignUpModal from "../../components/SignUpModal/SignUpModal";
 
 import { Hero } from "../../components/Hero/Hero";
