@@ -24,9 +24,16 @@ export default function Header() {
   const [isSignUpOpen, setIsSignUpOpen] = useState(false);
   const [isLogOutOpen, setIsLogOutOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
-  const onShowMobileMenu = () => setIsMobileMenuOpen(true);
-  const onHideMobileMenu = () => setIsMobileMenuOpen(false);
+  const onShowMobileMenu = () => {
+    setIsUserMenuOpen(false);
+    setIsMobileMenuOpen(true);
+  };
+  const onHideMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+    setIsUserMenuOpen(false);
+  };
 
   const handleProtectedClick = (e) => {
     if (!isLoggedIn) {
@@ -54,7 +61,14 @@ export default function Header() {
 
         {isLoggedIn ? (
           <>
-            <UserBar onLogOut={() => setIsLogOutOpen(true)} />
+            <UserBar
+              onLogOut={() => {
+                setIsUserMenuOpen(false);
+                setIsLogOutOpen(true);
+              }}
+              isOpen={isUserMenuOpen}
+              onToggle={() => setIsUserMenuOpen((prev) => !prev)}
+            />
 
             <button
               type="button"
