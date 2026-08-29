@@ -20,7 +20,7 @@ import styles from "./AddRecipeForm.module.css";
 import Select from "react-select";
 
 const MAX_DESC_LENGTH = 200;
-const MAX_INST_LENGTH = 1000;
+const MAX_INST_LENGTH = 2000;
 const FALLBACK_IMAGE = `${import.meta.env.BASE_URL}foodicon.svg`;
 
 const handleIngredientImageError = (event) => {
