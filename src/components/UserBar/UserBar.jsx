@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import clsx from "clsx";
 import { useSelector } from "react-redux";
@@ -6,14 +5,13 @@ import { selectUser } from "../../redux/auth/selectors";
 import defaultAvatar from "../../assets/profile.png";
 import style from "./UserBar.module.css";
 
-export default function UserBar({ onLogOut }) {
+export default function UserBar({ onLogOut, isOpen = false, onToggle }) {
 	const user = useSelector(selectUser);
-	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
 	return (
 		<div
 			className={style.user_bar}
-			onClick={() => setIsDropdownOpen((prev) => !prev)}
+			onClick={onToggle ? onToggle : undefined}
 			role="presentation"
 		>
 			<div className={style.user_bar__action}>
@@ -34,7 +32,7 @@ export default function UserBar({ onLogOut }) {
 				<svg
 					className={clsx(
 						style.user_bar__chevron,
-						isDropdownOpen && style.chevron_up,
+						isOpen && style.chevron_up,
 					)}
 					aria-hidden="true"
 				>
@@ -42,7 +40,7 @@ export default function UserBar({ onLogOut }) {
 				</svg>
 			</div>
 
-			{isDropdownOpen && (
+			{isOpen && (
 				<ul className={style.dropdown}>
 					<li>
 						<Link to={`/user/${user.id}`} className={style.dropdown__item}>
