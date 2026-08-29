@@ -1,0 +1,17 @@
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 343 / 230;
+  border-radius: 20px;
+  background: var(--gray);
+  object-fit: cover;
+}
+
+@media screen and (min-width: 768px) {
+  .image {
+    height: 400px;
+    aspect-ratio: auto;
+    border-radius: 30px;
+  }
+}
