@@ -1,0 +1,2 @@
+import{P as e}from"./index-B1ZudMgU.js";var t={subtitle:`_subtitle_7xww0_1`},n=e(),r=({children:e})=>(0,n.jsx)(`h2`,{className:t.subtitle,children:e});export{r as t};
+//# sourceMappingURL=Subtitle-Zeliq_rL.js.map
