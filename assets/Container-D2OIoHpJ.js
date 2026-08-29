@@ -1,2 +1,0 @@
-import{P as e}from"./index-B1ZudMgU.js";var t={container:`_container_16jzn_1`},n=e();function r({children:e}){return(0,n.jsx)(`div`,{className:t.container,children:e})}export{r as t};
-//# sourceMappingURL=Container-D2OIoHpJ.js.map
