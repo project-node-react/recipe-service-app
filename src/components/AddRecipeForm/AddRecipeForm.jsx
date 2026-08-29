@@ -34,7 +34,7 @@ const validationSchema = Yup.object({
     .max(MAX_DESC_LENGTH, "Max 200 chars")
     .required("Required field"),
   instructions: Yup.string()
-    .max(MAX_INST_LENGTH, "Max 1000 chars")
+    .max(MAX_INST_LENGTH, "Max 2000 chars")
     .required("Required field"),
   ingredients: Yup.array()
     .min(1, "Add at least one ingredient")
