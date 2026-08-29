@@ -21,12 +21,15 @@ import {
 	fetchUserFavorites,
 	fetchFollowers,
 	fetchFollowing,
+	fetchFollowingIds,
 	deleteOwnRecipe,
 } from "../../redux/users/operations";
 import { removeFavoriteRecipe } from "../../redux/recipes/operations";
 import { selectUser } from "../../redux/auth/selectors";
 
 import styles from "./ListItems.module.css";
+
+const PAGE_LIMIT = 12;
 
 const getEmptyMessage = (tab, isOwnPage) => {
 	switch (tab) {
@@ -68,11 +71,6 @@ export default function ListItems() {
 	const followers = useSelector(selectFollowers);
 	const following = useSelector(selectFollowing);
 
-	const isRecipeTab =
-		activeTab === "my-recipes" || activeTab === "my-favorites";
-
-	const PAGE_LIMIT = isRecipeTab ? 9 : 5;
-
 	useEffect(() => {
 		if (!userId) return;
 
@@ -92,9 +90,8 @@ export default function ListItems() {
 				dispatch(fetchUserFavorites({ page: currentPage, limit: PAGE_LIMIT }));
 				break;
 			case "followers":
-				dispatch(
-					fetchFollowers({ userId, page: currentPage, limit: PAGE_LIMIT }),
-				);
+				dispatch(fetchFollowers({ userId, page: currentPage, limit: PAGE_LIMIT }));
+				dispatch(fetchFollowingIds());
 				break;
 			case "following":
 				dispatch(fetchFollowing({ page: currentPage, limit: PAGE_LIMIT }));
@@ -104,12 +101,17 @@ export default function ListItems() {
 		}
 	}, [dispatch, userId, isOwnPage, activeTab, currentPage]);
 
-	const currentData = {
-		"my-recipes": recipes,
-		"my-favorites": favorites,
-		followers,
-		following,
-	}[activeTab] || { data: [], isLoading: false, error: null };
+	const isRecipeTab = activeTab === "my-recipes" || activeTab === "my-favorites";
+	const isUserTab = activeTab === "followers" || activeTab === "following";
+	const showPagination = isRecipeTab || isUserTab;
+
+	const currentData =
+		{
+			"my-recipes": recipes,
+			"my-favorites": favorites,
+			followers,
+			following,
+		}[activeTab] || { data: [], isLoading: false, error: null };
 
 	const items = currentData.data || [];
 	const totalPages = currentData.totalPages || 1;
@@ -177,7 +179,7 @@ export default function ListItems() {
 				))}
 			</ul>
 
-			{totalPages > 1 && (
+			{showPagination && (
 				<RecipePagination
 					page={currentPage}
 					totalPages={totalPages}
