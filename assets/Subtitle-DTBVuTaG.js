@@ -1,2 +1,0 @@
-import{F as e}from"./index-pqqJIDi4.js";var t={subtitle:`_subtitle_vqrm1_1`},n=e(),r=({children:e})=>(0,n.jsx)(`h2`,{className:t.subtitle,children:e});export{r as t};
-//# sourceMappingURL=Subtitle-DTBVuTaG.js.map
