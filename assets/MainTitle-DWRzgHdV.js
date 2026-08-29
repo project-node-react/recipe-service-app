@@ -1,2 +1,0 @@
-import{P as e}from"./index-DLMap4qF.js";var t={title:`_title_zr1lp_1`},n=e(),r=({children:e})=>(0,n.jsx)(`h1`,{className:t.title,children:e});export{r as t};
-//# sourceMappingURL=MainTitle-DWRzgHdV.js.map
