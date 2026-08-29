@@ -1,4 +1,5 @@
 import RecipeIngredients from "../RecipeIngredients/RecipeIngredients";
+import RecipeImage from "../RecipeImage/RecipeImage";
 import RecipeMainInfo from "../RecipeMainInfo/RecipeMainInfo";
 import RecipePreparation from "../RecipePreparation/RecipePreparation";
 import styles from "./RecipeInfo.module.css";
@@ -14,24 +15,17 @@ const RecipeInfo = ({
 }) => {
   return (
     <article className={styles.recipeInfo}>
-      <div className={styles.mainInfo}>
-        <RecipeMainInfo recipe={recipe} onAuthorClick={onAuthorClick} />
-      </div>
-
-      <div className={styles.ingredients}>
-        <RecipeIngredients ingredients={recipe.ingredients} />
-      </div>
-
-      <div className={styles.preparation}>
-        <RecipePreparation
-          instructions={recipe.instructions}
-          isAuthenticated={isAuthenticated}
-          isFavoriteAvailable={isFavoriteAvailable}
-          isFavorite={isFavorite}
-          isPending={isFavoritePending}
-          onToggleFavorite={onToggleFavorite}
-        />
-      </div>
+      <RecipeImage image={recipe.image} title={recipe.title} />
+      <RecipeMainInfo recipe={recipe} onAuthorClick={onAuthorClick} />
+      <RecipeIngredients ingredients={recipe.ingredients} />
+      <RecipePreparation
+        instructions={recipe.instructions}
+        isAuthenticated={isAuthenticated}
+        isFavoriteAvailable={isFavoriteAvailable}
+        isFavorite={isFavorite}
+        isPending={isFavoritePending}
+        onToggleFavorite={onToggleFavorite}
+      />
     </article>
   );
 };
