@@ -3,9 +3,10 @@
  * mobile от 320px (адаптив с 375px) → tablet от 768px → desktop от 1440px.
  */
 .hero {
-  margin-left: -8px;
-  margin-right: -8px;
-  padding: 194px 8px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 359px;
+  padding: 194px 0;
   margin-bottom: 0px;
   background-color: var(--main);
   color: var(--white);
@@ -100,9 +101,8 @@
   .hero {
     display: flex;
     flex-direction: column;
-    width: auto;
-    margin-left: -16px;
-    margin-right: -16px;
+    max-width: 736px;
+    width: 736px;
     padding: 217px 29px 90px;
     margin-bottom: 0px;
     align-items: center;
@@ -147,8 +147,8 @@
 
 @media screen and (min-width: 1440px) {
   .hero {
-    margin-left: -60px;
-    margin-right: -60px;
+    max-width: 1400px;
+    width: 1400px;
     padding: 154px 40px 64px;
     margin-bottom: 0px;
   }
