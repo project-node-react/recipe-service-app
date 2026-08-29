@@ -1,2 +1,0 @@
-var e=e=>e.users.currentUser,t=e=>e.users.recipes,n=e=>e.users.favorites,r=e=>e.users.followers,i=e=>e.users.following,a=e=>e.users.followPendingId,o=(e,t)=>(e.users.following?.data||[]).some(e=>e.id===t),s=e=>e.users.avatarUploading;export{i as a,t as c,r as i,e as n,o,a as r,n as s,s as t};
-//# sourceMappingURL=selectors-ChksSiOA.js.map
