@@ -55,7 +55,7 @@ export default function RecipesComponent() {
 
   useEffect(() => {
     dispatch(fetchRecipes());
-  }, [dispatch, filters.category, filters.ingredient, filters.area, page]);
+  }, [dispatch, filters.category, filters.ingredient, filters.area]);
 
   useEffect(() => {
     if (error) {
@@ -95,9 +95,10 @@ export default function RecipesComponent() {
 
   const handlePageChange = (nextPage) => {
     dispatch(setPage(nextPage));
+    dispatch(fetchRecipes({ page: nextPage }));
 
     window.scrollTo({
-      top: 0,
+      top: 900,
       behavior: "smooth",
     });
   };
