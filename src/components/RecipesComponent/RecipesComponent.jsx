@@ -54,16 +54,8 @@ export default function RecipesComponent() {
   }, [dispatch, isLoggedIn]);
 
   useEffect(() => {
-    dispatch(
-      fetchRecipes({
-        page,
-        limit: 12,
-        category: filters.category || undefined,
-        ingredient: filters.ingredient || undefined,
-        area: filters.area || undefined,
-      }),
-    );
-  }, [dispatch, filters, page]);
+    dispatch(fetchRecipes());
+  }, [dispatch, filters.category, filters.ingredient, filters.area, page]);
 
   useEffect(() => {
     if (error) {
