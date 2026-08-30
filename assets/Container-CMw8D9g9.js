@@ -1,2 +1,0 @@
-import{F as e}from"./index-CohX4p8S.js";var t={container:`_container_16jzn_1`},n=e();function r({children:e}){return(0,n.jsx)(`div`,{className:t.container,children:e})}export{r as t};
-//# sourceMappingURL=Container-CMw8D9g9.js.map
