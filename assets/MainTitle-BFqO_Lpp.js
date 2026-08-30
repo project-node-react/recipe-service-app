@@ -1,0 +1,2 @@
+import{F as e}from"./index-4kqyXQ_6.js";var t={title:`_title_zr1lp_1`},n=e(),r=({children:e})=>(0,n.jsx)(`h1`,{className:t.title,children:e});export{r as t};
+//# sourceMappingURL=MainTitle-BFqO_Lpp.js.map
