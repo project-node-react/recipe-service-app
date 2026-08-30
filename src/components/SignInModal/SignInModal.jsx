@@ -24,10 +24,11 @@ export default function SignInModal({ isOpen, onClose, onCreateAccount }) {
 
   const formik = useFormik({
     initialValues: {
-      name: "",
+      email: "",
       password: "",
     },
     validationSchema,
+    validateOnMount: true,
     onSubmit: async (values, { resetForm }) => {
       try {
         await dispatch(logIn(values)).unwrap();
@@ -44,6 +45,9 @@ export default function SignInModal({ isOpen, onClose, onCreateAccount }) {
     setShowPassword(false);
     onClose();
   };
+
+  const isSubmitDisabled = !formik.isValid || !formik.dirty || formik.isSubmitting;
+  const isSubmitReady = !isSubmitDisabled;
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose} title="Sign in">
@@ -97,9 +101,9 @@ export default function SignInModal({ isOpen, onClose, onCreateAccount }) {
         </div>
 
         <button
-          className={style.submit}
+          className={`${style.submit} ${isSubmitReady ? style.active : ""}`}
           type="submit"
-          disabled={formik.isSubmitting}
+          disabled={isSubmitDisabled}
         >
           Sign in
         </button>

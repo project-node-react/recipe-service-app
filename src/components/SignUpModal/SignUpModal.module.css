@@ -91,16 +91,22 @@
 	text-transform: uppercase;
 	white-space: nowrap;
 	opacity: 1;
-	transition: opacity var(--trans-norm);
-	transition: color var(--trans-norm);
+	transition: background var(--trans-norm), opacity var(--trans-norm), color var(--trans-norm);
 }
 
-.submit:hover,
-.submit:focus {
+.submit.active {
+	background: var(--main);
+}
+
+.submit:not(:disabled):hover,
+.submit:not(:disabled):focus,
+.submit.active:hover,
+.submit.active:focus {
 	background: var(--main);
 }
 
 .submit:disabled {
+	background: var(--gray);
 	opacity: 0.6;
 	cursor: default;
 }
