@@ -30,6 +30,7 @@ import styles from "./RecipesComponent.module.css";
 import { selectCategories } from "../../redux/categories/selectors";
 import SignInModal from "../../components/SignInModal/SignInModal";
 import SignUpModal from "../../components/SignUpModal/SignUpModal";
+import { ClipLoader } from "react-spinners";
 
 export default function RecipesComponent() {
   const dispatch = useDispatch();
@@ -161,7 +162,14 @@ export default function RecipesComponent() {
             />
 
             <div>
-              {isLoading && <p>Loading recipes...</p>}
+              {isLoading && (
+                <ClipLoader
+                  color="#1976d2"
+                  size={25}
+                  aria-label="Loading Spinner"
+                  data-testid="loader"
+                />
+              )}
 
               {!isLoading && !error && (
                 <RecipeList
@@ -169,6 +177,7 @@ export default function RecipesComponent() {
                   favoriteIds={favoriteIds}
                   isLoggedIn={isLoggedIn}
                   onToggleFavorite={handleToggleFavorite}
+                  onAuthRequired={() => setIsSignInOpen(true)}
                 />
               )}
 
