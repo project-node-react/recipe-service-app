@@ -34,11 +34,6 @@
   font-size: 12px;
   line-height: 18px;
   margin-right: 4px;
-  min-width: 0;
-  max-width: 120px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .user_bar__chevron {
@@ -56,11 +51,17 @@
   transform: rotate(180deg);
 }
 
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: transparent;
+  cursor: default;
+}
+
 .dropdown {
   position: absolute;
-  top: 100%;
-  left: 0;
-  margin-top: 8px;
+  z-index: 11;
   padding: 10px 8px;
   border: 1px solid var(--white);
   border-radius: 15px;
@@ -68,7 +69,6 @@
   background: var(--main);
   justify-content: space-between;
   gap: 6px;
-  width: 100%;
   flex-direction: column;
 }
 
