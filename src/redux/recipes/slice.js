@@ -93,15 +93,37 @@ const recipesSlice = createSlice({
       .addCase(fetchFavoriteIds.fulfilled, (state, action) => {
         state.favoriteIds = action.payload;
       })
+      // ДОДАВАННЯ ДО УЛЮБЛЕНИХ (addFavoriteRecipe)
+      .addCase(addFavoriteRecipe.pending, (state, action) => {
+        state.favoriteMutationRecipeId = action.meta.arg;
+        state.favoriteMutationError = null;
+      })
       .addCase(addFavoriteRecipe.fulfilled, (state, action) => {
         if (!state.favoriteIds.includes(action.payload)) {
           state.favoriteIds.push(action.payload);
         }
+        state.favoriteMutationRecipeId = null;
+      })
+      .addCase(addFavoriteRecipe.rejected, (state, action) => {
+        state.favoriteMutationRecipeId = null;
+        state.favoriteMutationError = action.payload;
+      })
+
+      // ВИДАЛЕННЯ З УЛЮБЛЕНИХ (removeFavoriteRecipe)
+      .addCase(removeFavoriteRecipe.pending, (state, action) => {
+        state.favoriteMutationRecipeId = action.meta.arg;
+        state.favoriteMutationError = null;
       })
       .addCase(removeFavoriteRecipe.fulfilled, (state, action) => {
+        // Видаляємо ID з масиву улюблених
         state.favoriteIds = state.favoriteIds.filter(
           (id) => id !== action.payload,
         );
+        state.favoriteMutationRecipeId = null;
+      })
+      .addCase(removeFavoriteRecipe.rejected, (state, action) => {
+        state.favoriteMutationRecipeId = null;
+        state.favoriteMutationError = action.payload;
       })
       // Рецепт за ID
       .addCase(fetchRecipeById.pending, (state, action) => {
