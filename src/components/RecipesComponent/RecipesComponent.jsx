@@ -63,7 +63,7 @@ export default function RecipesComponent() {
         area: filters.area || undefined,
       }),
     );
-  }, [dispatch, filters.category, filters.ingredient, filters.area, page]);
+  }, [dispatch, filters, page]);
 
   useEffect(() => {
     if (error) {
@@ -91,8 +91,6 @@ export default function RecipesComponent() {
         ingredient: value || null,
       }),
     );
-
-    dispatch(setPage(1));
   };
 
   const handleAreaChange = (value) => {
@@ -101,8 +99,6 @@ export default function RecipesComponent() {
         area: value || null,
       }),
     );
-
-    dispatch(setPage(1));
   };
 
   const handlePageChange = (nextPage) => {
