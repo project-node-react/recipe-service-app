@@ -11,6 +11,49 @@ Modern responsive site for people who are keen on cooking.
 **Backend API:**
 [https://recipe-service-server.onrender.com/](https://recipe-service-server.onrender.com/)
 
+## Installation
+
+```bash
+# Clone repository
+git clone https://github.com/project-node-react/recipe-service-app.git
+cd recipe-service-app
+
+# Install dependencies
+npm install
+
+# Run development server
+npm run dev
+
+# Build for production
+npm run build
+```
+
+## Project Structure
+
+```
+.
+├── .github/workflows/ # Contains GitHub Actions workflows for CI/CD automation.
+├── .public/           # Contains static assets, like icons, fonts that are not processed by the build tool.
+├── src/               # Contains all source files for the project.
+│   ├── assets/        # Contains all static assets used in the project.
+|   |   ├── hero/      # Contains hero images.
+|   |   └── styles/    # Contains fonts imporing file.
+│   ├── components/    # Reusable UI components (e.g., Hero, CategoryList, Modals).
+│   ├── layouts/       # Layout wrapper components providing persistent structure like Header and Footer.
+│   ├── pages/         # Page components corresponding to individual application routes.
+│   ├── redux/         # Redux state management (slices, operations, and selectors).
+│   ├── index.css      # Global styles, CSS reset rules, and design system variables.
+│   └── main.jsx       # Application entry point rendering the root component wrapped in providers.
+├── .gitignore         # Specifies files and directories to ignore in version control.
+├── eslint.config.js   # Configuration file for ESLint code quality and style checks.
+├── index.html         # The main entry point of the application.
+├── LICENSE            # License file for the project.
+├── package-lock.json  # The technical document that serves to record and ensure the determinism of project dependencies
+├── package.json       # Lists project dependencies and scripts.
+├── README.md          # Project overview and documentation.
+└── vite.config.js     # Configuration file for Vite build tool.
+```
+
 ## Created with ❤️ by **Bake-End Devs**:
 
 | Role             | Name                  | GitHub                                                 | Responsibilities                                            |
@@ -98,49 +141,6 @@ Modern responsive site for people who are keen on cooking.
 - React Hot Toast
 - clsx
 - react-spinners
-
-## Installation
-
-```bash
-# Clone repository
-git clone https://github.com/project-node-react/recipe-service-app.git
-cd recipe-service-app
-
-# Install dependencies
-npm install
-
-# Run development server
-npm run dev
-
-# Build for production
-npm run build
-```
-
-## Project Structure
-
-```
-.
-├── .github/workflows/ # Contains GitHub Actions workflows for CI/CD automation.
-├── .public/           # Contains static assets, like icons, fonts that are not processed by the build tool.
-├── src/               # Contains all source files for the project.
-│   ├── assets/        # Contains all static assets used in the project.
-|   |   ├── hero/      # Contains hero images.
-|   |   └── styles/    # Contains fonts imporing file.
-│   ├── components/    # Reusable UI components (e.g., Hero, CategoryList, Modals).
-│   ├── layouts/       # Layout wrapper components providing persistent structure like Header and Footer.
-│   ├── pages/         # Page components corresponding to individual application routes.
-│   ├── redux/         # Redux state management (slices, operations, and selectors).
-│   ├── index.css      # Global styles, CSS reset rules, and design system variables.
-│   └── main.jsx       # Application entry point rendering the root component wrapped in providers.
-├── .gitignore         # Specifies files and directories to ignore in version control.
-├── eslint.config.js   # Configuration file for ESLint code quality and style checks.
-├── index.html         # The main entry point of the application.
-├── LICENSE            # License file for the project.
-├── package-lock.json  # The technical document that serves to record and ensure the determinism of project dependencies
-├── package.json       # Lists project dependencies and scripts.
-├── README.md          # Project overview and documentation.
-└── vite.config.js     # Configuration file for Vite build tool.
-```
 
 ## Technical Requirements
 
