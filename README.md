@@ -27,13 +27,41 @@ Modern responsive site for people who are keen on cooking.
 
 ## Features
 
-- Fully responsive design (Mobile: 375px, Tablet: 768px, Desktop: 1440px)
-- Semantic HTML5 markup
-- Modular CSS architecture
-- Optimized images with retina support
-- Smooth scroll behavior
-- CSS animations and transitions
-- Mobile navigation menu
+### 🎨 UI & Layout
+
+- Fully responsive design supporting Mobile (375px), Tablet (768px), and Desktop
+  (1440px) breakpoints
+- Semantic HTML5 markup for optimal accessibility (a11y) and SEO foundation
+- Modular CSS architecture (CSS Modules) with custom variables and design tokens
+- Smooth scrolling, fluid UI transitions, and micro-interactions
+- Responsive mobile navigation with backdrop blur and touch-friendly controls
+
+### 🔐 Authentication & User Profile
+
+- User registration, login, and secure session persistence via JWT
+- Public and Private route guards for protected application pages
+- Interactive user profile with tabs for personal recipes, favorites, followers,
+  and following lists
+- User search, follow/unfollow system to build a personal culinary feed
+
+### 🍳 Recipe Management & Discovery
+
+- Dynamic homepage hero section with recipe discovery triggers
+- Comprehensive category filters and multi-parameter recipe search
+- Full recipe details view: step-by-step cooking instructions, ingredient lists,
+  preparation time, and calories
+- Interactive recipe creation form with multi-step inputs and dynamic ingredient
+  adding
+- Favorite recipes bookmarking with real-time UI updates
+- User reviews and testimonials showcase
+
+### ⚙️ Architecture & State Management
+
+- Global state management powered by Redux Toolkit and Redux Persist
+- Asynchronous API communication using Axios interceptors
+- Code splitting and route-based lazy loading with React `Suspense` and custom
+  loaders
+- Dynamic notification system (`react-hot-toast`) for real-time user feedback
 
 ## Technologies
 
