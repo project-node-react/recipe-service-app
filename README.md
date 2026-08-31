@@ -5,6 +5,9 @@ Modern responsive site for people who are keen on cooking.
 **Live Demo:**
 [https://project-node-react.github.io/recipe-service-app/](https://project-node-react.github.io/recipe-service-app/)
 
+**Backend Repository:**
+[https://github.com/project-node-react/recipe-service-server](https://github.com/project-node-react/recipe-service-server)
+
 **Backend API:**
 [https://recipe-service-server.onrender.com/](https://recipe-service-server.onrender.com/)
 
@@ -40,6 +43,11 @@ Modern responsive site for people who are keen on cooking.
 - Responsive layout
 - Adaptive layout
 - JavaScript
+- TypeScript
+- React
+- Redux Toolkit
+- React Router
+- CSS Modules
 - Axios
 - API
 - VSCode
@@ -48,6 +56,20 @@ Modern responsive site for people who are keen on cooking.
 - Git/GitHub
 - Prettier
 - Swagger
+- PostgreSQL
+- Prisma ORM
+- JWT + bcrypt
+- Zod validation
+- Swagger / OpenAPI
+- Docker Compose
+- Cloudinary
+- Redux Toolkit
+- Formik
+- Yup
+- React Router DOM
+- React Hot Toast
+- clsx
+- react-spinners
 
 ## Installation
 
