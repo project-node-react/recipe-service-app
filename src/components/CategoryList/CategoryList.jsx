@@ -45,7 +45,7 @@ export default function CategoryList() {
 			<Container>
 				{isLoading ? (
 					<ClipLoader
-						color="#1976d2"
+						color="#ae0000"
 						size={25}
 						aria-label="Loading Spinner"
 						data-testid="loader"

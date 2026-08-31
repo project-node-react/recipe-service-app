@@ -32,19 +32,21 @@ export default function App() {
 		dispatch(refreshUser());
 	}, [dispatch]);
 	return isRefreshing ? (
-		<ClipLoader
-			color="#1976d2"
-			size={50}
-			aria-label="Loading Spinner"
-			data-testid="loader"
-		/>
+		<div className={style.loader_box}>
+			<ClipLoader
+				color="#ae0000"
+				size={50}
+				aria-label="Loading Spinner"
+				data-testid="loader"
+			/>
+		</div>
 	) : (
 		<>
 			<Suspense
 				fallback={
 					<div className={style.loader_box}>
 						<ClipLoader
-							color="#e44848"
+							color="#ae0000"
 							size={100}
 							aria-label="Loading Spinner"
 							data-testid="loader"
